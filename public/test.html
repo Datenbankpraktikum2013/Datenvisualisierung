@@ -19,6 +19,20 @@ function render(type)
             animation: {
                 animation: true
             },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        color: '#000000',
+                        connectorColor: '#000000',
+                        formatter: function() {
+                            return '<b>'+ this.series.name +'</b>: '+ this.series.value;
+                        }
+                    }
+                }
+            },
             chart: {
                 type: type
             },
@@ -44,6 +58,9 @@ function render(type)
     });
 }
 render('pie');
+function render2(type){
+
+}
 </script>
 
 <select>
