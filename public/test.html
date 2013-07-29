@@ -1,4 +1,4 @@
-<html>
+<html5>
 
 <head>
 <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
@@ -9,7 +9,7 @@
 
 
 <body>
-<div id="container" style="width:100%; height:400px;"></div>
+
 
 <script type="text/javascript">  
 function render(type)
@@ -44,14 +44,68 @@ function render(type)
         });
     });
 }
-render('pie');
-</script>
 
+
+
+render('pie');
+
+</script>
+<table><tr><td>
+<input type="checkbox" name="geschlecht" value="M&auml;nnlich"> M&auml;nnlich
+<input type="checkbox" name="geschlecht" value="Weiblich"> Weiblich</br></br><hr>
+Staatsangeh&ouml;rigkeit:
+<select>
+    <option name="alle" value="alle">Alle</option>
+</select>
+</br>
+Heimatbundesland:  <select>
+    <option name="alle" value="alle">Alle</option>
+</select></br>
+Heimatort: <input type="text" name="Heimatort" ></br>
+Alter (Jahre) von <input type="text" name="Min" size="2"> bis <input type="text" name="Max" size="2"></br>
+1. Fachbereich: 
+<select>
+    <option name="alle" value="alle">Alle</option>
+</select>
+2. Fachbereich:
+<select>
+    <option name="alle" value="alle">Alle</option>
+</select></br>
+Abschlussart:<br> <input type="checkbox" name="bachelor"> Bachelor</br>
+              <input type="checkbox" name="master"> Master</br>
+              <input type="checkbox" name="diplom"> Diplom</br>
+              <input type="checkbox" name="magister"> Magister</br>
+              <input type="checkbox" name="staatsexamen"> Staatsexamen</br>
+<hr>
+Spezielle Optionen: (ausgeblendet)</br></br>
 <select>
     <option name="pie" value="pie" onclick="render('pie')">Tortendiagramm</option>
     <option name="cloumn" value="column" onclick="render('column')">Balkendiagramm</option>
 </select>
+</td><td>
+<script>
+$(function () {
+    var tabContainers = $('div.tabs > div');
+    
+    $('div.tabs ul.tabNavigation a').click(function () {
+        tabContainers.hide().filter(this.hash).show();
+        
+        $('div.tabs ul.tabNavigation a').removeClass('selected');
+        $(this).addClass('selected');
+        
+        return false;
+    }).filter(':first').click();
+});
+</script>
+<div class="tabs">
+  <!-- tabs -->
+  <ul class="tabNavigation">
+    <input type="button" value="Tortendiagramm" onclick="render('pie')">
+    <input type="button" value="Balkendiagramm" onclick="render('column')">
+    <input type="button" value="Google Maps">
+  </ul>     
 
+<div id="container" style="width:300px; height:300px;"></div></td>
 </body>
 
 
