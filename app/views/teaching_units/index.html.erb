@@ -1,0 +1,27 @@
+<h1>Listing teaching_units</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @teaching_units.each do |teaching_unit| %>
+      <tr>
+        <td><%= teaching_unit.name %></td>
+        <td><%= link_to 'Show', teaching_unit %></td>
+        <td><%= link_to 'Edit', edit_teaching_unit_path(teaching_unit) %></td>
+        <td><%= link_to 'Destroy', teaching_unit, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Teaching unit', new_teaching_unit_path %>
