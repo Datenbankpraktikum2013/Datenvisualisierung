@@ -2,13 +2,6 @@
     var _state;
     var chart_type = 'bar';
     var chart;
-    var data = [{
-            name: 'Jane',
-            data: [1, 0, 4]
-        }, {
-            name: 'John',
-            data: [5, 7, 3]
-        }];
         
     $.cookie.json = true;
     if ($.cookie('formstate')) {
@@ -54,7 +47,7 @@
 	                text: 'Fruit eaten'
 	            }
 	        },
-	        series : data
+	        series : App.model.fetch('hi')
     	});
     };
     renderChart();   
