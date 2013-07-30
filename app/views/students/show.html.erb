@@ -20,5 +20,10 @@
   <%= @student.nationality %>
 </p>
 
+<p>
+  <strong>Location:</strong>
+  <%= @student.location.name unless @student.location.nil? %>
+</p>
+
 <%= link_to 'Edit', edit_student_path(@student) %> |
 <%= link_to 'Back', students_path %>

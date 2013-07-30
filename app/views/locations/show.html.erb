@@ -4,6 +4,14 @@
   <strong>Name:</strong>
   <%= @location.name %>
 </p>
+<p>
+  <strong>Country:</strong>
+  <%= @location.country.name unless @location.country.nil? %>
+</p>
+<p>
+  <strong>Federal State:</strong>
+  <%= @location.federal_state.name unless @location.federal_state.nil? %>
+</p>
 
 <%= link_to 'Edit', edit_location_path(@location) %> |
 <%= link_to 'Back', locations_path %>
