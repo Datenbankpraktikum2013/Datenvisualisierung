@@ -2,20 +2,24 @@ var App = App || {};
 
 App.columnchart = {
 
+	options : {
+
+	},
+
 	render : function() {
     	$('#chart').highcharts({
 	        chart: {
-	            type: 'bar'
+	            type: 'column'
 	        },
 	        title: {
-	            text: 'Fruit Consumption'
+	            text: ''
 	        },
 	        xAxis: {
 	            categories: App.model.data.categories
 	        },
 	        yAxis: {
 	            title: {
-	                text: 'Fruit eaten'
+	                text: 'Anzahl'
 	            }
 	        },
 	        plotOptions : {

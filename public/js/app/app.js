@@ -19,14 +19,14 @@ App.init = function() {
     });
     
     $('button[name="barchart"]').click(function() {
-        chart_type = 'bar';
-        renderChart();
+        App.model.fetch(App.filter.getFilter());
+        App.columnchart.render();
         return false;
     });
     
     $('button[name="piechart"]').click(function() {
-        chart_type = 'pie';
-        renderChart();
+        App.model.fetch(App.filter.getFilter());
+        App.piechart.render();
         return false;
     });
 
