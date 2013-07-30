@@ -1,15 +1,22 @@
+/* 
+ * Erfasst die Filter die ueber das Formular oder durch DrillDowns gesetzt
+ * und speichert sie zwischen. 
+ */
+
 var App = App || {};
 
 App.filter = {
-
+	// Enthaelt ein Objekt in dem alle gesetzten Filter stehen.
 	filter : {},
 
+	// Liest die aktuellen Filter aus dem Formular und speichert sie.
 	getFilter : function() {
 		this.filter = $('form').formstate(':visible');
-		console.log(this.filter);
 		return this.filter;
     },
 
+    // Setzt abhaengig des uebergebenen Daten die entsprechenden Filter
+    // aus den DrillDownClicks.
     setDrillDownFilter : function(new_filter) {
     	var filters = App.filter.getFilter();
 		if (new_filter.filter == 'Maenner') {
