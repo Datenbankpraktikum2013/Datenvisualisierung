@@ -2,14 +2,21 @@ var App = App || {};
 
 App.model = {
 	
+	data : {
+		categories : ['Deutschland', 'Schweiz'],
+		series : 
+		[{
+            name: 'Maenner',
+            data: [2600, 2100]
+            
+        },{
+            name: 'Frauen',
+            data: [2600, 2100]
+        }]
+	},
+
 	fetch : function(filter) {
-		return [{
-            name: 'Jane',
-            data: [1, 0, 4]
-        }, {
-            name: 'John',
-            data: [5, 7, 3]
-        }];
+		return this.data;
 	}
 
 }; 
