@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="de">
+	<!--<![endif]-->
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<title>Datenvisualisierung</title>
+		<meta name="description" content="Eine Seite zur Visualisierung von Immatrikulationdaten">
+		<meta name="viewport" content="width=device-width">
+
+		<link rel="stylesheet" href="css/bootstrap.min.css">
+		<style>
+			body {
+				padding-top: 60px;
+				padding-bottom: 40px;
+			}
+		</style>
+		<link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+		<link rel="stylesheet" href="css/main.css">
+
+		<script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+	</head>
+	<body>
+		<!--[if lt IE 7]>
+		<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+		<![endif]-->
+
+		<!-- This code is taken from http://twitter.github.com/bootstrap/examples/hero.html -->
+
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container-fluid">
+					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a>
+					<a class="brand" href="#">Datenvisualisierung</a>
+					<div class="nav-collapse collapse">
+						<ul class="nav">
+							<li class="active">
+								<a href="#">Home</a>
+							</li>
+							<li>
+								<a href="#about">About</a>
+							</li>
+						</ul>
+					</div><!--/.nav-collapse -->
+				</div>
+			</div>
+		</div>
+
+		<div class="container-fluid">
+			<div class="row">
+				<div class="span3 well">
+					<legend>Filteroptionen</legend>
+					<form class="" action="" method="post">
+						<fieldset>
+							<div class="row-fluid">
+								<div class="span5">
+									<label>Studentenart:</label>
+								</div>
+								<div class="span7">
+									<label class="checkbox">
+										<input name="studentenart" type="checkbox" value="s" checked="checked">
+										Studenten 
+									</label>
+									<label class="checkbox">
+										<input name="studentenart" type="checkbox" value="a" checked="checked">
+										Absolventen 
+									</label>
+								</div>
+							</div>
+							<div class="row-fluid">
+								<div class="span5">
+									<label>Geschlecht:</label>
+								</div>
+								<div class="span7">
+									<label class="checkbox">
+										<input name="geschlecht" type="checkbox" value="m" checked="checked">
+										M&auml;nnlich 
+									</label>
+									<label class="checkbox">
+										<input name="geschlecht" type="checkbox" value="w" checked="checked">
+										Weiblich
+									</label>
+								</div>
+							</div>
+							<div class="row-fluid">
+								<div class="span12">
+									<label>
+										Fachbereich:
+										<select name="fachbereich" class="span12">
+											<option>1</option>
+											<option>2</option>
+											<option>3</option>
+											<option>4</option>
+											<option>5</option>
+										</select>
+									</label>
+						    	</div>
+							</div>
+							<div class="row-fluid">
+								<div class="span12">
+									<label>
+										Lehreinheit:
+										<select name="lehreinheit" class="span12">
+											<option>Informatik</option>
+											<option>Mathematik</option>
+											<option>Physik</option>
+											<option>Biologie</option>
+										</select>
+									</label>
+						    	</div>
+							</div>
+							<div class="row-fluid">
+								<div class="span12">
+									<label>
+										Heimatland:
+										<select name="heimatland" class="span12">
+											<option>Deutschland</option>
+											<option>Ungarn</option>
+											<option>Schweiz</option>
+											<option>Frankreich</option>
+											<option>Italien</option>
+										</select>
+									</label>
+								</div>
+							</div>						    
+							<div class="row-fluid">
+								<div class="span12">
+								<label>
+									Erwerbsort der HZB:
+									<input name="hzb" class="span12" type="text" placeholder="Ortsname…">
+								</label>
+						    	</div>
+							</div>
+							
+							<div class="row-fluid">
+								<div class="span12">
+									<label>Abschlussarten:</label>
+								</div>
+							</div>
+							<div class="row-fluid">
+								<div class="span6">
+									<label class="checkbox">
+										<input type="checkbox" value="ba" name="abschluss">
+										Bachelor 
+									</label>
+									<label class="checkbox">
+										<input type="checkbox" value="ma" name="abschluss">
+										Master 
+									</label>
+								</div>
+								<div class="span6">
+									<label class="checkbox">
+										<input type="checkbox" value="diplom" name="abschluss">
+										Diplom 
+									</label>
+									<label class="checkbox">
+										<input type="checkbox" value="magister" name="abschluss">
+										Magister
+									</label>
+								</div>
+							</div>
+							<hr/>
+						    <button type="submit" name="store" class="btn btn-primary">Aktualisieren</button>
+						    <button type="button" name="restore" class="btn">Reset</button>
+						</fieldset>
+					</form>
+				</div>
+				<div class="span8">
+					<div class="row-fluid">
+						<div class="span8 offset4">
+						    <div class="btn-group">
+							    <button name="barchart" class="btn">Balkendiagramm</button>
+							    <button name="piechart" class="btn">Kreisdiagramm</button>
+							    <button class="btn">Googlemaps</button>
+						    </div>
+						</div>
+					</div>
+					<div class="row-fluid" id="chart">
+						
+					</div>
+				</div>
+			</div>
+
+			<hr>
+
+			<footer>
+				<p>
+					&copy; Datenbank-Praktikum 2013
+				</p>
+			</footer>
+
+		</div>
+		<!-- /container -->
+
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+		<script>
+			window.jQuery || document.write('<script src="js/vendor/jquery-1.10.1.min.js"><\/script>')
+		</script>
+
+		<script src="js/vendor/bootstrap.min.js"></script>
+		<script src="js/highcharts/highcharts.js"></script>
+
+		<script src="js/plugins.js"></script>
+		<script src="js/main.js"></script>
+	</body>
+</html>
