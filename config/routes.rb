@@ -1,4 +1,12 @@
 Datenvisualisierung::Application.routes.draw do
+  resources :studies
+
+  resources :countries
+
+  resources :federal_states
+
+  resources :locations
+
   resources :students
 
   # The priority is based upon order of creation: first created -> highest priority.

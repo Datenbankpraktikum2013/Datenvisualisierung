@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Semester of matriculation:</strong>
+  <%= @study.semester_of_matriculation %>
+</p>
+
+<p>
+  <strong>Kind of degree:</strong>
+  <%= @study.kind_of_degree %>
+</p>
+
+<p>
+  <strong>Number of semester:</strong>
+  <%= @study.number_of_semester %>
+</p>
+
+<%= link_to 'Edit', edit_study_path(@study) %> |
+<%= link_to 'Back', studies_path %>

@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  semester_of_matriculation: 1
+  kind_of_degree: MyString
+  number_of_semester: 1
+
+two:
+  semester_of_matriculation: 1
+  kind_of_degree: MyString
+  number_of_semester: 1

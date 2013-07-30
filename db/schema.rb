@@ -11,7 +11,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130730073309) do
+ActiveRecord::Schema.define(version: 20130730085416) do
+
+  create_table "countries", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "federal_states", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "locations", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "federal_state_id"
+    t.integer  "country_id"
+  end
 
   create_table "students", force: true do |t|
     t.string   "gender"
@@ -20,6 +40,16 @@ ActiveRecord::Schema.define(version: 20130730073309) do
     t.string   "nationality"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "location_id"
+  end
+
+  create_table "studies", force: true do |t|
+    t.integer  "semester_of_matriculation"
+    t.string   "kind_of_degree"
+    t.integer  "number_of_semester"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "student_id"
   end
 
 end
