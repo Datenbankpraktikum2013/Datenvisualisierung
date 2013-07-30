@@ -1,0 +1,27 @@
+<h1>Listing disciplines</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @disciplines.each do |discipline| %>
+      <tr>
+        <td><%= discipline.name %></td>
+        <td><%= link_to 'Show', discipline %></td>
+        <td><%= link_to 'Edit', edit_discipline_path(discipline) %></td>
+        <td><%= link_to 'Destroy', discipline, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Discipline', new_discipline_path %>
