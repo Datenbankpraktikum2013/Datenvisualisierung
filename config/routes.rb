@@ -1,4 +1,6 @@
 Datenvisualisierung::Application.routes.draw do
+  resources :degrees
+
   resources :studies
 
   resources :countries

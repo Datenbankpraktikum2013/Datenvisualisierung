@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  semester_of_deregistration: 1
+  grade: 9.99
+  number_of_semesters: 1
+
+two:
+  semester_of_deregistration: 1
+  grade: 9.99
+  number_of_semesters: 1
