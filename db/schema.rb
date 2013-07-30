@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130730094948) do
+ActiveRecord::Schema.define(version: 20130730131118) do
 
   create_table "countries", force: true do |t|
     t.string   "name"
@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 20130730094948) do
 
   create_table "degrees", force: true do |t|
     t.integer  "semester_of_deregistration"
-    t.decimal  "grade"
+    t.decimal  "grade",                      precision: 2, scale: 1
     t.integer  "number_of_semesters"
     t.datetime "created_at"
     t.datetime "updated_at"

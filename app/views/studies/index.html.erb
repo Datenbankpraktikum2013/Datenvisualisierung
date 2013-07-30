@@ -6,6 +6,8 @@
       <th>Semester of matriculation</th>
       <th>Kind of degree</th>
       <th>Number of semester</th>
+      <th>Matriculation number</th>
+      <th>Degree ID</th>
       <th></th>
       <th></th>
       <th></th>
@@ -18,6 +20,8 @@
         <td><%= study.semester_of_matriculation %></td>
         <td><%= study.kind_of_degree %></td>
         <td><%= study.number_of_semester %></td>
+        <td><%= study.student.matriculation_number %></td>
+        <td><%= study.degree.id unless study.degree.nil? %></td>
         <td><%= link_to 'Show', study %></td>
         <td><%= link_to 'Edit', edit_study_path(study) %></td>
         <td><%= link_to 'Destroy', study, method: :delete, data: { confirm: 'Are you sure?' } %></td>
