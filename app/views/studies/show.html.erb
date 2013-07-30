@@ -21,6 +21,11 @@
 </p>
 
 <p>
+  <strong>Disciplines:</strong>
+  <%= @study.disciplines.map { |t| t.name }.join(", ") %>
+</p>
+
+<p>
   <strong>Degree ID:</strong>
   <%= @study.degree.id unless @study.degree.nil? %>
 </p>

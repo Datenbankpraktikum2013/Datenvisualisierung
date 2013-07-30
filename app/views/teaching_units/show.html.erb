@@ -5,5 +5,10 @@
   <%= @teaching_unit.name %>
 </p>
 
+<p>
+  <strong>Department:</strong>
+  <%= @teaching_unit.department.name unless @teaching_unit.department.nil? %>
+</p>
+
 <%= link_to 'Edit', edit_teaching_unit_path(@teaching_unit) %> |
 <%= link_to 'Back', teaching_units_path %>
