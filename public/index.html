@@ -54,7 +54,7 @@
 			<div class="row">
 				<div class="span3 well">
 					<legend>Filteroptionen</legend>
-					<form class="" action="" method="post">
+					<form namee="form" id="form" class="" action="" method="post">
 						<fieldset>
 							<div class="row-fluid">
 								<div class="span5">
@@ -422,8 +422,8 @@
 								</div>
 							</div>
 							<hr/>
-						    <button type="submit" name="store" class="btn btn-primary">Aktualisieren</button>
-						    <button type="button" name="restore" class="btn">Reset</button>
+						    <button type="submit" name="store" class="btn btn-primary" onclick="filter">Aktualisieren</button>
+						    <button type="button" name="restore" class="btn" onclick="this.form.reset()">Reset</button>
 						</fieldset>
 					</form>
 				</div>
