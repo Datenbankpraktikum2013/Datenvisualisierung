@@ -28,6 +28,10 @@
     <%= f.collection_select :student_id, Student.all, :id, :matriculation_number %>
   </div>
   <div class="field">
+    <%= f.label :discipline_ids %><br>
+    <%= f.collection_select(:discipline_ids, Discipline.all, :id, :name, {selected: @study.discipline_ids}, {multiple: true}) %>
+  </div>
+  <div class="field">
     <%= f.label :degree_id %><br>
     <%= f.collection_select :degree_id, Degree.all, :id, :id %>
   </div>

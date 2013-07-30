@@ -7,6 +7,7 @@
       <th>Kind of degree</th>
       <th>Number of semester</th>
       <th>Matriculation number</th>
+      <th>Disciplines</th>
       <th>Degree ID</th>
       <th></th>
       <th></th>
@@ -21,6 +22,7 @@
         <td><%= study.kind_of_degree %></td>
         <td><%= study.number_of_semester %></td>
         <td><%= study.student.matriculation_number %></td>
+        <td><%= study.disciplines.map { |t| t.name }.join(", ")  %></td>
         <td><%= study.degree.id unless study.degree.nil? %></td>
         <td><%= link_to 'Show', study %></td>
         <td><%= link_to 'Edit', edit_study_path(study) %></td>

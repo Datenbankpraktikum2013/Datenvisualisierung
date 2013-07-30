@@ -4,6 +4,7 @@
   <thead>
     <tr>
       <th>Name</th>
+      <th>Teaching Unit Name</th>
       <th></th>
       <th></th>
       <th></th>
@@ -14,6 +15,7 @@
     <% @disciplines.each do |discipline| %>
       <tr>
         <td><%= discipline.name %></td>
+        <td><%= discipline.teaching_unit.name unless discipline.teaching_unit.nil? %></td>
         <td><%= link_to 'Show', discipline %></td>
         <td><%= link_to 'Edit', edit_discipline_path(discipline) %></td>
         <td><%= link_to 'Destroy', discipline, method: :delete, data: { confirm: 'Are you sure?' } %></td>
