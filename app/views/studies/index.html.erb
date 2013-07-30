@@ -1,0 +1,31 @@
+<h1>Listing studies</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Semester of matriculation</th>
+      <th>Kind of degree</th>
+      <th>Number of semester</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @studies.each do |study| %>
+      <tr>
+        <td><%= study.semester_of_matriculation %></td>
+        <td><%= study.kind_of_degree %></td>
+        <td><%= study.number_of_semester %></td>
+        <td><%= link_to 'Show', study %></td>
+        <td><%= link_to 'Edit', edit_study_path(study) %></td>
+        <td><%= link_to 'Destroy', study, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Study', new_study_path %>
