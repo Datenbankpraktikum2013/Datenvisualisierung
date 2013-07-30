@@ -24,7 +24,17 @@ App.columnchart = {
 	        },
 	        plotOptions : {
 	        	series : {
-	        		stacking : 'normal'
+	        		stacking : 'normal',
+	        		point : {
+	        			events : {
+		        			click : function() {
+	        					App.filter.setDrillDownFilter({
+        							category : this.category, 
+        							filter : this.series.name
+        						});
+		        			}
+	        			}
+	        		}
 	        	}
 	        },
 	        series : App.model.data.series
