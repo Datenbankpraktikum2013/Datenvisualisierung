@@ -3,11 +3,11 @@
 one:
   gender: MyString
   matriculation_number: MyString
-  year_of_birthDDD: 1
+  year_of_birth: 1
   nationality: MyString
 
 two:
   gender: MyString
   matriculation_number: MyString
-  year_of_birthDDD: 1
+  year_of_birth: 1
   nationality: MyString
