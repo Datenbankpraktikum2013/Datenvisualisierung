@@ -1,7 +1,13 @@
+/* 
+ * Kapselt den Zugriff auf die Immatrikulationsdaten und regelt die
+ * Kommuninkation mit dem Server.
+ */
+
 var App = App || {};
 
 App.model = {
 	
+	// Enthaelt immer den aktuellen Datensatz
 	data : {
 		categories : ['Deutschland', 'Schweiz'],
 		series : 
@@ -15,6 +21,8 @@ App.model = {
         }]
 	},
 
+	// Holt einen neuen Datensatz mit den uebergebenen Filtern aus
+	// der Datenbank
 	fetch : function(filter) {
 		return this.data;
 	}

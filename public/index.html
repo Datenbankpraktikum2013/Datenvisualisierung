@@ -422,7 +422,7 @@
 								</div>
 							</div>
 							<hr/>
-						    <button type="submit" name="store" class="btn btn-primary" onclick="filter">Aktualisieren</button>
+						    <button type="submit" name="store" class="btn btn-primary">Aktualisieren</button>
 						    <button type="button" name="restore" class="btn" onclick="this.form.reset()">Reset</button>
 						</fieldset>
 					</form>
@@ -430,8 +430,8 @@
 				<div class="span8">
 					<div class="row-fluid">
 						<div class="span8 offset4">
-						    <div class="btn-group">
-							    <button name="barchart" class="btn">Balkendiagramm</button>
+						    <div id="chartswitch" class="btn-group">
+							    <button name="barchart" class="btn active">Balkendiagramm</button>
 							    <button name="piechart" class="btn">Kreisdiagramm</button>
 							    <button class="btn">Googlemaps</button>
 						    </div>
@@ -466,6 +466,7 @@
 		<script src="js/app/model.js"></script>
 		<script src="js/app/filter.js"></script>
 		<script src="js/app/columnchart.js"></script>
+		<script src="js/app/converter.js"></script>
 		<script src="js/app/piechart.js"></script>
 
 		<script src="js/plugins.js"></script>
