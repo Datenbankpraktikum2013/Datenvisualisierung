@@ -1,4 +1,6 @@
 Datenvisualisierung::Application.routes.draw do
+  resources :countries
+
   resources :federal_states
 
   resources :locations
