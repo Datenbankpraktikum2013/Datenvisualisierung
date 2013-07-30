@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  gender: MyString
+  matriculation_number: MyString
+  year_of_birthDDD: 1
+  nationality: MyString
+
+two:
+  gender: MyString
+  matriculation_number: MyString
+  year_of_birthDDD: 1
+  nationality: MyString
