@@ -11,8 +11,13 @@ App.filter = {
 
 	// Liest die aktuellen Filter aus dem Formular und speichert sie.
 	getFilter : function() {
-		this.filter = $('form').formstate(':visible');
+		this.filter = $('#filter-form').formstate(':visible');
 		return this.filter;
+    },
+
+    setFilter : function(filter) {
+    	this.filter = filter;
+    	$('#filter-form :input:visible').formstate(this.filter);
     },
 
     // Setzt abhaengig des uebergebenen Daten die entsprechenden Filter
@@ -29,7 +34,7 @@ App.filter = {
 			this.filter.studentenart = ['a'];
 		}
 		this.filter.heimatland = new_filter.category;
-		$('form :input:visible').formstate(this.filter);
+		$('#filter-form :input:visible').formstate(this.filter);
     }
 
 };

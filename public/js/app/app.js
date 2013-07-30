@@ -49,6 +49,21 @@ App.init = function() {
     $('form input, form select').change(function() {
         App.filter.getFilter();
     });
+
+    $('#save-search-button').click(function() {
+        var data = $('form#save-search-form').formstate(':visible');
+        App.searches.add(data.bookmarkname, App.filter.getFilter());
+        App.searches.render();
+        $('#save-search-modal').modal('hide');
+    });
+
+    $(document).on('click', '#search-list a', function(e) {
+        var id = $(this).attr('data-bookmark-id');
+        App.filter.setFilter(App.searches.saved_searches[id]);
+        e.preventDefault();
+    });
+
+    App.searches.init();
     
     // Initiales zeichnen des Balkendiagramms
     App.columnchart.render();

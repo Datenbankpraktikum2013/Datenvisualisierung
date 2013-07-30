@@ -44,6 +44,18 @@
 							<li>
 								<a href="#about">About</a>
 							</li>
+							<li class="divider-vertical"></li>
+							<li class="dropdown">
+		                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">Gespeicherte Anfragen<b class="caret"></b></a>
+		                        <ul id="search-list" class="dropdown-menu">
+									<li>
+										<a id="save-search" href="#save-search-modal" role="button" data-toggle="modal">
+											<i class="icon-plus"></i> Aktuelle Suchanfrage speichern
+										</a>
+									</li>
+									<li class="divider"></li>
+								</ul>
+	                      	</li>
 						</ul>
 					</div><!--/.nav-collapse -->
 				</div>
@@ -54,7 +66,7 @@
 			<div class="row">
 				<div class="span3 well">
 					<legend>Filteroptionen</legend>
-					<form namee="form" id="form" class="" action="" method="post">
+					<form name="form" id="filter-form" class="" action="" method="post">
 						<fieldset>
 							<div class="row-fluid">
 								<div class="span5">
@@ -454,13 +466,31 @@
 
 		</div>
 		<!-- /container -->
-
+	    
+	    <!-- Modal um Name fuer Suchanfrage zu vergeben -->
+	    <div id="save-search-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	    	<div class="modal-header">
+	    		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	    		<h3 id="myModalLabel">Suchanfrage speichern</h3>
+	    	</div>
+		    <div class="modal-body">
+		    	<form id="save-search-form" action="" method="post">
+		    		<p>
+		    			Bitte geben Sie einen Namen für Ihre Suchanfrage ein:
+		    		</p>
+		    		<input class="input-xlarge" name="bookmarkname" type="text" placeholder="Name der Suchanfrage…">
+		    	</form>
+		    </div>
+			    <div class="modal-footer">
+			    <button class="btn" data-dismiss="modal" aria-hidden="true">Abbrechen</button>
+			    <button id="save-search-button" class="btn btn-primary">Speichern</button>
+		    </div>
+	    </div>
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 		<script>
 			window.jQuery || document.write('<script src="js/vendor/jquery-1.10.1.min.js"><\/script>')
 		</script>
-
-		<script src="js/vendor/bootstrap.min.js"></script>
+ 		<script src="js/vendor/bootstrap.min.js"></script>
 		<script src="js/highcharts/highcharts.js"></script>
 
 		<script src="js/app/app.js"></script>
@@ -469,6 +499,7 @@
 		<script src="js/app/columnchart.js"></script>
 		<script src="js/app/converter.js"></script>
 		<script src="js/app/piechart.js"></script>
+		<script src="js/app/searches.js"></script>
 
 		<script src="js/plugins.js"></script>
 		<script src="js/main.js"></script>
