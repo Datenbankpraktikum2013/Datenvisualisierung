@@ -11,14 +11,19 @@ App.columnchart = {
 	            text: 'Fruit Consumption'
 	        },
 	        xAxis: {
-	            categories: ['Apples', 'Bananas', 'Oranges']
+	            categories: App.model.data.categories
 	        },
 	        yAxis: {
 	            title: {
 	                text: 'Fruit eaten'
 	            }
 	        },
-	        series : App.model.data
+	        plotOptions : {
+	        	series : {
+	        		stacking : 'normal'
+	        	}
+	        },
+	        series : App.model.data.series
     	});
     }
 
