@@ -100,6 +100,21 @@
 							</div>
 							<div class="row-fluid">
 								<div class="span12">
+									<label>Alter:</label>
+									<div class="row-fluid">
+										<div class="span6 input-prepend">
+											<span class="add-on">Von</span>
+											<input class="input-mini" type="text" name="altervon">
+										</div>
+										<div class="span6 input-prepend text-right">
+											<span class="add-on">Bis</span>
+											<input class="input-mini" type="text" name="alterbis">
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row-fluid">
+								<div class="span12">
 									<label>
 										Fachbereich:
 										<select name="fachbereich" class="span12">
@@ -403,15 +418,39 @@
 									</label>
 								</div>
 							</div>						    
-							<div class="row-fluid">
+							<div id="bundesland" class="row-fluid">
 								<div class="span12">
 								<label>
-									Erwerbsort der HZB:
-									<input name="hzb" class="span12" type="text" placeholder="Ortsname…">
+									Bundesland:
+									<select name="bundesland" class="span12">
+										<option value="All">Alle</option>
+										<option value="Niedersachsen">Niedersachsen</option>
+									</select>
 								</label>
 						    	</div>
 							</div>
-							
+							<div class="row-fluid">
+								<div class="span12">
+								<label>
+									1. Studienfach:
+									<select class="span12">
+										<option>Informatik</option>
+										<option>Mathematik</option>
+									</select>
+								</label>
+						    	</div>
+							</div>
+							<div class="row-fluid">
+								<div class="span12">
+								<label>
+									2. Studienfach:
+									<select class="span12">
+										<option>Informatik</option>
+										<option>Mathematik</option>
+									</select>
+								</label>
+						    	</div>
+							</div>
 							<div class="row-fluid">
 								<div class="span12">
 									<label>Abschlussarten:</label>
@@ -465,7 +504,7 @@
 			<hr>
 
 			<footer>
-				<p>
+				<p class="text-center">
 					&copy; Datenbank-Praktikum 2013
 				</p>
 			</footer>
