@@ -17,7 +17,7 @@ App.columnchart = {
             pinchType: 'xy'
         },
         title: {
-            text: App.model.data.categories,
+            text: App.model.data.title,
             style: {
                 fontWeight: 'bold'
             }

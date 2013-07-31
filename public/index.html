@@ -70,7 +70,7 @@
 						<fieldset>
 							<div class="row-fluid">
 								<div class="span5">
-									<label>Studentenart:</label>
+									<label>Status:</label>
 								</div>
 								<div class="span7">
 									<label class="checkbox">
@@ -112,6 +112,21 @@
 										</div>
 									</div>
 								</div>
+							</div>
+							<div class="row-fluid">
+								<div class="span12">
+									<label>
+										Gruppierung:
+										<select name="groupby" class="span12">
+											<option selected="selected">Keine</option>
+											<option>Geschlecht</option>
+											<option>Fachbereich</option>
+											<option>Fachsemester</option>
+											<option>Status</option>
+											<option>Abschluss</option>
+										</select>
+									</label>
+						    	</div>
 							</div>
 							<div class="row-fluid">
 								<div class="span12">
@@ -489,7 +504,7 @@
 						<div class="span8 offset4">
 						    <div id="chartswitch" class="btn-group">
 							    <button name="barchart" class="btn active">Balkendiagramm</button>
-							    <button name="piechart" class="btn">Kreisdiagramm</button>
+							    <button name="piechart" class="btn">Tortendiagramm</button>
 							    <button class="btn">Googlemaps</button>
 						    </div>
 						</div>
