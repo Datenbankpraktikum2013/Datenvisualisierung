@@ -9,7 +9,7 @@ App.model = {
 	
 	// Enthaelt immer den aktuellen Datensatz
 	data : {
-		categories : ['Deutschland', 'Schweiz'],
+		categories : ['Deutschland','Schweiz'],
 		title : 'Test der Laender',
 		series : 
 		[{
@@ -17,8 +17,8 @@ App.model = {
             data: [2600, 2100]
             
         },{
-            name: 'Frauen',
-            data: [2600, 2100]
+        	name: 'Frauen',
+        	data: [2600, 2100]
         }]
 	},
 
