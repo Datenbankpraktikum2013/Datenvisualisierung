@@ -18,7 +18,7 @@ App.model = {
             
         },{
         	name: 'Frauen',
-        	data: [2600, 2100]
+        	data: [2600]
         }]
 	},
 
