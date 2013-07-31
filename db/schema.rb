@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130730131118) do
+ActiveRecord::Schema.define(version: 20130731070620) do
 
   create_table "countries", force: true do |t|
     t.string   "name"
@@ -58,6 +58,13 @@ ActiveRecord::Schema.define(version: 20130730131118) do
     t.datetime "updated_at"
     t.integer  "federal_state_id"
     t.integer  "country_id"
+  end
+
+  create_table "searches", force: true do |t|
+    t.string   "gender"
+    t.string   "nationality"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "students", force: true do |t|
