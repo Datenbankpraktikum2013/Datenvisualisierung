@@ -22,6 +22,23 @@ App.columnchart = {
                 text: 'Anzahl'
             }
         },
+        legend : {
+            navigation: {
+                animation: 'true'
+            },
+            title: {
+                style:{ 
+                    fontWeight: 'bold',
+                },
+                text: 'Legende'
+            }
+        },
+        tooltip: {
+            animation: 'true'
+        },
+        credits: {
+            enabled: false
+        },
         plotOptions : {
         	series : {
         		stacking : 'normal',
