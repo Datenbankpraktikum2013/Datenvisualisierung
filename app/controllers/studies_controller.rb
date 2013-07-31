@@ -42,6 +42,7 @@ class StudiesController < ApplicationController
   def update
     respond_to do |format|
       if @study.update(study_params)
+        puts study_params
         format.html { redirect_to @study, notice: 'Study was successfully updated.' }
         format.json { head :no_content }
       else
@@ -69,6 +70,6 @@ class StudiesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def study_params
-      params.require(:study).permit(:semester_of_matriculation, :kind_of_degree, :number_of_semester)
+      params.require(:study).permit(:semester_of_matriculation, :kind_of_degree, :number_of_semester, :student_id, :degree_id, discipline_ids: [])
     end
 end

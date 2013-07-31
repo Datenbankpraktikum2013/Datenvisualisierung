@@ -4,7 +4,13 @@
    Author's custom styles
    ========================================================================== */
 
+#chart {
+	height : 500px;
+}
 
+#bundesland {
+	display: none;
+}
 
 
 

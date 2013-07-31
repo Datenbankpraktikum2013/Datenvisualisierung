@@ -15,5 +15,20 @@
   <%= @study.number_of_semester %>
 </p>
 
+<p>
+  <strong>Matriculation number:</strong>
+  <%= @study.student.matriculation_number %>
+</p>
+
+<p>
+  <strong>Disciplines:</strong>
+  <%= @study.disciplines.map { |t| t.name }.join(", ") %>
+</p>
+
+<p>
+  <strong>Degree ID:</strong>
+  <%= @study.degree.id unless @study.degree.nil? %>
+</p>
+
 <%= link_to 'Edit', edit_study_path(@study) %> |
 <%= link_to 'Back', studies_path %>

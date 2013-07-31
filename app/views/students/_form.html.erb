@@ -27,6 +27,10 @@
     <%= f.label :nationality %><br>
     <%= f.text_field :nationality %>
   </div>
+  <div class="field">
+    <%= f.label :location %><br>
+    <%= f.collection_select :location_id, Location.all, :id, :name %>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>

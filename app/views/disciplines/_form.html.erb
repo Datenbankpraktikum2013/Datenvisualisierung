@@ -15,6 +15,10 @@
     <%= f.label :name %><br>
     <%= f.text_field :name %>
   </div>
+  <div class="field">
+    <%= f.label :teaching_unit %><br>
+    <%= f.collection_select :teaching_unit_id, TeachingUnit.all, :id, :name %>
+  </div>
   <div class="actions">
     <%= f.submit %>
   </div>
