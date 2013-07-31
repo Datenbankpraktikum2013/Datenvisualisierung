@@ -10,6 +10,7 @@ App.model = {
 	// Enthaelt immer den aktuellen Datensatz
 	data : {
 		categories : ['Deutschland', 'Schweiz'],
+		title : 'Test der Laender',
 		series : 
 		[{
             name: 'Maenner',
