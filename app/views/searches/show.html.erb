@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Gender:</strong>
+  <%= @search.gender %>
+</p>
+
+<p>
+  <strong>Nationality:</strong>
+  <%= @search.nationality %>
+</p>
+
+<% @search.results.each do |k, v| %>
+	<%= k.to_s + ': ' + v.to_s %>
+<% end %>
+
+
+<%= link_to 'Edit', edit_search_path(@search) %> |
+<%= link_to 'Back', searches_path %>

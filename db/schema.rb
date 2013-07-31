@@ -11,6 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema.define(version: 20130731112414) do
 
   create_table "countries", force: true do |t|
@@ -59,6 +60,13 @@ ActiveRecord::Schema.define(version: 20130731112414) do
     t.integer  "federal_state_id"
     t.integer  "country_id"
     t.string   "data_warehouse_id"
+  end
+
+  create_table "searches", force: true do |t|
+    t.string   "gender"
+    t.string   "nationality"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "students", force: true do |t|

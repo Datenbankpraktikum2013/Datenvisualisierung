@@ -1,4 +1,6 @@
 Datenvisualisierung::Application.routes.draw do
+  resources :searches
+
   resources :departments
 
   resources :teaching_units
