@@ -50,8 +50,14 @@ App.piechart = {
 
 	        	}
 	        },
+	        tooltip: {
+	        	style: {
+					fontSize: '11px',
+					padding: '8px'
+				}
+	        },
 	        series : [{
-	        	name: 'spalte1',
+	        	name: 'Anzahl Gesamt',
 	        	data: dataSet1,
 	        	size: '60%',
 	        	dataLabels: {
@@ -64,7 +70,7 @@ App.piechart = {
 	        	// 	},
 	        	// }
 	        },{
-	        	name: 'spalte 2',
+	        	name: 'Anzahl',
 	        	data: dataSet2,
 	        	size: '90%',
 	        	innerSize: '65%'
