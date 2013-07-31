@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130731112414) do
+ActiveRecord::Schema.define(version: 20130731131506) do
 
   create_table "countries", force: true do |t|
     t.string   "name"
@@ -61,6 +61,8 @@ ActiveRecord::Schema.define(version: 20130731112414) do
     t.string   "data_warehouse_id"
   end
 
+  add_index "locations", ["data_warehouse_id"], name: "index_locations_on_data_warehouse_id"
+
   create_table "students", force: true do |t|
     t.string   "gender"
     t.string   "matriculation_number"
@@ -70,6 +72,8 @@ ActiveRecord::Schema.define(version: 20130731112414) do
     t.datetime "updated_at"
     t.integer  "location_id"
   end
+
+  add_index "students", ["matriculation_number"], name: "index_students_on_matriculation_number"
 
   create_table "studies", force: true do |t|
     t.integer  "semester_of_matriculation"
