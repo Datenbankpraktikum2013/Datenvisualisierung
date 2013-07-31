@@ -12,7 +12,7 @@ App.columnchart = {
             type: 'column'
         },
         title: {
-            text: ''
+            text: App.model.data.title
         },
         xAxis: {
             categories: App.model.data.categories
@@ -49,6 +49,7 @@ App.columnchart = {
     							category : this.category, 
     							filter : this.series.name
     						});
+                            console.log(this)
 	        			}
         			}
         		}
