@@ -11,7 +11,14 @@ App.columnchart = {
         chart: {
             type: 'column',
             events: {
-                
+                redraw: function(){
+                    this.showLoading();
+                    console.log('reloading')
+                },
+                load: function(){
+                    this.hideLoading();
+                    console.log('loaded')
+                }
             },
             zoomType: 'xy',
             pinchType: 'xy'
@@ -30,6 +37,10 @@ App.columnchart = {
                 text: 'Anzahl'
             }
         },
+        loading: {
+              hideDuration: 1000,
+              showDuration: 1000  
+            },
         legend : {
             navigation: {
                 animation: 'true'
@@ -60,7 +71,8 @@ App.columnchart = {
                             console.log(this)
 	        			}
         			}
-        		}
+        		},
+                
         	}
         },
         series : App.model.data.series
