@@ -73,6 +73,26 @@ App.init = function() {
         }
     });
 
+    $('.multiselect').multiselect({
+        buttonWidth : false,
+        buttonContainer : '<div class="row-fluid btn-group" />',
+        buttonText: function(options) {
+            if (options.length == 0) {
+                return 'Fachbereiche auswählen <b class="caret"></b>';
+            }
+            else if (options.length > 1) {
+                return options.length + ' ausgewählt <b class="caret"></b>';
+            }
+            else {
+                var selected = '';
+                options.each(function() {
+                    selected += $(this).text() + ', ';
+                });
+                return selected.substr(0, selected.length -2) + ' <b class="caret"></b>';
+            }
+        }
+    });
+
     App.searches.init();
     
     // Initiales zeichnen des Balkendiagramms

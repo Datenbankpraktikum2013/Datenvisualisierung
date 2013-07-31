@@ -12,6 +12,38 @@
 	display: none;
 }
 
+#slider-form .slider.slider-horizontal {
+	width: 100%;
+}
+
+#slider-form .slider-handle.round {
+	width: 10px;
+}
+
+#slider {
+	display: none;
+}
+
+#scale-label {
+	transform:rotate(10deg) translate(50px,50px);
+}
+
+#barscale {
+	position: relative;
+	top: 0;
+	left: 0;
+	background-color: red;
+	width: 100%;
+	height: 50px;
+	z-index: -1000;
+}
+
+.multiselect {
+	width: 100%;
+}
+
+
+
 
 
 

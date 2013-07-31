@@ -67,7 +67,9 @@ App.columnchart = {
 
 	// Rendert das Balkendiagramm in div#chart
 	render : function() {
-    	$('#chart').highcharts(this.config);
+        // Wenn nur eine Series dann blende Legende aus
+        this.config.legend.enabled = (App.model.data.series.length != 1);
+        $('#chart').highcharts(this.config);
     }
 
 };
