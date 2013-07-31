@@ -63,6 +63,16 @@ App.init = function() {
         e.preventDefault();
     });
 
+    $('#filter-form select[name="heimatland"]').change(function() {
+        if ($(this).val() == "Deutschland") {
+            $('#bundesland').slideDown();
+        } else {
+            if ($('#bundesland').css('display') != 'none') {
+                $('#bundesland').slideUp();
+            }
+        }
+    });
+
     App.searches.init();
     
     // Initiales zeichnen des Balkendiagramms
