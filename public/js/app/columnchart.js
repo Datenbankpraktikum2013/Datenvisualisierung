@@ -13,7 +13,8 @@ App.columnchart = {
             events: {
                 
             },
-            zoomType: 'xy'
+            zoomType: 'xy',
+            pinchType: 'xy'
         },
         title: {
             text: App.model.data.categories,
