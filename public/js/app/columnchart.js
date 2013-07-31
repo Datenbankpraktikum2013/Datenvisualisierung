@@ -9,10 +9,18 @@ App.columnchart = {
 	// Konfigurationsdaten fuer das Balkendiagramm.
 	config : {
         chart: {
-            type: 'column'
+            type: 'column',
+            events: {
+                
+            },
+            zoomType: 'xy',
+            pinchType: 'xy'
         },
         title: {
-            text: App.model.data.title
+            text: App.model.data.title,
+            style: {
+                fontWeight: 'bold'
+            }
         },
         xAxis: {
             categories: App.model.data.categories
