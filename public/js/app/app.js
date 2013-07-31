@@ -63,6 +63,16 @@ App.init = function() {
         e.preventDefault();
     });
 
+    $('#filter-form select[name="heimatland"]').change(function() {
+        if ($(this).val() == "Deutschland") {
+            $('#bundesland').slideDown();
+        } else {
+            if ($('#bundesland').css('display') != 'none') {
+                $('#bundesland').slideUp();
+            }
+        }
+    });
+
     App.searches.init();
     
     // Initiales zeichnen des Balkendiagramms
@@ -81,7 +91,7 @@ App.init = function() {
  * message ist Pflichtfeld, wenn fehlend wird Exception geworfen.
  */
 
-App.setAlert = function(alert_config) {
+App.showAlert = function(alert_config) {
     var alert_type = '-info';
     var time = (new Date()).getTime();
 
