@@ -91,7 +91,7 @@ App.init = function() {
  * message ist Pflichtfeld, wenn fehlend wird Exception geworfen.
  */
 
-App.setAlert = function(alert_config) {
+App.showAlert = function(alert_config) {
     var alert_type = '-info';
     var time = (new Date()).getTime();
 
