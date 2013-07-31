@@ -1,4 +1,32 @@
 module Migrator
+
+	BATCHSIZE = 10000
+
+	#This query retrieves the last entry for each students study field.
+	QUERY_LAST_FIELD_INFO = 
+	"select FKT_STUDIENGAENGE.*
+	from
+			FKT_STUDIENGAENGE
+		join (
+			select STG_MATRIKELNR as X, max(STG_SEMESTER) as Y
+			from FKT_STUDIENGAENGE
+			group by STG_MATRIKELNR, STG_FACH
+			)as Stud
+		on `STG_MATRIKELNR` = X and `STG_SEMESTER` = Y"
+
+	#This query retrieves the latest and therfore the most recent entry given for each student
+	QUERY_LAST_STUDENT_INFO = 
+	"select FKT_STUDIENGAENGE.*
+	from
+			FKT_STUDIENGAENGE
+		join (
+			select STG_MATRIKELNR as X, max(STG_SEMESTER) as Y
+			from FKT_STUDIENGAENGE
+			group by STG_MATRIKELNR
+			)as Stud
+		on `STG_MATRIKELNR` = X and `STG_SEMESTER` = Y
+	group by STG_MATRIKELNR"
+
 	def self.client
 		return client = Mysql2::Client.new(
 			:host => "mysql5.serv.uni-osnabrueck.de",
@@ -8,53 +36,76 @@ module Migrator
 	end
 
 	def self.migrate
+		
 		print "start migration\n"
 
 		locations = createLocations
 
-		print "retrieving all students\n"
-		students = client.query(
-			"SELECT DISTINCT
-				STG_MATRIKELNR AS 'matriculation_number',
-				STG_GEBJAHR AS 'year_of_birth',
-				STG_GESCHLECHT AS 'gender',
-				STG_STAATSANGH AS 'nationality',
-				STG_HZBORT AS 'HZBOrt'
-			FROM FKT_STUDIENGAENGE", :cache_rows => false)
-		numAll = students.each.length
-		print "got #{numAll} students, now iterating and creating missing ones\n"
-		
-		numDone = 0
-		numCreated = 0
-		print "         50%v       100%v"
-		step = numAll / 25
-		#Create all the students
-		students.each do |student|
-			if(((numDone += 1) % step) == 0)
-				print "*"
-			end
-			
-			#Delete HZBOrt from hash so that we can use it to create the student
-			hzbOrt = student.delete("HZBOrt")
+		print "loading students in batches of #{BATCHSIZE}\n"
+		allbatches = client.query(
+			"SELECT floor(count(STG_MATRIKELNR)/#{BATCHSIZE}) as batches
+			FROM (#{QUERY_LAST_STUDENT_INFO}) as LI").first["batches"]
 
-			studentDB = Student.find_by_matriculation_number(student["matriculation_number"])
-			if(studentDB == nil)
-				studentDB = Student.new(student)
-				numCreated += 1
-			else
-				next
-				#Silly overwrite of all attributes!
-				#studentDB.assign_attributes(student)
-			end
+		for batchnumber in 0..allbatches
+			print "retrieving batch #{batchnumber+1} of #{allbatches+1}\n"
+
+			students = client.query(
+				"SELECT
+					STG_MATRIKELNR AS 'matriculation_number',
+					STG_GEBJAHR AS 'year_of_birth',
+					STG_GESCHLECHT AS 'gender',
+					STG_STAATSANGH AS 'nationality',
+					STG_HZBORT AS 'HZBOrt'
+				FROM (#{QUERY_LAST_STUDENT_INFO}) as LI
+				LIMIT #{batchnumber*BATCHSIZE},#{BATCHSIZE}
+				")
+			numAll = students.each.length
+			print "now iterating over the batch and creating missing students\n"
 			
-			studentDB.location = locations[hzbOrt]
-			studentDB.save
-		
-			#Get study fields for Student
-			#fieldIDs = client.query("SELECT DISTINCT STG_FACH FROM FKT_STUDIENGAENGE WHERE STG_MATRIKELNR = '#{studentDB.id}'")
-			#studentMap[studentDB] = fieldIDs
+			dBstudents = Array.new
+			numDone = 0
+			numCreated = 0
+			print "         50%v       100%v\n"
+			step = numAll / 25
+			#Create all the students
+			students.each do |student|
+				if(((numDone += 1) % step) == 0)
+					print "*"
+				end
+				
+				#Delete HZBOrt from hash so that we can use it to create the student
+				hzbOrt = student.delete("HZBOrt")
+
+				studentDB = Student.find_by_matriculation_number(student["matriculation_number"])
+				if(studentDB == nil)
+					studentDB = Student.new(student)
+					numCreated += 1
+					studentDB.location = locations[hzbOrt]
+					dBstudents.insert(0,studentDB)
+				end
+			
+				#Get study fields for Student
+				#fieldIDs = client.query("SELECT DISTINCT STG_FACH FROM FKT_STUDIENGAENGE WHERE STG_MATRIKELNR = '#{studentDB.id}'")
+				#studentMap[studentDB] = fieldIDs
+			end
+			print "\n done. Created #{numCreated} new "+"student".pluralize(numCreated)+"\n"
+
+			if(numCreated > 0)
+				print "now saving them\n"
+				print "         50%v       100%v\n"
+				step = numCreated / 25
+				numDone = 0
+				Student.transaction do
+					dBstudents.each do |student|
+						if(((numDone += 1) % step) == 0)
+							print "*"
+						end
+						student.save
+					end
+				end
+				print "done\n"
+			end
 		end
-		print "\n done. Created #{numCreated} new "+"student".pluralize(numCreated)+"\n"
 	end
 
 	#Dumb creation of all not yet existing locations with
@@ -62,13 +113,15 @@ module Migrator
 	def self.createLocations
 		print "retrieving locations\n"
 
+		#Here the whole table is loaded into memory
+		#Would be better to do this in batches!
 		locQuery = client.query(
 			"SELECT
 				HZBO_STADT as 'name',
 				HZBO_BUNDESLAND as 'federal_state',
 				HZBO_STAAT as 'country',
 				HZBO_ID as 'data_warehouse_id'
-			FROM DIM_HZBORTE", :cache_rows => false)
+			FROM DIM_HZBORTE")
 
 		numAll = locQuery.each.length
 		print "got #{numAll} locations, now iterating and creating missing ones\n"
@@ -78,7 +131,7 @@ module Migrator
 		numNewLocations = 0
 		numNewCountries = 0
 		numNewFedStates = 0
-		print "         50%v       100%v"
+		print "         50%v       100%v\n"
 		step = numAll / 25
 		locQuery.each do |location|
 			if(((numDone += 1) % step) == 0)
@@ -113,12 +166,13 @@ module Migrator
 					location["name"] = "Ausland"
 				end
 
-				locationAttributes = {federal_state_id:nil, country_id: country.id, name:location["name"]}
-				if(fedState != nil)
-					locationAttributes["federal_state_id"] = fedState.id
-				end
 
-				locationDB = Location.new(locationAttributes)
+				locationDB = Location.new
+				locationDB.federal_state = fedState
+				locationDB.country = country
+				locationDB.data_warehouse_id = location["data_warehouse_id"]
+				locationDB.name = location["name"]
+
 				locationDB.save
 				numNewLocations += 1
 			end
