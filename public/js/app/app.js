@@ -7,17 +7,17 @@ var App = App || {};
 // Initialisiert die Applikation. z.B binding der events.
 App.init = function() {
 	// Erlaubt Speicherung von JSON Objekt im Cookie
-	$.cookie.json = true;
+	//$.cookie.json = true;
 	// Wenn Formularstatus in Cookie gespeichert, wird er geladen.
-    if ($.cookie('formstate')) {
-    	$('form :input:visible').formstate($.cookie('formstate'));
-    }
+    //if ($.cookie('formstate')) {
+    	//$('form :input:visible').formstate($.cookie('formstate'));
+    //}
     
     // Event fuer Aktualisieren Button
     $('button[name="store"]').click(function() {
         App.model.fetch(App.filter.getFilter());
         App.columnchart.render();
-        $.cookie('formstate', $('form').formstate(':visible'));
+        //$.cookie('formstate', $('form').formstate(':visible'));
         return false;
     });
     
