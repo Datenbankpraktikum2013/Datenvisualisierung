@@ -7,17 +7,17 @@ var App = App || {};
 // Initialisiert die Applikation. z.B binding der events.
 App.init = function() {
 	// Erlaubt Speicherung von JSON Objekt im Cookie
-	$.cookie.json = true;
+	//$.cookie.json = true;
 	// Wenn Formularstatus in Cookie gespeichert, wird er geladen.
-    if ($.cookie('formstate')) {
-    	$('form :input:visible').formstate($.cookie('formstate'));
-    }
+    //if ($.cookie('formstate')) {
+    	//$('form :input:visible').formstate($.cookie('formstate'));
+    //}
     
     // Event fuer Aktualisieren Button
     $('button[name="store"]').click(function() {
         App.model.fetch(App.filter.getFilter());
         App.columnchart.render();
-        $.cookie('formstate', $('form').formstate(':visible'));
+        //$.cookie('formstate', $('form').formstate(':visible'));
         return false;
     });
     
@@ -63,6 +63,16 @@ App.init = function() {
         e.preventDefault();
     });
 
+    $('#filter-form select[name="heimatland"]').change(function() {
+        if ($(this).val() == "Deutschland") {
+            $('#bundesland').slideDown();
+        } else {
+            if ($('#bundesland').css('display') != 'none') {
+                $('#bundesland').slideUp();
+            }
+        }
+    });
+
     App.searches.init();
     
     // Initiales zeichnen des Balkendiagramms
@@ -81,7 +91,7 @@ App.init = function() {
  * message ist Pflichtfeld, wenn fehlend wird Exception geworfen.
  */
 
-App.setAlert = function(alert_config) {
+App.showAlert = function(alert_config) {
     var alert_type = '-info';
     var time = (new Date()).getTime();
 

@@ -9,10 +9,25 @@ App.columnchart = {
 	// Konfigurationsdaten fuer das Balkendiagramm.
 	config : {
         chart: {
-            type: 'column'
+            type: 'column',
+            events: {
+                redraw: function(){
+                    this.showLoading();
+                    console.log('reloading')
+                },
+                load: function(){
+                    this.hideLoading();
+                    console.log('loaded')
+                }
+            },
+            zoomType: 'xy',
+            pinchType: 'xy'
         },
         title: {
-            text: ''
+            text: App.model.data.title,
+            style: {
+                fontWeight: 'bold'
+            }
         },
         xAxis: {
             categories: App.model.data.categories
@@ -21,6 +36,27 @@ App.columnchart = {
             title: {
                 text: 'Anzahl'
             }
+        },
+        loading: {
+              hideDuration: 1000,
+              showDuration: 1000  
+            },
+        legend : {
+            navigation: {
+                animation: 'true'
+            },
+            title: {
+                style:{ 
+                    fontWeight: 'bold',
+                },
+                text: 'Legende'
+            }
+        },
+        tooltip: {
+            animation: 'true'
+        },
+        credits: {
+            enabled: false
         },
         plotOptions : {
         	series : {
@@ -32,9 +68,11 @@ App.columnchart = {
     							category : this.category, 
     							filter : this.series.name
     						});
+                            console.log(this)
 	        			}
         			}
-        		}
+        		},
+                
         	}
         },
         series : App.model.data.series
