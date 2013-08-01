@@ -14,12 +14,10 @@ App.columnchart = {
                 redraw: function(){  // Ladeanzeige muss noch gemacht werden, warten auf dynamische Daten 
                     // this.showLoading();
                     this.hideLoading();
-                    console.log('reloading')
                 },
                 load: function(){
                     this.hideLoading();
                     // this.showLoading();
-                    console.log('loaded')
                 },
                 addSeries: function(){
                     this.redraw();
@@ -73,8 +71,7 @@ App.columnchart = {
     							category : this.category, 
     							filter : this.series.name
     						});
-                            console.log(this)
-	        			}
+                        }
         			}
         		},
                 
@@ -87,6 +84,8 @@ App.columnchart = {
 	render : function() {
         // Wenn nur eine Series dann blende Legende aus
         this.config.legend.enabled = (App.model.data.series.length != 1);
+        this.config.categories = App.model.data.categories;
+        this.config.series = App.model.data.series;
         $('#chart').highcharts(this.config);
     }
 
