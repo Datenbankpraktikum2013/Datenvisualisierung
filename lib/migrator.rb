@@ -250,12 +250,35 @@ module Migrator
 				teaching_unitDB.save
 			end
 
+		end	
 
+	end
+
+	def self.migrateDisciplines
+
+		disciplines = CLIENT.query(
+			"SELECT DISTINCT  
+				`STF_DTXT`  AS 'name'
+			FROM `DIM_STUDIENFAECHER` ")
+
+
+		disciplines.each do |discipline|	
+
+			disciplineDB = Discipline.find_by_name(discipline["name"])
+
+			if (disciplineDB == nil)
+				disciplineDB = Discipline.new
+				disciplineDB.name = discipline["name"].strip
+				disciplineDB.save
+			end
 
 		end	
 
-
-
 	end
+
+
+
+			
+
 
 end
