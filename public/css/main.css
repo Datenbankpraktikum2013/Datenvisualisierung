@@ -42,7 +42,13 @@
 	width: 100%;
 }
 
+#student-hidden {
+	display: none;
+}
 
+#absolvent-hidden {
+	display: none;
+}
 
 
 
