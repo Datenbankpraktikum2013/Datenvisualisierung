@@ -1,12 +1,16 @@
 class Search < ActiveRecord::Base
 
 	def results
-		search_category = 'nationality'
+		search_category = grouping
 		search_series = 'gender'
+		grouping_objects = []
+		category_list = []
 
-		category_list = ['deutsch', 'belgisch', 'niederländisch', 'italienisch', 'ungarisch']
+		class_of_grouping_argument = GroupingController.fetch_all_groupable_elements[grouping].constantize
+		grouping_objects = class_of_grouping_argument.select(grouping.to_sym).distinct
+		grouping_objects.each { |s|	category_list << s.send(grouping) }
+
 		series_list = ['männlich', 'weiblich']
-
 		search_results = {}
 		category_list.each do |category_item|
 			count_series = {}
