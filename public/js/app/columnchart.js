@@ -20,6 +20,9 @@ App.columnchart = {
                     this.hideLoading();
                     // this.showLoading();
                     console.log('loaded')
+                },
+                addSeries: function(){
+                    this.redraw();
                 }
             },
             zoomType: 'xy',

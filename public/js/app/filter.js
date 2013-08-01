@@ -24,6 +24,12 @@ App.filter = {
     // aus den DrillDownClicks.
     setDrillDownFilter : function(new_filter) {
     	var filters = App.filter.getFilter();
+		
+
+
+
+
+
 		if (new_filter.filter == 'Maenner') {
 			this.filter.geschlecht = ['m'];
 		} else if (new_filter.filter == 'Frauen') {
