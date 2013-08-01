@@ -134,7 +134,7 @@ App.init = function() {
     });
 
     App.searches.init();
-    
+    App.model.fetch();
     // Initiales zeichnen des Balkendiagramms
     App.columnchart.render();
 };

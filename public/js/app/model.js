@@ -28,6 +28,16 @@ App.model = {
 	// Holt einen neuen Datensatz mit den uebergebenen Filtern aus
 	// der Datenbank
 	fetch : function(filter) {
+		$.getJSON('searches/1.json', function(data) {
+			App.model.data = data.data;
+		}).fail(function() {
+			App.showAlert({
+				type: 'error', 
+				heading: 'Verbindungsfehler!', 
+				message: 'Die Verbindung zum Server ist fehlgeschlagen!'
+			});
+		});
+		console.log(this.data);
 		return this.data;
 	}
 
