@@ -11,12 +11,14 @@ App.columnchart = {
         chart: {
             type: 'column',
             events: {
-                redraw: function(){
-                    this.showLoading();
+                redraw: function(){  // Ladeanzeige muss noch gemacht werden, warten auf dynamische Daten 
+                    // this.showLoading();
+                    this.hideLoading();
                     console.log('reloading')
                 },
                 load: function(){
                     this.hideLoading();
+                    // this.showLoading();
                     console.log('loaded')
                 }
             },

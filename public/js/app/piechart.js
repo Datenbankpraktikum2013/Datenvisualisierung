@@ -112,7 +112,7 @@ App.piechart = {
 	        	data: dataSet1,
 	        	size: '60%',
 	        	dataLabels: {
-	        			distance: -80,
+	        			distance: -70,
 	        			color: 'white'
 	        		}
 	        },{
