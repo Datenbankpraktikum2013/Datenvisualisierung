@@ -4,52 +4,57 @@ module Migrator
 
 	#This query retrieves the last entry for each students study field.
 	QUERY_LAST_FIELD_INFO = 
-	"select FKT_STUDIENGAENGE.*
-	from
-			FKT_STUDIENGAENGE
-		join (
-			select STG_MATRIKELNR as X, max(STG_SEMESTER) as Y
-			from FKT_STUDIENGAENGE
-			group by STG_MATRIKELNR, STG_FACH
-			)as Stud
-		on `STG_MATRIKELNR` = X and `STG_SEMESTER` = Y"
+		"select FKT_STUDIENGAENGE.*
+		from
+				FKT_STUDIENGAENGE
+			join (
+				select STG_MATRIKELNR as X, max(STG_SEMESTER) as Y
+				from FKT_STUDIENGAENGE
+				group by STG_MATRIKELNR, STG_FACH
+				)as Stud
+			on `STG_MATRIKELNR` = X and `STG_SEMESTER` = Y"
 
 	#This query retrieves the latest and therfore the most recent entry given for each student
 	QUERY_LAST_STUDENT_INFO = 
-	"select FKT_STUDIENGAENGE.*
-	from
-			FKT_STUDIENGAENGE
-		join (
-			select STG_MATRIKELNR as X, max(STG_SEMESTER) as Y
-			from FKT_STUDIENGAENGE
-			group by STG_MATRIKELNR
-			)as Stud
-		on `STG_MATRIKELNR` = X and `STG_SEMESTER` = Y
-	group by STG_MATRIKELNR"
+		"select FKT_STUDIENGAENGE.*
+		from
+				FKT_STUDIENGAENGE
+			join (
+				select STG_MATRIKELNR as X, max(STG_SEMESTER) as Y
+				from FKT_STUDIENGAENGE
+				group by STG_MATRIKELNR
+				)as Stud
+			on `STG_MATRIKELNR` = X and `STG_SEMESTER` = Y
+		group by STG_MATRIKELNR"
 
-	def self.client
-		return client = Mysql2::Client.new(
-			:host => "mysql5.serv.uni-osnabrueck.de",
-			:username => "sosruntime",
-			:password => "soSRuntime",
-			:database => "misdb")
-	end
+	
+	CLIENT = Mysql2::Client.new(
+		:host => "mysql5.serv.uni-osnabrueck.de",
+		:username => "sosruntime",
+		:password => "soSRuntime",
+		:database => "misdb")
 
-	def self.migrate
+	def self.migrateStudents
 		
-		print "start migration\n"
+		print "start migrating students\n"
 
-		locations = createLocations
+		print "preload all locations\n"
+		locations = Hash.new
+		Location.all.each do |location|
+			locations[location["data_warehouse_id"]] = location
+		end
+		print "done loading #{locations.length} locations\n"
+
 
 		print "loading students in batches of #{BATCHSIZE}\n"
-		allbatches = client.query(
+		allbatches = CLIENT.query(
 			"SELECT floor(count(STG_MATRIKELNR)/#{BATCHSIZE}) as batches
 			FROM (#{QUERY_LAST_STUDENT_INFO}) as LI").first["batches"]
 
 		for batchnumber in 0..allbatches
 			print "retrieving batch #{batchnumber+1} of #{allbatches+1}\n"
 
-			students = client.query(
+			students = CLIENT.query(
 				"SELECT
 					STG_MATRIKELNR AS 'matriculation_number',
 					STG_GEBJAHR AS 'year_of_birth',
@@ -85,7 +90,7 @@ module Migrator
 				end
 			
 				#Get study fields for Student
-				#fieldIDs = client.query("SELECT DISTINCT STG_FACH FROM FKT_STUDIENGAENGE WHERE STG_MATRIKELNR = '#{studentDB.id}'")
+				#fieldIDs = CLIENT.query("SELECT DISTINCT STG_FACH FROM FKT_STUDIENGAENGE WHERE STG_MATRIKELNR = '#{studentDB.id}'")
 				#studentMap[studentDB] = fieldIDs
 			end
 			print "\n done. Created #{numCreated} new "+"student".pluralize(numCreated)+"\n"
@@ -110,12 +115,12 @@ module Migrator
 
 	#Dumb creation of all not yet existing locations with
 	#their countries and federal states if exitend
-	def self.createLocations
+	def self.migrateLocations
 		print "retrieving locations\n"
 
 		#Here the whole table is loaded into memory
 		#Would be better to do this in batches!
-		locQuery = client.query(
+		locQuery = CLIENT.query(
 			"SELECT
 				HZBO_STADT as 'name',
 				HZBO_BUNDESLAND as 'federal_state',
@@ -126,7 +131,6 @@ module Migrator
 		numAll = locQuery.each.length
 		print "got #{numAll} locations, now iterating and creating missing ones\n"
 
-		locations = Hash.new
 		numDone = 0
 		numNewLocations = 0
 		numNewCountries = 0
@@ -177,13 +181,11 @@ module Migrator
 				numNewLocations += 1
 			end
 
-			locations[location["data_warehouse_id"]] = locationDB
 		end
 		print "\ndone. Created:"
 		print "\n#{numNewLocations} new "+"location".pluralize(numNewLocations)
 		print "\n#{numNewCountries} new "+"country".pluralize(numNewCountries)
 		print "\n#{numNewFedStates} new federal "+"state".pluralize(numNewFedStates)
 		print "\n"
-		return locations
 	end
 end
