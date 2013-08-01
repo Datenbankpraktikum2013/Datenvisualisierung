@@ -31,14 +31,19 @@ App.piechart = {
     			color: colors[i]
     		});
     		for(var j = 0; j < App.model.data.series[i].data.length; j++){
-    			var brightness = 0.2 - (j / App.model.data.series[i].data.length) / 5;
-    			dataSet2.push({
-    				categories: App.model.data.categories[j],
-    				name: App.model.data.series[i].name + ' in ' + App.model.data.categories[j],
-    				nameFilter: App.model.data.series[i].name,
-    				y: App.model.data.series[i].data[j],
-    				color: Highcharts.Color(colors[i]).brighten(brightness).get()
-    			});
+    			if(App.model.data.series[i].data[j] == 0){
+
+    			}
+    			else{
+	    			var brightness = 0.2 - (j / App.model.data.series[i].data.length) / 5;
+	    			dataSet2.push({
+	    				categories: App.model.data.categories[j],
+	    				name: App.model.data.series[i].name +" " + App.model.data.categories[j],
+	    				nameFilter: App.model.data.series[i].name,
+	    				y: App.model.data.series[i].data[j],
+	    				color: Highcharts.Color(colors[i]).brighten(brightness).get()
+	    			});
+	    		}
     		}
     	}
     	// Erstellen des Charts
