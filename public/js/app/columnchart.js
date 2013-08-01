@@ -11,12 +11,14 @@ App.columnchart = {
         chart: {
             type: 'column',
             events: {
-                redraw: function(){
-                    this.showLoading();
+                redraw: function(){  // Ladeanzeige muss noch gemacht werden, warten auf dynamische Daten 
+                    // this.showLoading();
+                    this.hideLoading();
                     console.log('reloading')
                 },
                 load: function(){
                     this.hideLoading();
+                    // this.showLoading();
                     console.log('loaded')
                 }
             },
@@ -80,7 +82,9 @@ App.columnchart = {
 
 	// Rendert das Balkendiagramm in div#chart
 	render : function() {
-    	$('#chart').highcharts(this.config);
+        // Wenn nur eine Series dann blende Legende aus
+        this.config.legend.enabled = (App.model.data.series.length != 1);
+        $('#chart').highcharts(this.config);
     }
 
 };

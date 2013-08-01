@@ -20,6 +20,8 @@
 			}
 		</style>
 		<link rel="stylesheet" href="css/bootstrap-responsive.min.css">
+		<link rel="stylesheet" href="css/bootstrap-multiselect.css">
+		<link rel="stylesheet" href="css/bootstrap-slider.css">
 		<link rel="stylesheet" href="css/main.css">
 
 		<script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
@@ -131,9 +133,9 @@
 							<div class="row-fluid">
 								<div class="span12">
 									<label>
-										Fachbereich:
-										<select name="fachbereich" class="span12">
-											<option selected="selected"></option>
+										Fachbereich(e):
+										<select date-role="multiselect" multiple="multiple" 
+											name="fachbereich" class="multiselect span12">
 											<option>1 Sozialwissenschaften</option>
 											<option>2 Kultur- und Geowissenschaften</option>
 											<option>3 Erziehungs- und Kulturwissenschaften</option>
@@ -511,7 +513,12 @@
 					</div>
 					<hr/>
 					<div class="row-fluid" id="chart">
-						
+					</div>
+					<div id="timescale" class="row-fluid">
+						<form class="span12" id="slider-form">
+							<canvas id="barscale"></canvas>
+							<input id="slider" type="text" class="span12" value="" data-slider-min="1950" data-slider-max="2013" data-slider-step="1" data-slider-value="1950" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="show">
+						</form>
 					</div>
 				</div>
 			</div>
@@ -551,6 +558,8 @@
 			window.jQuery || document.write('<script src="js/vendor/jquery-1.10.1.min.js"><\/script>')
 		</script>
  		<script src="js/vendor/bootstrap.min.js"></script>
+ 		<script src="js/vendor/bootstrap-slider.js"></script>
+		<script src="js/vendor/bootstrap-multiselect.js"></script>
 		<script src="js/highcharts/highcharts.js"></script>
 
 		<script src="js/app/app.js"></script>
