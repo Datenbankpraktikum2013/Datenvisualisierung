@@ -94,11 +94,12 @@ App.init = function() {
     
     $('#absolventenart').change(function() {
         if ($('#absolventenart').is(":checked") && !($('#studentenart').is(":checked"))){
+             $('#student-hidden').slideUp();
             $('#absolvent-hidden').slideDown();
         }
         if (!$('#absolventenart').is(":checked") && !($('#studentenart').is(":checked"))){
              $('#absolvent-hidden').slideUp();
-             $('#student-hidden').slideDown();
+             $('#student-hidden').slideUp();
         }
         if ((!$('#absolventenart').is(":checked")) && $('#studentenart').is(":checked")){
             $('#absolvent-hidden').slideUp();
