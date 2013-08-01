@@ -5,11 +5,17 @@ namespace :migrate do
 	desc 'Migrate the whole Database'
  	task :all => [:locations, :students] do
 		Migrator.migrate
+	end
 	desc 'Migrate all Locations'
 	task :locations => :environment do
 		Migrator.migrateLocations
+	end
 	desc 'Migrate all Students'
 	task :students => :environment do
 		Migrator.migrateStudents
-  end
+	end
+	desc 'Migrate all Departments'
+	task :departments => :environment do
+		Migrator.migrateDepartments
+  	end
 end
