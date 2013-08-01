@@ -12,6 +12,10 @@
   <% end %>
 
   <div class="field">
+    <%= f.label :grouping %><br>
+    <%= f.select :grouping, %w[keine Geschlecht Fachbereich Fachsemester Status Abschluss], {}, {} %>
+  </div>
+  <div class="field">
     <%= f.label :gender %><br>
     <%= f.text_field :gender %>
   </div>
