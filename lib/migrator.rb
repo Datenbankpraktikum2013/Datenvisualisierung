@@ -246,7 +246,7 @@ module Migrator
 
 			if (teaching_unitDB == nil)
 				teaching_unitDB = TeachingUnit.new
-				teaching_unitDB.name = teaching_unit["name"]
+				teaching_unitDB.name = teaching_unit["name"].strip
 				teaching_unitDB.save
 			end
 
