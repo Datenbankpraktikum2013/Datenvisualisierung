@@ -67,9 +67,9 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="span3 well">
-					<legend>Filteroptionen</legend>
 					<form name="form" id="filter-form" class="" action="" method="post">
 						<fieldset>
+							<legend>Filteroptionen</legend>
 							<div class="row-fluid">
 								<div class="span5">
 									<label>Status:</label>
@@ -134,7 +134,7 @@
 								<div class="span12">
 									<label>
 										Fachbereich(e):
-										<select date-role="multiselect" multiple="multiple" 
+										<select data-role="multiselect" multiple="multiple" 
 											name="fachbereich" class="multiselect span12">
 											<option>1 Sozialwissenschaften</option>
 											<option>2 Kultur- und Geowissenschaften</option>
@@ -516,9 +516,12 @@
 					</div>
 					<div id="timescale" class="row-fluid">
 						<form class="span12" id="slider-form">
-							<canvas id="barscale"></canvas>
+							<svg class="span12" xmlns="http://www.w3.org/2000/svg" version="1.1" height="190" width="100%">
+  								<line x1="1" y1="1" x2="700" y2="1" style="stroke:black; stroke-width: 0.5" opacity="1"/>
+							</svg>	
 							<input id="slider" type="text" class="span12" value="" data-slider-min="1950" data-slider-max="2013" data-slider-step="1" data-slider-value="1950" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="show">
 						</form>
+						
 					</div>
 				</div>
 			</div>
