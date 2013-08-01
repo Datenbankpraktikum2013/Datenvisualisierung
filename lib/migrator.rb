@@ -230,4 +230,32 @@ module Migrator
 
 	end
 
+	def self.migrateTeachingUnits
+
+		teaching_units = CLIENT.query(
+			"SELECT DISTINCT  
+				`LE_DTXT` AS  'name'
+			FROM DIM_LEHREINH")
+
+
+		teaching_units.each do |teaching_unit|	
+
+			teaching_unitDB = TeachingUnit.find_by_name(teaching_unit["name"])
+
+			# remove white space later
+
+			if (teaching_unitDB == nil)
+				teaching_unitDB = TeachingUnit.new
+				teaching_unitDB.name = teaching_unit["name"]
+				teaching_unitDB.save
+			end
+
+
+
+		end	
+
+
+
+	end
+
 end

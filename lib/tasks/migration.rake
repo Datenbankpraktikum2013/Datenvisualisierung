@@ -18,4 +18,9 @@ namespace :migrate do
 	task :departments => :environment do
 		Migrator.migrateDepartments
   	end
+  	desc 'Migrate all Teaching Units'
+	task :teaching_units => :environment do
+		Migrator.migrateTeachingUnits
+  	end
+
 end
