@@ -91,8 +91,16 @@ App.filter = {
 							new_filter.stackby = 'Status';
 						}
 					break;
-				}
-			break;
+					case 'Keine' :
+						new_filter.groupby = '';
+						new_filter.stackby = '';
+					break;
+					case 'Alter' :
+						new_filter.groupby = '' ;
+						new_filter.stackby = '' ;
+					break;
+				}break;
+
 			case 'Geschlecht':
 				switch(new_filter.groupby)
 				{ 
@@ -120,51 +128,272 @@ App.filter = {
 						new_filter.stackby = 'Studienfach'
 						new_filter.groupby = 'Geschlecht';
 					break;
-				}
-			break;
+					case 'Keine' :
+						new_filter.groupby = '';
+						new_filter.stackby = '';
+					break;
+					case 'Alter' :
+						new_filter.groupby = '' ;
+						new_filter.stackby = '' ;
+					break;
+				}break;
+
 			case 'Fachbereich': break;
 				switch(new_filter.groupby)
 				{ 
-					case 'Geschlecht': break;
-					case 'Status': break;
-					case 'Fachbereich': break;
-					case 'Lehreinheit' : break;
-					case 'Abschlussart' : break;
-					case 'Studienfach' : break;
-				}
-			case 'Lehreinheit' : break;
+					case 'Geschlecht':
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Status':
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Fachbereich': 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Lehreinheit' : 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Abschlussart' : 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Studienfach' :
+						new_filter.stackby = '';
+						new_filter.groupby = '';  
+					break;
+					case 'Keine' :
+						new_filter.groupby = '';
+						new_filter.stackby = '';
+					break;
+					case 'Alter' :
+						new_filter.groupby = '' ;
+						new_filter.stackby = '' ;
+					break;
+				}break;
+
+			case 'Lehreinheit' :
 				switch(new_filter.groupby)
 				{ 
-					case 'Geschlecht': break;
-					case 'Status': break;
-					case 'Fachbereich': break;
-					case 'Lehreinheit' : break;
-					case 'Abschlussart' : break;
-					case 'Studienfach' : break;
-				}
-			case 'Abschlussart' : break;
+					case 'Geschlecht': 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Status': 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Fachbereich': 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Lehreinheit' : 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Abschlussart' : 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 						break;
+					case 'Studienfach' : 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Keine' :
+						new_filter.groupby = '';
+						new_filter.stackby = '';
+					break;
+					case 'Alter' :
+						new_filter.groupby = '' ;
+						new_filter.stackby = '' ;
+					break;
+				}break;
+
+			case 'Abschlussart' :
 				switch(new_filter.groupby)
 				{ 
-					case 'Geschlecht': break;
-					case 'Status': break;
-					case 'Fachbereich': break;
-					case 'Lehreinheit' : break;
-					case 'Abschlussart' : break;
-					case 'Studienfach' : break;
-				}
-			case 'Studienfach' : break;
+					case 'Geschlecht': 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Status': 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Fachbereich': 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Lehreinheit' : 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Abschlussart' : 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 						break;
+					case 'Studienfach' : 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Keine' :
+						new_filter.groupby = '';
+						new_filter.stackby = '';
+					break;
+					case 'Alter' :
+						new_filter.groupby = '' ;
+						new_filter.stackby = '' ;
+					break;
+				}break;
+
+			case 'Studienfach' :
 				switch(new_filter.groupby)
 				{ 
-					case 'Geschlecht': break;
-					case 'Status': break;
-					case 'Fachbereich': break;
-					case 'Lehreinheit' : break;
-					case 'Abschlussart' : break;
-					case 'Studienfach' : break;
-				}
-			case 'Land' : break;
-			case 'Keine' : break;
-			case 'Alter' : break;
+					case 'Geschlecht': 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Status': 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Fachbereich': 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Lehreinheit' : 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Abschlussart' : 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Studienfach' : 
+						new_filter.stackby = '';
+						new_filter.groupby = '';
+					break;
+					case 'Keine' :
+						new_filter.groupby = '';
+						new_filter.stackby = '';
+					break;
+					case 'Alter' :
+						new_filter.groupby = '' ;
+						new_filter.stackby = '' ;
+					break;
+				}break;
+
+			case 'Land' :
+				switch(new_filter.groupby)
+				{ 
+					case 'Geschlecht': 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Status': 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Fachbereich': 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Lehreinheit' : 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Abschlussart' : 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Studienfach' : 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Keine' :
+						new_filter.groupby = '';
+						new_filter.stackby = '';
+					break;
+					case 'Alter' :
+						new_filter.groupby = '' ;
+						new_filter.stackby = '' ;
+					break;
+				}break;
+
+			case 'Keine' : 
+				switch(new_filter.groupby)
+				{ 
+					case 'Geschlecht': 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Status': 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Fachbereich': 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Lehreinheit' : 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Abschlussart' : 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Studienfach' : 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Keine' :
+						new_filter.groupby = '';
+						new_filter.stackby = '';
+					break;
+					case 'Alter' :
+						new_filter.groupby = '' ;
+						new_filter.stackby = '' ;
+					break;
+				}break;
+
+			case 'Alter' : 
+				switch(new_filter.groupby)
+				{ 
+					case 'Geschlecht': 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Status': 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Fachbereich': 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Lehreinheit' : 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Abschlussart' : 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Studienfach' : 
+						new_filter.stackby = '';
+						new_filter.groupby = ''; 
+					break;
+					case 'Keine' :
+						new_filter.groupby = '';
+						new_filter.stackby = '';
+					break;
+					case 'Alter' :
+						new_filter.groupby = '' ;
+						new_filter.stackby = '' ;
+					break;
+				}break;
 
 					}
 		App.columnchart.render();
