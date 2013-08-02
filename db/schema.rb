@@ -59,8 +59,11 @@ ActiveRecord::Schema.define(version: 20130802103116) do
     t.integer  "federal_state_id"
     t.integer  "country_id"
     t.string   "data_warehouse_id"
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
+<<<<<<< HEAD
   create_table "searches", force: true do |t|
     t.string   "gender"
     t.string   "nationality"
@@ -72,6 +75,9 @@ ActiveRecord::Schema.define(version: 20130802103116) do
     t.integer  "maximum_age"
     t.string   "location_name"
   end
+=======
+  add_index "locations", ["data_warehouse_id"], name: "index_locations_on_data_warehouse_id"
+>>>>>>> migration
 
   create_table "students", force: true do |t|
     t.string   "gender"
@@ -82,6 +88,8 @@ ActiveRecord::Schema.define(version: 20130802103116) do
     t.datetime "updated_at"
     t.integer  "location_id"
   end
+
+  add_index "students", ["matriculation_number"], name: "index_students_on_matriculation_number"
 
   create_table "studies", force: true do |t|
     t.integer  "semester_of_matriculation"
