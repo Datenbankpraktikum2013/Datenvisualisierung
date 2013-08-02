@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130801133237) do
+ActiveRecord::Schema.define(version: 20130802071607) do
 
   create_table "countries", force: true do |t|
     t.string   "name"
@@ -68,6 +68,8 @@ ActiveRecord::Schema.define(version: 20130801133237) do
     t.datetime "updated_at"
     t.string   "search_category"
     t.string   "search_series"
+    t.integer  "minimum_age"
+    t.integer  "maximum_age"
   end
 
   create_table "students", force: true do |t|

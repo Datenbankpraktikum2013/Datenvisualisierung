@@ -62,7 +62,7 @@ class StudentsController < ApplicationController
   end
 
   def self.fetch_accessable_attributes
-    ["gender", "nationality"]
+    ["gender", "nationality", "year_of_birth"]
   end
 
   private

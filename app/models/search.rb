@@ -18,11 +18,11 @@ class Search < ActiveRecord::Base
 
 		filtered_result = Student.all
 		SearchesController.fetch_all_searchable_elements.keys.each do |attribute|
-			unless self.send(attribute).empty?
-				puts "IN SCHLEIFE!"
-				# class_of_searched_attribute = SearchesController.fetch_all_searchable_elements[attribute].constantize
-				filtered_result = filtered_result.where("#{attribute} = ?", send(attribute))
-				puts filtered_result
+			if attribute == "year_of_birth"
+				filtered_result = filtered_result.where("#{attribute} > ?", minimum_age) unless minimum_age.blank?
+				filtered_result = filtered_result.where("#{attribute} < ?", maximum_age) unless maximum_age.blank?
+			else
+				filtered_result = filtered_result.where("#{attribute} = ?", send(attribute)) unless self.send(attribute).blank?
 			end
 		end
 

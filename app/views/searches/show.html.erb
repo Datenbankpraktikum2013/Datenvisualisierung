@@ -20,6 +20,12 @@
   <%= @search.nationality %>
 </p>
 
+<p>
+  <strong>Alter(von - bis):</strong>
+  <%= @search.minimum_age %> - <%= @search.maximum_age  %>
+</p>
+
+
 <% @search.results.each do |k, v| %>
 	<%= k.to_s + ': ' + v.to_s %>
 <% end %>

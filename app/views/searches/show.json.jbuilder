@@ -10,10 +10,10 @@ series_counter = 0
 data_of_every_series_hash = {}
 
 series_names.each do |s|
-	data_of_every_series_hash[s.to_sym] = []
+	data_of_every_series_hash[s] = []
 	categories_names.each do |c| 
 		current_series = @search.results.values[series_counter]
-		data_of_every_series_hash[s.to_sym] << current_series[s]
+		data_of_every_series_hash[s] << current_series[s]
 		series_counter += 1
 	end
 	series_counter = 0
@@ -24,7 +24,7 @@ json.set! :data do
 	json.set! :series do 
 		json.array! series_names do
 			json.set! :name, series_names[counter]
-			json.set! :data, data_of_every_series_hash[series_names[counter].to_sym]
+			json.set! :data, data_of_every_series_hash[series_names[counter]]
 			counter += 1
 		end
 	end
