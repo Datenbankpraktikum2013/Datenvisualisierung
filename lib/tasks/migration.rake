@@ -2,14 +2,16 @@ require File.expand_path('./lib/migrator.rb')
 
 
 namespace :migrate do
-	desc 'Migrate the whole Database'
+	desc 'Migrates the whole database.'
  	task :all => [:locations, :students] do
 		Migrator.migrate
-	desc 'Migrate all Locations'
+	end
+	desc 'Migrates all locations. This also migrates countries and federal states.'
 	task :locations => :environment do
 		Migrator.migrateLocations
-	desc 'Migrate all Students'
+	end
+	desc 'Migrate all students'
 	task :students => :environment do
 		Migrator.migrateStudents
-  end
+  	end
 end
