@@ -235,6 +235,92 @@ module Migrator
 		print "\n#{numNewFedStates} new federal "+"state".pluralize(numNewFedStates)
 		print "\n"
 	end
+
+	def self.migrateDepartments
+
+		# the field STF_ASTAT_GRLTXT contains both, the number and the name of the department. therefore it will be put first in to 'name' and than later separated
+		# looks like this 
+
+		departments = CLIENT.query(
+			"SELECT DISTINCT
+				STF_ASTAT_GRLTXT as 'name'
+			FROM DIM_STUDIENFAECHER ")
+
+
+		departments.each do |department|
+
+
+			if(department["name"] == nil )
+				# if the name is null, this means, it is "Interdisziplinär" and we have to set is manualy
+				departmentDB = Department.find_by_number(100)
+				if(departmentDB == nil)
+					departmentDB = Department.new
+					departmentDB.name = "Interdisziplinär"
+					departmentDB.number = 100
+					departmentDB.save
+				end
+			
+			else
+				departmentDB = Department.find_by_number(department["name"].from(0).to(1))
+				if(departmentDB == nil)
+
+					departmentDB = Department.new 
+					departmentDB.number = department["name"].from(0).to(1)
+					departmentDB.name = department["name"].from(3).to(-1)
+					departmentDB.save
+					
+				end
+			end
+
+		end
+
+	end
+
+	def self.migrateTeachingUnits
+
+		teaching_units = CLIENT.query(
+			"SELECT DISTINCT  
+				`LE_DTXT` AS  'name'
+			FROM DIM_LEHREINH")
+
+
+		teaching_units.each do |teaching_unit|	
+
+			teaching_unitDB = TeachingUnit.find_by_name(teaching_unit["name"])
+
+			# remove white space later
+
+			if (teaching_unitDB == nil)
+				teaching_unitDB = TeachingUnit.new
+				teaching_unitDB.name = teaching_unit["name"].strip
+				teaching_unitDB.save
+			end
+
+		end	
+
+	end
+
+	def self.migrateDisciplines
+
+		disciplines = CLIENT.query(
+			"SELECT DISTINCT  
+				`STF_DTXT`  AS 'name'
+			FROM `DIM_STUDIENFAECHER` ")
+
+
+		disciplines.each do |discipline|	
+
+			disciplineDB = Discipline.find_by_name(discipline["name"])
+
+			if (disciplineDB == nil)
+				disciplineDB = Discipline.new
+				disciplineDB.name = discipline["name"].strip
+				disciplineDB.save
+			end
+
+		end	
+
+	end
 	class LoadingBar
 
 		def initialize(datasize = 100, barLength = 25, barsign="*")
