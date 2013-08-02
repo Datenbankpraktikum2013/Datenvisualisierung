@@ -17,7 +17,7 @@ App.init = function() {
     $('button[name="store"]').click(function() {
         App.model.fetch(App.filter.getFilter());
         App.columnchart.render();
-        //$.cookie('formstate', $('form').formstate(':visible'));
+        $.cookie('formstate', $('form').formstate(':visible'));
         return false;
     });
     
