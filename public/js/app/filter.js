@@ -60,6 +60,7 @@ App.filter = {
 				switch(new_filter.groupby)
 				{ 
 					case 'Status': 
+						//Filter setzen
 						new_filter.groupby = 'Geschlecht';
 		 				new_filter.stackby = 'Status';
 					break;
@@ -95,12 +96,30 @@ App.filter = {
 			case 'Geschlecht':
 				switch(new_filter.groupby)
 				{ 
-					case 'Geschlecht': break;
-					case 'Status': break;
-					case 'Fachbereich': break;
-					case 'Lehreinheit' : break;
-					case 'Abschlussart' : break;
-					case 'Studienfach' : break;
+					case 'Geschlecht':
+						new_filter.stackby = 'Status';
+						new_filter.groupby = 'Geschlecht';
+		 			break;
+					case 'Status':
+						new_filter.stackby = 'Fachbereich';
+						new_filter.groupby = 'Geschlecht'
+					break;
+					case 'Fachbereich': 
+						new_filter.stackby = 'Lehreinheit';
+						new_filter.groupby = 'Geschlecht'
+					break;
+					case 'Lehreinheit' : 
+						new_filter.stackby = 'Abschlussart';
+						new_filter.groupby = 'Geschlecht'
+					break;
+					case 'Abschlussart' : 
+						new_filter.stackby = 'Studienfach';
+						new_filter.groupby = 'Geschlecht';
+					break;
+					case 'Studienfach' : 
+						new_filter.stackby = 'Studienfach'
+						new_filter.groupby = 'Geschlecht';
+					break;
 				}
 			break;
 			case 'Fachbereich': break;
@@ -143,7 +162,11 @@ App.filter = {
 					case 'Abschlussart' : break;
 					case 'Studienfach' : break;
 				}
-		}
+			case 'Land' : break;
+			case 'Keine' : break;
+			case 'Alter' : break;
+
+					}
 		App.columnchart.render();
 		//Suche
 		//Redraw
