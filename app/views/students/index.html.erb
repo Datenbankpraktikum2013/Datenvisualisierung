@@ -21,7 +21,7 @@
         <td><%= student.matriculation_number %></td>
         <td><%= student.year_of_birth %></td>
         <td><%= student.nationality %></td>
-        <td><%= student.location.name unless student.location.nil? %></td>
+        <td><%= student.location.location_name unless student.location.nil? %></td>
         <td><%= link_to 'Show', student %></td>
         <td><%= link_to 'Edit', edit_student_path(student) %></td>
         <td><%= link_to 'Destroy', student, method: :delete, data: { confirm: 'Are you sure?' } %></td>

@@ -16,11 +16,15 @@ class Search < ActiveRecord::Base
 		series_objects = class_of_series_argument.select(search_series.to_sym).distinct
 		series_objects.each { |s|	series_list << s.send(search_series) }
 
-		filtered_result = Student.all
+		#SearchesController.fetch_all_searchable_elements.values.uniq.each do |class_name|
+			filtered_result = Student.joins(:location).load
+		#end
+		puts filtered_result
+
 		SearchesController.fetch_all_searchable_elements.keys.each do |attribute|
 			if attribute == "year_of_birth"
-				filtered_result = filtered_result.where("#{attribute} > ?", minimum_age) unless minimum_age.blank?
-				filtered_result = filtered_result.where("#{attribute} < ?", maximum_age) unless maximum_age.blank?
+				filtered_result = filtered_result.where("#{attribute} < ?", Date.today.year - minimum_age) unless minimum_age.blank?
+				filtered_result = filtered_result.where("#{attribute} > ?", Date.today.year - maximum_age) unless maximum_age.blank?
 			else
 				filtered_result = filtered_result.where("#{attribute} = ?", send(attribute)) unless self.send(attribute).blank?
 			end

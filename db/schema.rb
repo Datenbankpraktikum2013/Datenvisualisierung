@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130802071607) do
+ActiveRecord::Schema.define(version: 20130802103116) do
 
   create_table "countries", force: true do |t|
     t.string   "name"
@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 20130802071607) do
   end
 
   create_table "locations", force: true do |t|
-    t.string   "name"
+    t.string   "location_name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "federal_state_id"
@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(version: 20130802071607) do
     t.string   "search_series"
     t.integer  "minimum_age"
     t.integer  "maximum_age"
+    t.string   "location_name"
   end
 
   create_table "students", force: true do |t|
