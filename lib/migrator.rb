@@ -2,6 +2,8 @@ module Migrator
 
 	BATCHSIZE = 10000
 
+	CSV_PATH = "db/warehouseRealWorldMapping.csv"
+
 	#This query retrieves the last entry for each students study field.
 	QUERY_LAST_FIELD_INFO = 
 		"select FKT_STUDIENGAENGE.*
@@ -34,9 +36,13 @@ module Migrator
 		:password => "soSRuntime",
 		:database => "misdb")
 
+	CLIENT2 = SQLite3::Database.new File.expand_path("db/germanCities.sqlite3")
 	def self.migrateStudents
 		
-		print "start migrating students\n"
+		print "\n++++++++++++++++++++++++"
+		print "\n+now migrating students+"
+		print "\n++++++++++++++++++++++++"
+		print "\n\n"
 
 		print "preload all locations\n"
 		locations = Hash.new
@@ -68,15 +74,11 @@ module Migrator
 			print "now iterating over the batch and creating missing students\n"
 			
 			dBstudents = Array.new
-			numDone = 0
 			numCreated = 0
-			print "         50%v       100%v\n"
-			step = numAll / 25
+			bar = LoadingBar.new(numAll)
 			#Create all the students
 			students.each do |student|
-				if(((numDone += 1) % step) == 0)
-					print "*"
-				end
+				bar.next
 				
 				#Delete HZBOrt from hash so that we can use it to create the student
 				hzbOrt = student.delete("HZBOrt")
@@ -86,6 +88,9 @@ module Migrator
 					studentDB = Student.new(student)
 					numCreated += 1
 					studentDB.location = locations[hzbOrt]
+					if(studentDB.location == nil)
+						raise "Could not find location with warehouse ID #{hzbOrt} for Student with number #{studentDB.matriculation_number}!\nMigrate locations first.\nIf error persists blame secretary."
+					end
 					dBstudents.insert(0,studentDB)
 				end
 			
@@ -97,16 +102,13 @@ module Migrator
 
 			if(numCreated > 0)
 				print "now saving them\n"
-				print "         50%v       100%v\n"
-				step = numCreated / 25
-				numDone = 0
+				bar = LoadingBar.new(numCreated)
 				Student.transaction do
 					dBstudents.each do |student|
-						if(((numDone += 1) % step) == 0)
-							print "*"
-						end
+						bar.next
 						student.save
 					end
+					bar.end
 				end
 				print "done\n"
 			end
@@ -116,7 +118,17 @@ module Migrator
 	#Dumb creation of all not yet existing locations with
 	#their countries and federal states if exitend
 	def self.migrateLocations
-		print "retrieving locations\n"
+		print "\n+++++++++++++++++++++++++"
+		print "\n+Now migrating locations+"
+		print "\n+++++++++++++++++++++++++\n"
+
+		print "\nretrieving mapperfile"
+		nameMapper = Hash.new
+		CSV.foreach(File.expand_path(CSV_PATH)) do |row|
+			nameMapper[row[0]] = row[2]
+		end
+
+		print "\nretrieving locations"
 
 		#Here the whole table is loaded into memory
 		#Would be better to do this in batches!
@@ -129,22 +141,24 @@ module Migrator
 			FROM DIM_HZBORTE")
 
 		numAll = locQuery.each.length
-		print "got #{numAll} locations, now iterating and creating missing ones\n"
+		print "\ngot #{numAll} locations from datawarehouse"
+		print "\nnow iterating over them and creating missing ones\n"
 
 		numDone = 0
 		numNewLocations = 0
 		numNewCountries = 0
 		numNewFedStates = 0
-		print "         50%v       100%v\n"
-		step = numAll / 25
+		bar = LoadingBar.new(numAll)
+		unknownLocations = Array.new
+
 		locQuery.each do |location|
-			if(((numDone += 1) % step) == 0)
-				print "*"
-			end
+			bar.next
 
 			locationDB = Location.find_by_data_warehouse_id(location["data_warehouse_id"])
 			if(locationDB == nil)
-			
+				location["country"].strip!
+				location["federal_state"].strip!
+
 				country = Country.find_by_name(location["country"])
 
 				if(country == nil)
@@ -166,26 +180,135 @@ module Migrator
 					end
 				end
 
+				locationDB = Location.new
+
 				if(location["name"]==nil)
 					location["name"] = "Ausland"
+				else
+					location["name"].slice!(/\(.*/)
+					location["name"].strip!
+					name = location["name"]
+
+					if(nameMapper.hasKey?(name))
+						result = Geocoder.search("#{nameMapper[name]},#{fedState.name}").first
+					else
+						result = Geocoder.search("#{name},#{fedState.name}").first
+					end
+					sleep 0.25
+					if(result == nil)
+						unknownLocations.insert(-1,[name,fedState.name])
+					else
+						locationDB.longitude = result.longitude
+						locationDB.latitude = result.latitude
+					end
 				end
 
-
-				locationDB = Location.new
-				locationDB.federal_state = fedState
-				locationDB.country = country
 				locationDB.data_warehouse_id = location["data_warehouse_id"]
 				locationDB.name = location["name"]
+				locationDB.federal_state = fedState
+				locationDB.country = country
 
 				locationDB.save
 				numNewLocations += 1
 			end
+		end
+		bar.end
+		length = unknownLocations.length
+		if(length>0)
+			if(length == 1)
+				print "\nthere was one location that could not be found"
+			else
+				print "\nthere were #{length} locations that could not be found"
+			end
+			print "\nplease add the missing information to #{CSV_PATH}"
 
+			CSV.open(File.expand_path(CSV_PATH), "wb") do |csv|
+				csv.eof
+				unknownLocations.each do |value|
+					csv << [value[0],value[1],"?"]
+				end
+			end
 		end
 		print "\ndone. Created:"
 		print "\n#{numNewLocations} new "+"location".pluralize(numNewLocations)
 		print "\n#{numNewCountries} new "+"country".pluralize(numNewCountries)
 		print "\n#{numNewFedStates} new federal "+"state".pluralize(numNewFedStates)
 		print "\n"
+	end
+	class LoadingBar
+
+		def initialize(datasize = 100, barLength = 25, barsign="*")
+			if(barLength <= 0)
+				raise "BarLength may not be smaller than 1!"
+			end
+			if(datasize <= 0)
+				datasize = 1
+			end
+			@stepSize = (barLength*1.0)/datasize
+
+			@barsign = barsign
+			@barLength = barLength
+			@printedSigns = 0.0
+			@nextCount = 0
+			@datasize = datasize
+			@ended = false
+
+			if(barLength>10)
+				barString = " "*((barLength+1)/2 - 4)
+				barString += "50%"
+				if(barLength%2 == 0)
+					barString += "\\/"
+				else
+					barString += "V"
+				end
+				barString += " "*((barLength/2) - 6 + (barLength%2))
+			elsif(barLength>4)
+				barString = " "*(barLength-5)
+			end
+
+			if(barLength>4)
+				barString += "100%V"
+			elsif(barLength>0)
+				barString = " "*(barLength-1)
+				barString += "V"
+			end
+
+			print "\n"
+			print barString
+			print "\n"
+		end
+
+		def next
+
+			if(@nextCount > @datasize)
+				return false
+			else
+				newlength = @nextCount*@stepSize
+				lengthDif = newlength - @printedSigns
+				if(lengthDif >= 1)
+					print @barsign*lengthDif
+					@printedSigns += lengthDif
+					@printedSigns -= lengthDif%1
+				end
+				
+			end
+			if(@nextCount == @datasize)
+				print "\n"
+				@printedSigns = @barLength
+				@nextCount += 1
+				@ended = true
+				return false
+			end
+			@nextCount += 1
+			return true
+		end
+
+		def end
+			unless @ended
+				print @barsign*(@barLength-@printedSigns)
+				print "\n"
+				@ended = true
+			end
+		end
 	end
 end

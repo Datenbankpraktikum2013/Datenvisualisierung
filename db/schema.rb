@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130731131506) do
+ActiveRecord::Schema.define(version: 20130801135324) do
 
   create_table "countries", force: true do |t|
     t.string   "name"
@@ -59,6 +59,8 @@ ActiveRecord::Schema.define(version: 20130731131506) do
     t.integer  "federal_state_id"
     t.integer  "country_id"
     t.string   "data_warehouse_id"
+    t.float    "latitude"
+    t.float    "longitude"
   end
 
   add_index "locations", ["data_warehouse_id"], name: "index_locations_on_data_warehouse_id"
