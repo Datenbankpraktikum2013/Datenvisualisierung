@@ -9,7 +9,7 @@ App.model = {
 	
 	// Enthaelt immer den aktuellen Datensatz
 	data : {
-		categories : ['Deutschland','Schweiz'],
+		categories : ['Deutschland','Schweiz','Österreich'],
 		title : 'Test der Laender',
 		series : 
 		[{
@@ -19,12 +19,25 @@ App.model = {
         },{
         	name: 'Frauen',
         	data: [2600]
+        },{
+        	name: 'Kinder',
+        	data: [900, 600, 800]
         }]
 	},
 
 	// Holt einen neuen Datensatz mit den uebergebenen Filtern aus
 	// der Datenbank
 	fetch : function(filter) {
+		$.getJSON('searches/1.json', function(data) {
+			App.model.data = data.data;
+		}).fail(function() {
+			App.showAlert({
+				type: 'error', 
+				heading: 'Verbindungsfehler!', 
+				message: 'Die Verbindung zum Server ist fehlgeschlagen!'
+			});
+		});
+		console.log(this.data);
 		return this.data;
 	}
 

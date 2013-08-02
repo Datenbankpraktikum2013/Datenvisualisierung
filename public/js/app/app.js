@@ -73,6 +73,46 @@ App.init = function() {
         }
     });
 
+    $('#studentenart').change(function() {
+        if ($('#absolventenart').is(":checked") && !($('#studentenart').is(":checked"))){
+            $('#absolvent-hidden').slideDown();
+            $('#student-hidden').slideUp();
+        }
+        if (!$('#absolventenart').is(":checked") && !($('#studentenart').is(":checked"))){
+             $('#student-hidden').slideUp();
+             $('#absolvent-hidden').slideUp();
+        }
+        if ((!$('#absolventenart').is(":checked")) && $('#studentenart').is(":checked")){
+            $('#student-hidden').slideDown();
+            $('#absolvent-hidden').slideUp();
+        }
+        if ($('#absolventenart').is(":checked") && $('#studentenart').is(":checked")){
+            $('#absolvent-hidden').slideUp();
+            $('#student-hidden').slideUp();
+        }
+    });
+    
+    $('#absolventenart').change(function() {
+        if ($('#absolventenart').is(":checked") && !($('#studentenart').is(":checked"))){
+             $('#student-hidden').slideUp();
+            $('#absolvent-hidden').slideDown();
+        }
+        if (!$('#absolventenart').is(":checked") && !($('#studentenart').is(":checked"))){
+             $('#absolvent-hidden').slideUp();
+             $('#student-hidden').slideUp();
+        }
+        if ((!$('#absolventenart').is(":checked")) && $('#studentenart').is(":checked")){
+            $('#absolvent-hidden').slideUp();
+            $('#student-hidden').slideDown();
+        }
+        if ($('#absolventenart').is(":checked") && $('#studentenart').is(":checked")){
+            $('#absolvent-hidden').slideUp();
+            $('#student-hidden').slideUp();
+        }
+    });
+
+
+
     $('.multiselect').multiselect({
         buttonWidth : false,
         buttonContainer : '<div class="row-fluid btn-group" />',
@@ -94,7 +134,7 @@ App.init = function() {
     });
 
     App.searches.init();
-    
+    App.model.fetch();
     // Initiales zeichnen des Balkendiagramms
     App.columnchart.render();
 };

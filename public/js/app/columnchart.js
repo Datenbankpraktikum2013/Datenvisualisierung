@@ -11,13 +11,16 @@ App.columnchart = {
         chart: {
             type: 'column',
             events: {
-                redraw: function(){
-                    this.showLoading();
-                    console.log('reloading')
+                redraw: function(){  // Ladeanzeige muss noch gemacht werden, warten auf dynamische Daten 
+                    // this.showLoading();
+                    this.hideLoading();
                 },
                 load: function(){
                     this.hideLoading();
-                    console.log('loaded')
+                    // this.showLoading();
+                },
+                addSeries: function(){
+                    this.redraw();
                 }
             },
             zoomType: 'xy',
@@ -68,8 +71,7 @@ App.columnchart = {
     							category : this.category, 
     							filter : this.series.name
     						});
-                            console.log(this)
-	        			}
+                        }
         			}
         		},
                 
@@ -82,6 +84,8 @@ App.columnchart = {
 	render : function() {
         // Wenn nur eine Series dann blende Legende aus
         this.config.legend.enabled = (App.model.data.series.length != 1);
+        this.config.categories = App.model.data.categories;
+        this.config.series = App.model.data.series;
         $('#chart').highcharts(this.config);
     }
 

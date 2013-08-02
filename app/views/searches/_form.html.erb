@@ -12,6 +12,14 @@
   <% end %>
 
   <div class="field">
+    <%= f.label :search_category %><br>
+    <%= f.select :search_category, GroupingController.fetch_all_groupable_elements.keys, {}, {} %>
+  </div>
+  <div class="field">
+    <%= f.label :search_series %><br>
+    <%= f.select :search_series, GroupingController.fetch_all_groupable_elements.keys, {}, {} %>
+  </div>
+  <div class="field">
     <%= f.label :gender %><br>
     <%= f.text_field :gender %>
   </div>

@@ -5,7 +5,8 @@
    ========================================================================== */
 
 #chart {
-	height : 500px;
+	height : 750px;
+	width : 1200px;
 }
 
 #bundesland {
@@ -42,7 +43,13 @@
 	width: 100%;
 }
 
+#student-hidden {
+	display: none;
+}
 
+#absolvent-hidden {
+	display: none;
+}
 
 
 

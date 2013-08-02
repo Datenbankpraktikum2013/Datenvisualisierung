@@ -24,6 +24,12 @@ App.filter = {
     // aus den DrillDownClicks.
     setDrillDownFilter : function(new_filter) {
     	var filters = App.filter.getFilter();
+		
+
+
+
+
+
 		if (new_filter.filter == 'Maenner') {
 			this.filter.geschlecht = ['m'];
 		} else if (new_filter.filter == 'Frauen') {
@@ -34,6 +40,12 @@ App.filter = {
 			this.filter.studentenart = ['a'];
 		}
 		this.filter.heimatland = new_filter.category;
+		if(this.filter.heimatland == "Deutschland"){
+			$('#bundesland').slideDown();
+		}
+		else{
+			$('#bundesland').slideUp();
+		}
 		$('#filter-form :input:visible').formstate(this.filter);
     }
 

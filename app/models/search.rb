@@ -1,17 +1,27 @@
 class Search < ActiveRecord::Base
 
 	def results
-		search_category = "gender"
-		possible_search_manifestations_and_quantity = {}
-		@students = []
-		Student.find_each do |student|
-			if possible_search_manifestations_and_quantity.has_key? student.gender.to_sym
-				possible_search_manifestations_and_quantity[student.gender.to_sym] += 1
-			else
-				possible_search_manifestations_and_quantity[student.gender.to_sym] = 1
-			end
-		end
+		grouping_objects = []
+		series_objects = []
+		category_list = []
+		series_list = []
 
-		possible_search_manifestations_and_quantity
+		class_of_grouping_argument = GroupingController.fetch_all_groupable_elements[search_category].constantize
+		grouping_objects = class_of_grouping_argument.select(search_category.to_sym).distinct
+		grouping_objects.each { |s|	category_list << s.send(search_category) }
+
+		class_of_series_argument = GroupingController.fetch_all_groupable_elements[search_series].constantize
+		series_objects = class_of_series_argument.select(search_series.to_sym).distinct
+		series_objects.each { |s|	series_list << s.send(search_series) }
+
+		search_results = {}
+		category_list.each do |category_item|
+			count_series = {}
+			series_list.each do |series_item|
+				count_series[series_item] = Student.where("#{search_category} = ? AND #{search_series} = ?", category_item, series_item).count
+			end
+			search_results[category_item] = count_series
+		end
+		search_results
 	end
 end

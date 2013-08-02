@@ -1,4 +1,5 @@
 Datenvisualisierung::Application.routes.draw do
+  get "grouping/fetch_groupable_elements"
   resources :searches
 
   resources :departments
