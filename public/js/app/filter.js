@@ -44,25 +44,105 @@ App.filter = {
 		// else{
 		// 	$('#bundesland').slideUp();
 		// }
+
+// 				App.model.data = '[4123,2313]'
+// 				alert(App.model.data);
+// new_filter.groupby = 'Fachbereich';
+// 				new_filter.stackby = 'Geschlecht';
+// 				new_filter.geschlecht = this.filter.geschlecht;
+
+
 		$('#filter-form :input:visible').formstate(this.filter);
   		
-		switch(new_filter.groupby)
+		switch(new_filter.stackby)
 		{
-			case 'Status': 
-				new_filter.groupby = 'Geschlecht';
-				new_filter.stackby = 'Status';
-				App.model.data = '[4123,2313]'
-				alert(App.model.data);
+			case 'Status':
+				switch(new_filter.groupby)
+				{ 
+					case 'Status': 
+						new_filter.groupby = 'Geschlecht';
+		 				new_filter.stackby = 'Status';
+					break;
+					case 'Geschlecht': 
+						new_filter.groupby = 'Fachbereich';
+		 				new_filter.stackby = 'Status';
+					break;
+					case 'Fachbereich': 
+						new_filter.groupby = 'Lehreinheit';
+		 				new_filter.stackby = 'Status';
+
+					break;
+					case 'Lehreinheit' : 
+						new_filter.groupby = 'Studienfach';
+		 				new_filter.stackby = 'Status';
+					break;
+					case 'Studienfach' : 
+						new_filter.groupby = 'Status'; //Eventuell hier Schluss machen
+		 				new_filter.stackby = 'Status';
+					break;
+					case 'Land' :
+						if(new_filter.heimatland == 'de'){
+							new_filter.groupby = 'Bundesland';
+							new_filter.stackby = 'Status';
+						}
+						else{
+							new_filter.groupby = 'Land';
+							new_filter.stackby = 'Status';
+						}
+					break;
+				}
 			break;
-			case 'Geschlecht': 
-				new_filter.groupby = 'Fachbereich';
-				new_filter.stackby = 'Geschlecht';
-				new_filter.geschlecht = this.filter.geschlecht;
+			case 'Geschlecht':
+				switch(new_filter.groupby)
+				{ 
+					case 'Geschlecht': break;
+					case 'Status': break;
+					case 'Fachbereich': break;
+					case 'Lehreinheit' : break;
+					case 'Abschlussart' : break;
+					case 'Studienfach' : break;
+				}
 			break;
 			case 'Fachbereich': break;
+				switch(new_filter.groupby)
+				{ 
+					case 'Geschlecht': break;
+					case 'Status': break;
+					case 'Fachbereich': break;
+					case 'Lehreinheit' : break;
+					case 'Abschlussart' : break;
+					case 'Studienfach' : break;
+				}
 			case 'Lehreinheit' : break;
+				switch(new_filter.groupby)
+				{ 
+					case 'Geschlecht': break;
+					case 'Status': break;
+					case 'Fachbereich': break;
+					case 'Lehreinheit' : break;
+					case 'Abschlussart' : break;
+					case 'Studienfach' : break;
+				}
 			case 'Abschlussart' : break;
+				switch(new_filter.groupby)
+				{ 
+					case 'Geschlecht': break;
+					case 'Status': break;
+					case 'Fachbereich': break;
+					case 'Lehreinheit' : break;
+					case 'Abschlussart' : break;
+					case 'Studienfach' : break;
+				}
 			case 'Studienfach' : break;
+				switch(new_filter.groupby)
+				{ 
+					case 'Geschlecht': break;
+					case 'Status': break;
+					case 'Fachbereich': break;
+					case 'Lehreinheit' : break;
+					case 'Abschlussart' : break;
+					case 'Studienfach' : break;
+				}
 		}
 		App.columnchart.render();
 		//Suche
