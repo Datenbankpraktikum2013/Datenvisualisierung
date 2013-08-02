@@ -25,28 +25,49 @@ App.filter = {
     setDrillDownFilter : function(new_filter) {
     	var filters = App.filter.getFilter();
 		
+     	new_filter.groupby = filters.groupby; // X-Achse
+     	new_filter.stackby = filters.stackby; // Y-Achse
 
-
-
-
-
-		if (new_filter.filter == 'Maenner') {
-			this.filter.geschlecht = ['m'];
-		} else if (new_filter.filter == 'Frauen') {
-			this.filter.geschlecht = ['w'];
-		} else if (new_filter.filter == 'Studenten') {
-			this.filter.studentenart = ['s'];
-		} else if (new_filter.filter == 'Absolventen') {
-			this.filter.studentenart = ['a'];
-		}
-		this.filter.heimatland = new_filter.category;
-		if(this.filter.heimatland == "Deutschland"){
-			$('#bundesland').slideDown();
-		}
-		else{
-			$('#bundesland').slideUp();
-		}
+  //   	if (new_filter.filter == 'm') {
+		// 	this.filter.geschlecht = ['m'];
+		// } else if (new_filter.filter == 'w') {
+		// 	this.filter.geschlecht = ['w'];
+		// } else if (new_filter.filter == 'Studenten') {
+		// 	this.filter.studentenart = ['s'];
+		// } else if (new_filter.filter == 'Absolventen') {
+		// 	this.filter.studentenart = ['a'];
+		// }
+		// this.filter.heimatland = new_filter.category;
+		// if(this.filter.heimatland == "Deutschland"){
+		// 	$('#bundesland').slideDown();
+		// }
+		// else{
+		// 	$('#bundesland').slideUp();
+		// }
 		$('#filter-form :input:visible').formstate(this.filter);
-    }
+  		
+		switch(new_filter.groupby)
+		{
+			case 'Status': 
+				new_filter.groupby = 'Geschlecht';
+				new_filter.stackby = 'Status';
+				App.model.data = '[4123,2313]'
+				alert(App.model.data);
+			break;
+			case 'Geschlecht': 
+				new_filter.groupby = 'Fachbereich';
+				new_filter.stackby = 'Geschlecht';
+				new_filter.geschlecht = this.filter.geschlecht;
+			break;
+			case 'Fachbereich': break;
+			case 'Lehreinheit' : break;
+			case 'Abschlussart' : break;
+			case 'Studienfach' : break;
+		}
+		App.columnchart.render();
+		//Suche
+		//Redraw
 
+		
+	}
 };

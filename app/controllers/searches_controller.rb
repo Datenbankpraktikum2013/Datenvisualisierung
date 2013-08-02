@@ -1,5 +1,6 @@
 class SearchesController < ApplicationController
   before_action :set_search, only: [:show, :edit, :update, :destroy]
+  protect_from_forgery :except => :edit 
 
   # GET /searches
   # GET /searches.json
