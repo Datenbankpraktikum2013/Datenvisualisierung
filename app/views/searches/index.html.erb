@@ -6,6 +6,7 @@
       <th>Gender</th>
       <th>Nationality</th>
       <th>Alter (von - bis)</th>
+      <th>Location Name</th>
       <th></th>
       <th></th>
       <th></th>
@@ -18,6 +19,7 @@
         <td><%= search.gender %></td>
         <td><%= search.nationality %></td>
         <td><%= search.minimum_age %> - <%= search.maximum_age %></td>
+        <td><%= search.location_name %></td>
         <td><%= link_to 'Show', search %></td>
         <td><%= link_to 'Edit', edit_search_path(search) %></td>
         <td><%= link_to 'Destroy', search, method: :delete, data: { confirm: 'Are you sure?' } %></td>

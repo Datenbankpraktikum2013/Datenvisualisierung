@@ -14,13 +14,36 @@ class Search < ActiveRecord::Base
 
 		class_of_series_argument = GroupingController.fetch_all_groupable_elements[search_series].constantize
 		series_objects = class_of_series_argument.select(search_series.to_sym).distinct
-		series_objects.each { |s|	series_list << s.send(search_series) }
+		series_objects.each { |s| series_list << s.send(search_series) }
 
-		filtered_result = Student.all
-		SearchesController.fetch_all_searchable_elements.keys.each do |attribute|
+		all_attributes = SearchesController.fetch_all_searchable_elements.keys
+		all_classes = SearchesController.fetch_all_searchable_elements.values.uniq
+
+		filtered_attributes = []
+		filtered_classes = []
+		all_attributes.each do |attribute|
 			if attribute == "year_of_birth"
-				filtered_result = filtered_result.where("#{attribute} > ?", minimum_age) unless minimum_age.blank?
-				filtered_result = filtered_result.where("#{attribute} < ?", maximum_age) unless maximum_age.blank?
+				unless minimum_age.blank? and maximum_age.blank?
+					filtered_attributes << attribute
+					filtered_classes << SearchesController.fetch_all_searchable_elements[attribute]
+				end
+			else 
+				unless attribute.blank?
+					filtered_attributes << attribute
+					filtered_classes << SearchesController.fetch_all_searchable_elements[attribute]
+				end
+			end
+		end
+
+		filtered_classes.uniq.each do |class_name|
+			filtered_result = Student.joins(class_name.downcase.to_sym).load unless class_name == "Student"
+		end
+		puts filtered_result
+
+		filtered_attributes.each do |attribute|
+			if attribute == "year_of_birth"
+				filtered_result = filtered_result.where("#{attribute} < ?", Date.today.year - minimum_age) unless minimum_age.blank?
+				filtered_result = filtered_result.where("#{attribute} > ?", Date.today.year - maximum_age) unless maximum_age.blank?
 			else
 				filtered_result = filtered_result.where("#{attribute} = ?", send(attribute)) unless self.send(attribute).blank?
 			end

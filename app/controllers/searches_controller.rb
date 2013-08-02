@@ -1,5 +1,6 @@
 class SearchesController < ApplicationController
   before_action :set_search, only: [:show, :edit, :update, :destroy]
+  protect_from_forgery :except => :edit 
 
   # GET /searches
   # GET /searches.json
@@ -68,6 +69,10 @@ class SearchesController < ApplicationController
     StudentsController.fetch_accessable_attributes.each do |attribute|
       all_searchable_elements[attribute] = "Student"
     end
+    LocationsController.fetch_accessable_attributes.each do |attribute|
+      all_searchable_elements[attribute] = "Location"
+    end
+
     all_searchable_elements
   end
 
@@ -79,6 +84,6 @@ class SearchesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def search_params
-      params.require(:search).permit(:gender, :nationality, :minimum_age, :maximum_age, :search_category, :search_series)
+      params.require(:search).permit(:gender, :nationality, :location_name, :minimum_age, :maximum_age, :search_category, :search_series)
     end
 end
