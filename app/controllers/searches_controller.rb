@@ -62,6 +62,15 @@ class SearchesController < ApplicationController
     end
   end
 
+  def self.fetch_all_searchable_elements
+    all_searchable_elements = {}
+
+    StudentsController.fetch_accessable_attributes.each do |attribute|
+      all_searchable_elements[attribute] = "Student"
+    end
+    all_searchable_elements
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_search
