@@ -11,10 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130802103116) do
+ActiveRecord::Schema.define(version: 20130805090810) do
 
   create_table "countries", force: true do |t|
-    t.string   "name"
+    t.string   "country_name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -63,7 +63,8 @@ ActiveRecord::Schema.define(version: 20130802103116) do
     t.float    "longitude"
   end
 
-<<<<<<< HEAD
+  add_index "locations", ["data_warehouse_id"], name: "index_locations_on_data_warehouse_id"
+
   create_table "searches", force: true do |t|
     t.string   "gender"
     t.string   "nationality"
@@ -75,9 +76,6 @@ ActiveRecord::Schema.define(version: 20130802103116) do
     t.integer  "maximum_age"
     t.string   "location_name"
   end
-=======
-  add_index "locations", ["data_warehouse_id"], name: "index_locations_on_data_warehouse_id"
->>>>>>> migration
 
   create_table "students", force: true do |t|
     t.string   "gender"

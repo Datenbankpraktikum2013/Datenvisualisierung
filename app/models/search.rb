@@ -50,6 +50,7 @@ class Search < ActiveRecord::Base
 
 		search_results = {}
 		search_results = filtered_result.group(search_category.to_sym, search_series.to_sym).count
+		
 		search_results
 	end
 end
