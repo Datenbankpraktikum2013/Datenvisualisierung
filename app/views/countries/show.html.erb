@@ -5,5 +5,10 @@
   <%= @country.country_name %>
 </p>
 
+<p>
+  <strong>ISO-Code:</strong>
+  <%= @country.country_iso_code %>
+</p>
+
 <%= link_to 'Edit', edit_country_path(@country) %> |
 <%= link_to 'Back', countries_path %>

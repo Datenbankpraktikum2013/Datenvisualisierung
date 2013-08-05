@@ -7,14 +7,6 @@ class Search < ActiveRecord::Base
 		series_list = []
 		filtered_result = []
 
-		class_of_category_argument = GroupingController.fetch_all_groupable_elements[search_category].constantize
-		category_objects = class_of_category_argument.select(search_category.to_sym).distinct
-		category_objects.each { |s|	category_list << s.send(search_category) }
-
-		class_of_series_argument = GroupingController.fetch_all_groupable_elements[search_series].constantize
-		series_objects = class_of_series_argument.select(search_series.to_sym).distinct
-		series_objects.each { |s| series_list << s.send(search_series) }
-
 		all_attributes = SearchesController.fetch_all_searchable_elements.keys
 		all_classes = SearchesController.fetch_all_searchable_elements.values.uniq
 
@@ -40,10 +32,14 @@ class Search < ActiveRecord::Base
 		puts "Filtered Classes:"
 		puts filtered_classes
 
+		filtered_classes << GroupingController.fetch_all_groupable_elements[search_category]
+
 		filtered_result = Student.all
-		filtered_classes.uniq.each do |class_name|
-			filtered_result = Student.joins(class_name.downcase.to_sym).load unless class_name == "Student"
-		end
+		#filtered_classes.uniq.each do |class_name|
+		#	filtered_result = filtered_result.joins(class_name.downcase.to_sym).load unless class_name == "Student"
+		#end
+
+		filtered_result = filtered_result.joins(location: :country)
 
 		filtered_attributes.each do |attribute|
 			if attribute == "year_of_birth"
@@ -55,8 +51,14 @@ class Search < ActiveRecord::Base
 		end
 
 		search_results = {}
-		search_results = filtered_result.group(search_category.to_sym, search_series.to_sym).count
+			
+		if search_series.blank? 
+			search_results = filtered_result.group(search_category.to_sym).count
+		else
+			search_results = filtered_result.group(search_category.to_sym, search_series.to_sym).count
+		end
 		
+		puts search_results		
 		search_results
 	end
 end

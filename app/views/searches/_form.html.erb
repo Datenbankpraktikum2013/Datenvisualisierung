@@ -17,7 +17,7 @@
   </div>
   <div class="field">
     <%= f.label :search_series %><br>
-    <%= f.select :search_series, GroupingController.fetch_all_groupable_elements.keys, {}, {} %>
+    <%= f.select :search_series, GroupingController.fetch_all_groupable_elements.keys, {include_blank: true}, {} %>
   </div>
   <div class="field">
     <%= f.label :gender %><br>

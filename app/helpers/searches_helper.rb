@@ -42,14 +42,16 @@ module SearchesHelper
 	end
 
 	def render_json_for_maps(json)
-		country_names.each do |country|
+		#search_results = @search.results
+
+		#country_names.each do |country|
 			json.set! :country do
-				json.set! :iso_country_code, "DE"
+				json.set! :iso_code_country, "DE"
 				json.set! :longitude, 0
 				json.set! :latitude, 0
 				json.set! :number, 5
-				json.set! :states do
-					json.set! :iso_state_code, "DE-NI"
+				json.set! :federal_states do
+					json.set! :iso_code_federal_state, "DE-NI"
 					json.set! :longitude, 0
 					json.set! :latitude, 50
 					json.set! :number, 4
@@ -61,6 +63,6 @@ module SearchesHelper
 					end
 				end
 			end
-		end
+		#end
 	end
 end
