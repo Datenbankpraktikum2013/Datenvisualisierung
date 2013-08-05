@@ -196,7 +196,8 @@ App.filter = {
 					break;
 					case 'Abschlussart' : 
 						new_filter.stackby = '';
-						new_filter.groupby = ''; 						break;
+						new_filter.groupby = ''; 						
+					break;
 					case 'Studienfach' : 
 						new_filter.stackby = '';
 						new_filter.groupby = ''; 
@@ -232,7 +233,8 @@ App.filter = {
 					break;
 					case 'Abschlussart' : 
 						new_filter.stackby = '';
-						new_filter.groupby = ''; 						break;
+						new_filter.groupby = ''; 						
+					break;
 					case 'Studienfach' : 
 						new_filter.stackby = '';
 						new_filter.groupby = ''; 
