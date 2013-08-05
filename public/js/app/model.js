@@ -32,9 +32,10 @@ App.model = {
         	data: [900, 600, 800]
         }]
 	},
-
-	// Holt einen neuen Datensatz mit den uebergebenen Filtern aus
-	// der Datenbank
+	/*
+	 * Holt einen neuen Datensatz mit den uebergebenen Filtern aus
+	 * der Datenbank
+	 */
 	fetch : function(filter) {
 		radio('model.fetch').broadcast();
 		$.getJSON('searches/1.json', function(data) {
@@ -50,5 +51,20 @@ App.model = {
 		});
 		//return this.data;
 	}
+
+	/* 
+	 * Fuehrt eine neue Suche aus indem ein POST-Objekt 
+	 * zur Rails Anwendung geschickt wird
+	 */
+	post : function(filter) {
+		//Testweise
+		$.post('searches/student.html', function(data){
+			var string = 'ein lustiger String';
+		});
+
+
+
+	}
+
 
 }; 

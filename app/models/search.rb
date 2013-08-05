@@ -8,8 +8,8 @@ class Search < ActiveRecord::Base
 
 		filtered_result = []
 
-		class_of_grouping_argument = GroupingController.fetch_all_groupable_elements[search_category].constantize
-		category_objects = class_of_grouping_argument.select(search_category.to_sym).distinct
+		class_of_category_argument = GroupingController.fetch_all_groupable_elements[search_category].constantize
+		category_objects = class_of_category_argument.select(search_category.to_sym).distinct
 		category_objects.each { |s|	category_list << s.send(search_category) }
 
 		class_of_series_argument = GroupingController.fetch_all_groupable_elements[search_series].constantize
@@ -38,7 +38,6 @@ class Search < ActiveRecord::Base
 		filtered_classes.uniq.each do |class_name|
 			filtered_result = Student.joins(class_name.downcase.to_sym).load unless class_name == "Student"
 		end
-		puts filtered_result
 
 		filtered_attributes.each do |attribute|
 			if attribute == "year_of_birth"
@@ -50,13 +49,7 @@ class Search < ActiveRecord::Base
 		end
 
 		search_results = {}
-		category_list.each do |category_item|
-			count_series = {}
-			series_list.each do |series_item|
-				count_series[series_item] = filtered_result.where("#{search_category} = ? AND #{search_series} = ?", category_item, series_item).count
-			end
-			search_results[category_item] = count_series
-		end
+		search_results = filtered_result.group(search_category.to_sym, search_series.to_sym).count
 		search_results
 	end
 end
