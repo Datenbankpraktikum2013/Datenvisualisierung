@@ -99,7 +99,7 @@ module Migrator
 				#fieldIDs = CLIENT.query("SELECT DISTINCT STG_FACH FROM FKT_STUDIENGAENGE WHERE STG_MATRIKELNR = '#{studentDB.id}'")
 				#studentMap[studentDB] = fieldIDs
 			end
-			print "\n done. Created #{numCreated} new "+"student".pluralize(numCreated)+"\n"
+			print "\ndone. Created #{numCreated} new "+"student".pluralize(numCreated)+"\n"
 
 			if(numCreated > 0)
 				print "now saving them\n"
@@ -159,10 +159,9 @@ module Migrator
 
 			locationDB = Location.find_by_data_warehouse_id(location["data_warehouse_id"])
 			if(locationDB == nil)
-				location["country_name"].strip!
-				location["federal_state_name"].strip!
 
-				country = Country.find_by_name(location["country_name"])
+				location["country_name"].strip!
+				country = Country.find_by_country_name(location["country_name"])
 
 				if(country == nil)
 					#If we could not find the country we have to create it
@@ -173,7 +172,8 @@ module Migrator
 				end
 
 				if(location["federal_state_name"] != nil)
-					fedState = FederalState.find_by_name(location["federal_state_name"])
+					location["federal_state_name"].strip!
+					fedState = FederalState.find_by_federal_state_name(location["federal_state_name"])
 					if(fedState == nil)
 						#If we could not find the federal state we have to create it
 						fedState = FederalState.new
@@ -192,7 +192,7 @@ module Migrator
 					location["location_name"].strip!
 					name = location["location_name"]
 
-					if(nameMapper.hasKey?(name))
+					if(nameMapper.has_key?(name))
 						result = Geocoder.search("#{nameMapper[name]},#{fedState.federal_state_name}").first
 					else
 						result = Geocoder.search("#{name},#{fedState.federal_state_name}").first
@@ -286,7 +286,7 @@ module Migrator
 
 		end
 		bar.end
-		print "\ndone. Created #{numCreated} missing"
+		print "\ndone. Created #{numCreated} missing "
 		print "department".pluralize(numCreated)
 
 	end
@@ -296,17 +296,23 @@ module Migrator
 		print "\n+Now migrating teaching units+"
 		print "\n++++++++++++++++++++++++++++++\n"
 
+		print "\nretrieving teaching units from datawarehouse"
 		teaching_units = CLIENT.query(
 			"SELECT DISTINCT substring( STF_ASTAT_GRLTXT, 1, 2 ) AS number,substring(STF_ASTAT_GRLTXT,4)as dpt_name, LE_DTXT AS teaching_unit_name
 			FROM DIM_STUDIENFAECHER
 			JOIN DIM_ABSTGLE ON DIM_STUDIENFAECHER.STF_ID = DIM_ABSTGLE.ABSTG_STG
 			JOIN DIM_LEHREINH ON DIM_ABSTGLE.ABSTG_LEHREINH = DIM_LEHREINH.LE_ID")
+		numAll = teaching_units.each.length
 
-
+		print "\ngot #{numAll} teaching units from datawarehouse"
+		print "\n now iterating over them and creating missing ones"
+		bar = LoadingBar.new(numAll)
+		numCreated = 0
 		teaching_units.each do |teaching_unit|	
+			bar.next
 			teaching_unit["teaching_unit_name"].strip!
 
-			teaching_unitDB = TeachingUnit.find_by_name(teaching_unit["teaching_unit_name"])
+			teaching_unitDB = TeachingUnit.find_by_teaching_unit_name(teaching_unit["teaching_unit_name"])
 
 			if (teaching_unitDB == nil)
 
@@ -319,11 +325,13 @@ module Migrator
 					raise "Could not find department #{teaching_unit["dpt_name"]} with number #{teaching_unit["number"]} for teaching unit #{teaching_unit["teaching_unit_name"]}!\nMigrate departments first.\nIf error persists blame secretary."
 				end
 				teaching_unitDB.save
-
+				numCreated += 1
 			end
 
-		end	
-
+		end
+		bar.end
+		print "\ndone. Created #{numCreated} missing teaching "
+		print "unit".pluralize(numCreated)
 	end
 
 	def self.migrateDisciplines
@@ -331,6 +339,7 @@ module Migrator
 		print "\n+Now migrating disciplines+"
 		print "\n+++++++++++++++++++++++++++\n"
 
+		print "\nretrieving disciplines units from datawarehouse"
 		disciplines = CLIENT.query(
 			"SELECT DISTINCT STF_LTXT as discipline_name,LE_DTXT AS teaching_unit_name
 			FROM DIM_STUDIENFAECHER
@@ -338,10 +347,17 @@ module Migrator
 			JOIN DIM_LEHREINH ON DIM_ABSTGLE.ABSTG_LEHREINH = DIM_LEHREINH.LE_ID")
 
 
+		numAll = disciplines.each.length
+
+		print "\ngot #{numAll} disciplines from datawarehouse"
+		print "\n now iterating over them and creating missing ones"
+		bar = LoadingBar.new(numAll)
+		numCreated = 0
 		disciplines.each do |discipline|	
 			discipline["discipline_name"].strip!
+			discipline["teaching_unit_name"].strip!
 
-			disciplineDB = Discipline.find_by_name(discipline["discipline_name"])
+			disciplineDB = Discipline.find_by_discipline_name(discipline["discipline_name"])
 			if (disciplineDB == nil)
 				disciplineDB = Discipline.new
 				disciplineDB.discipline_name = discipline["discipline_name"]
@@ -351,9 +367,14 @@ module Migrator
 					raise "Could not find teaching unit #{discipline["teaching_unit_name"]} for discipline #{discipline["discipline_name"]}!\nMigrate teaching units first.\nIf error persists blame secretary."
 				end
 				disciplineDB.save
+				numCreated += 1
 			end
 
-		end	
+		end
+		bar.end
+		print "\ndone. Created #{numCreated} missing "
+		print "discipline".pluralize(numCreated)
+		print "\n"
 
 	end
 	class LoadingBar
