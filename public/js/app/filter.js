@@ -6,13 +6,75 @@
 var App = App || {};
 
 App.filter = {
+
 	// Enthaelt ein Objekt in dem alle gesetzten Filter stehen.
 	filter : {},
+
+	init : function() {
+		radio('model.fetch').subscribe(this.loadingListener);
+		radio('model.fetched').subscribe(this.loadedListener);
+
+		// Wenn Formular veraendert wird, update das Filter Objekt.
+	    $('form input, form select').change(function() {
+	        App.filter.getFilter();
+	    });
+
+		// Event fuer Aktualisieren Button
+	    $('button[name="store"]').click(function() {
+	        radio('filter.submit').broadcast();
+	        //App.columnchart.render();
+	        $.cookie('formstate', $('form').formstate(':visible'));
+	        return false;
+	    });
+	    
+	    // Event fuer Reset Button
+	    $('button[name="restore"]').click(function() {
+	        $('form :input:visible').formstate($.cookie('formstate'));
+	        return false;
+	    });
+
+        $('#filter-form select[name="heimatland"]').change(function() {
+	        if ($(this).val() == "Deutschland") {
+	            $('#bundesland').slideDown();
+	        } else {
+	            if ($('#bundesland').css('display') != 'none') {
+	                $('#bundesland').slideUp();
+	            }
+	        }
+	    });
+
+	    $('#filter-form input[name="studentenart"]').change(function() {
+	        if ($('#absolventenart').is(":checked") && !($('#studentenart').is(":checked"))){
+	            $('#absolvent-hidden').slideDown();
+	            $('#student-hidden').slideUp();
+	        }
+	        if (!$('#absolventenart').is(":checked") && !($('#studentenart').is(":checked"))){
+	             $('#student-hidden').slideUp();
+	             $('#absolvent-hidden').slideUp();
+	        }
+	        if ((!$('#absolventenart').is(":checked")) && $('#studentenart').is(":checked")){
+	            $('#student-hidden').slideDown();
+	            $('#absolvent-hidden').slideUp();
+	        }
+	        if ($('#absolventenart').is(":checked") && $('#studentenart').is(":checked")){
+	            $('#absolvent-hidden').slideUp();
+	            $('#student-hidden').slideUp();
+	        }
+	    });
+	},
 
 	// Liest die aktuellen Filter aus dem Formular und speichert sie.
 	getFilter : function() {
 		this.filter = $('#filter-form').formstate(':visible');
 		return this.filter;
+    },
+
+    loadingListener : function(state) {
+    	$('#filter-form button[name="store"]').button('loading');
+    },
+
+    loadedListener : function() {
+		$('#filter-form button[name="store"]').button('reset');
     },
 
     setFilter : function(filter) {
