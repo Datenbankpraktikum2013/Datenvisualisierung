@@ -14,7 +14,7 @@
   <tbody>
     <% @departments.each do |department| %>
       <tr>
-        <td><%= department.name %></td>
+        <td><%= department.department_name %></td>
         <td><%= department.number %></td>
         <td><%= link_to 'Show', department %></td>
         <td><%= link_to 'Edit', edit_department_path(department) %></td>

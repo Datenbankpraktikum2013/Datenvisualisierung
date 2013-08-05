@@ -7,7 +7,7 @@
 
 <p>
   <strong>Department:</strong>
-  <%= @teaching_unit.department.name unless @teaching_unit.department.nil? %>
+  <%= @teaching_unit.department.department_name unless @teaching_unit.department.nil? %>
 </p>
 
 <%= link_to 'Edit', edit_teaching_unit_path(@teaching_unit) %> |
