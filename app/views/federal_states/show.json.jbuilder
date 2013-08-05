@@ -1,1 +1,1 @@
-json.extract! @federal_state, :name, :created_at, :updated_at
+json.extract! @federal_state, :federal_state_name, :created_at, :updated_at

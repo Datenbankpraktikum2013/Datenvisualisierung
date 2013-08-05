@@ -69,6 +69,6 @@ class FederalStatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def federal_state_params
-      params.require(:federal_state).permit(:name)
+      params.require(:federal_state).permit(:federal_state_name)
     end
 end

@@ -10,7 +10,7 @@
 </p>
 <p>
   <strong>Federal State:</strong>
-  <%= @location.federal_state.name unless @location.federal_state.nil? %>
+  <%= @location.federal_state.federal_state_name unless @location.federal_state.nil? %>
 </p>
 
 <%= link_to 'Edit', edit_location_path(@location) %> |

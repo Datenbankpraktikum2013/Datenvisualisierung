@@ -17,7 +17,7 @@
       <tr>
         <td><%= location.location_name %></td>
         <td><%= location.country.country_name unless location.country.nil? %></td>
-        <td><%= location.federal_state.name unless location.federal_state.nil? %></td>
+        <td><%= location.federal_state.federal_state_name unless location.federal_state.nil? %></td>
         <td><%= link_to 'Show', location %></td>
         <td><%= link_to 'Edit', edit_location_path(location) %></td>
         <td><%= link_to 'Destroy', location, method: :delete, data: { confirm: 'Are you sure?' } %></td>

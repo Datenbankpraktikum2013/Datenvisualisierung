@@ -21,7 +21,7 @@
   </div>
     <div class="field">
     <%= f.label :federal_state %><br>
-    <%= f.collection_select :federal_state_id, FederalState.all, :id, :name %>
+    <%= f.collection_select :federal_state_id, FederalState.all, :id, :federal_state_name %>
   </div>
   <div class="actions">
     <%= f.submit %>
