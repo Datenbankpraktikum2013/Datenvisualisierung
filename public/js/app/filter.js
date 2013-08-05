@@ -38,22 +38,21 @@ App.filter = {
 		// 	this.filter.studentenart = ['a'];
 		// }
 		// this.filter.heimatland = new_filter.category;
-		// if(this.filter.heimatland == "Deutschland"){
-		// 	$('#bundesland').slideDown();
-		// }
-		// else{
-		// 	$('#bundesland').slideUp();
-		// }
+		
 
-		// 				App.model.data = '[4123,2313]'
-		// 				alert(App.model.data);
-		// new_filter.groupby = 'Fachbereich';
-		// 				new_filter.stackby = 'Geschlecht';
-		// 				new_filter.geschlecht = this.filter.geschlecht;
+		//Falls Deutschland Heimatland ist, kann nach 
+		//Bundeslaendern sortiert werden
+		if(this.filter.heimatland == "Deutschland"){
+		 	$('#bundesland').slideDown();
+		}
+		else{
+		 	$('#bundesland').slideUp();
+		}
 
 
 		$('#filter-form :input:visible').formstate(this.filter);
   		
+  		//Stacking und grouping nach Faellen sortiert 
 		switch(new_filter.stackby)
 		{
 			case 'Status':
@@ -718,7 +717,8 @@ App.filter = {
 		}
 		//Neue Suche durchführen
 		App.model.post(new_filter);
-
+		//Verzögern, damit Rails Ergebnis liefern kann
+		setTimeout(1000);	//Workaround -> wird noch geändert 
 		//Suche abrufen
 		App.model.fetch(App.model.getFilter());
 
