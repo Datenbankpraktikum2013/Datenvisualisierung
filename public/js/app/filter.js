@@ -92,7 +92,7 @@ App.filter = {
       			if(index == 'stackby' | index == 'groupby' | index == 'altervon' | index == 'alterbis'){
 
       			}
-      			else returnString = returnString +'<li>'+index+'</li>';
+      			else returnString = returnString +'<li><a href="#" class="launch" onclick="alert(\'test\')"">'+index+'</a></li>';
       			
     		}
     		else{ 
