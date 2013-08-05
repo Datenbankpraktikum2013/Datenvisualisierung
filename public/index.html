@@ -91,11 +91,11 @@
 								</div>
 								<div class="span7">
 									<label class="checkbox">
-										<input name="geschlecht" type="checkbox" value="m" checked="checked">
+										<input name="Geschlecht" type="checkbox" value="m" checked="checked">
 										M&auml;nnlich 
 									</label>
 									<label class="checkbox">
-										<input name="geschlecht" type="checkbox" value="w" checked="checked">
+										<input name="Geschlecht" type="checkbox" value="w" checked="checked">
 										Weiblich
 									</label>
 								</div>
@@ -120,9 +120,10 @@
 									<label>
 										Fachbereich(e):
 										<select data-role="multiselect" multiple="multiple" 
-											name="fachbereich" class="multiselect span12">
+											name="Fachbereich" class="multiselect span12">
 											<option>1 Sozialwissenschaften</option>
-											<option>2 Kultur- und Geowissenschaften</option>
+											<option>2 Kultur- und Geowissenschaften
+											</option>
 											<option>3 Erziehungs- und Kulturwissenschaften</option>
 											<option>4 Physik</option>
 											<option>5 Biologie und Chemie</option>
@@ -139,7 +140,7 @@
 								<div class="span12">
 									<label>
 										Lehreinheit:
-										<select name="lehreinheit" class="span12">
+										<select name="Lehreinheit" class="span12">
 											<option>Informatik</option>
 											<option>Mathematik</option>
 											<option>Physik</option>
@@ -152,7 +153,7 @@
 								<div class="span12">
 									<label>
 										Heimatland:
-										<select name="heimatland" class="span12">
+										<select name="Heimatland" class="span12">
 											<option value="Alle">Alle</option>
 											<option value="Deutschland">Deutschland</option>
 											<option value="Österreich">&Ouml;sterreich</option>
@@ -420,11 +421,11 @@
 									</label>
 								</div>
 							</div>						    
-							<div id="bundesland" class="row-fluid">
+							<div id="Bundesland" class="row-fluid">
 								<div class="span12">
 								<label>
 									Bundesland:
-									<select name="bundesland" class="span12">
+									<select name="Bundesland" class="span12">
 										<option value="All">Alle</option>
 										<option value="Niedersachsen">Niedersachsen</option>
 									</select>
@@ -435,8 +436,9 @@
 								<div class="span12">
 								<label>
 									1. Studienfach:
-									<select class="span12">
-										<option>Informatik</option>
+									<select name="1.Studienfach" class="span12">
+										<option>Kein</option>
+										<option value="Informatik">Informatik</option>
 										<option>Mathematik</option>
 									</select>
 								</label>
@@ -446,7 +448,8 @@
 								<div class="span12">
 								<label>
 									2. Studienfach:
-									<select class="span12">
+									<select name="2.Studienfach" class="span12">
+										<option>Kein</option>
 										<option>Informatik</option>
 										<option>Mathematik</option>
 									</select>
@@ -458,7 +461,8 @@
 								<div class="row-fluid">
 									<div class="span12">
 										<label>Erfassungssemester:
-											<select class="span12">
+											<select name="Erfassungssemester" class="span12">
+												<option selected="selected">Kein</option>
 												<option>WS 2012/2013</option>
 												<option>SS 2013</option>
 											</select>
@@ -468,7 +472,8 @@
 								<div class="row-fluid">
 									<div class="span12">
 										<label>Aktuell im Fachsemester
-											<select class="span12">
+											<select name="Fachsemester" class="span12">
+												<option selected="selected">Kein</option>
 												<option>1. Semester</option>
 											</select>
 										</label>
@@ -480,7 +485,8 @@
 								<div class="row-fluid">
 									<div class="span12">
 										<label>Abgangssemester:
-											<select class="span12">
+											<select name="Abgangssemester" class="span12">
+												<option selected="selected">Keine</option>
 												<option>WS 2012/2013</option>
 												<option>SS 2013</option>
 											</select>
@@ -490,7 +496,8 @@
 								<div class="row-fluid">
 									<div class="span12">
 										<label>Zahl der benötigten Semester
-											<select class="span12">
+											<select name="Anzahl benötigter Semester"class="span12">
+												<option selected="selected">Alle</option>
 												<option>1. Semester</option>
 											</select>
 										</label>
@@ -499,7 +506,7 @@
 								<div class="row-fluid">
 									<div class="span12">
 										<label>Abschlussnote
-											<select class="span12">
+											<select name="Abschlussnote" class="span12">
 												<option>1.0</option>
 												<option>1.3</option>
 												<option>1.5</option>
@@ -516,21 +523,21 @@
 							<div class="row-fluid">
 								<div class="span6">
 									<label class="checkbox">
-										<input type="checkbox" value="ba" name="abschluss">
+										<input type="checkbox" value="ba" name="Abschluss">
 										Bachelor 
 									</label>
 									<label class="checkbox">
-										<input type="checkbox" value="ma" name="abschluss">
+										<input type="checkbox" value="ma" name="Abschluss">
 										Master 
 									</label>
 								</div>
 								<div class="span6">
 									<label class="checkbox">
-										<input type="checkbox" value="diplom" name="abschluss">
+										<input type="checkbox" value="diplom" name="Abschluss">
 										Diplom 
 									</label>
 									<label class="checkbox">
-										<input type="checkbox" value="magister" name="abschluss">
+										<input type="checkbox" value="magister" name="Abschluss">
 										Magister
 									</label>
 								</div>
@@ -585,7 +592,7 @@
 						    <div id="chartswitch" class="btn-group">
 							    <button name="columnchart" class="btn active">Balkendiagramm</button>
 							    <button name="piechart" class="btn">Tortendiagramm</button>
-							    <button class="btn">Googlemaps</button>
+							    <button name="googlemaps" class="btn">Googlemaps</button>
 						    </div>
 						</div>
 					</div>
@@ -643,6 +650,8 @@
 		<script src="js/vendor/bootstrap-multiselect.js"></script>
 		<script src="js/highcharts/highcharts.js"></script>
 		<script src="js/vendor/radio.min.js"></script>
+		<script src="http://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false&region=de&language=de"></script>
+		<script type="text/javascript" src="http://www.google.com/jsapi"></script>
 
 		<script src="js/app/app.js"></script>
 		<script src="js/app/model.js"></script>
@@ -651,6 +660,7 @@
 		<script src="js/app/columnchart.js"></script>
 		<script src="js/app/piechart.js"></script>
 		<script src="js/app/searches.js"></script>
+		<script src="js/app/googlemaps.js"></script>
 
 		<script src="js/plugins.js"></script>
 		<script src="js/main.js"></script>
