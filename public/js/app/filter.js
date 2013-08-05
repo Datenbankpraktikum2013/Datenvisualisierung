@@ -65,7 +65,7 @@ App.filter = {
 		 				new_filter.stackby = 'Status';
 					break;
 					case 'Geschlecht': 
-						new_filter.groupby = 'Fachbereich';
+						new_filter.groupby = 'Alter';
 		 				new_filter.stackby = 'Status';
 					break;
 					case 'Fachbereich': 
@@ -78,8 +78,17 @@ App.filter = {
 		 				new_filter.stackby = 'Status';
 					break;
 					case 'Studienfach' : 
-						new_filter.groupby = 'Status'; //Eventuell hier Schluss machen
+						new_filter.groupby = 'Abschlussart'; //Eventuell hier Schluss machen
 		 				new_filter.stackby = 'Status';
+		 			break;
+					case 'Abschlussart' : 
+						new_filter.stackby = 'Abschlussart';
+						new_filter.groupby = 'Geschlecht';
+						App.showAlert({
+							type: 'info', 
+							heading: 'Maximale Detailstufe', 
+							message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						});
 					break;
 					case 'Land' :
 						if(new_filter.heimatland == 'de'){
@@ -92,12 +101,12 @@ App.filter = {
 						}
 					break;
 					case 'Keine' :
-						new_filter.groupby = '';
-						new_filter.stackby = '';
+						new_filter.groupby = 'Geschlecht';
+						new_filter.stackby = 'Status';
 					break;
 					case 'Alter' :
-						new_filter.groupby = '' ;
-						new_filter.stackby = '' ;
+						new_filter.groupby = 'Alter' ;
+						new_filter.stackby = 'Status' ;
 					break;
 				}break;
 
@@ -105,46 +114,50 @@ App.filter = {
 				switch(new_filter.groupby)
 				{ 
 					case 'Geschlecht':
-						new_filter.stackby = 'Status';
-						new_filter.groupby = 'Geschlecht';
+						new_filter.groupby = 'Alter';
+						new_filter.stackby = 'Geschlecht';
 		 			break;
 					case 'Status':
-						new_filter.stackby = 'Fachbereich';
-						new_filter.groupby = 'Geschlecht'
+						new_filter.groupby = 'Alter';
+						new_filter.stackby = 'Geschlecht'
 					break;
 					case 'Fachbereich': 
-						new_filter.stackby = 'Lehreinheit';
-						new_filter.groupby = 'Geschlecht'
+						new_filter.groupby = 'Lehreinheit';
+						new_filter.stackby = 'Geschlecht'
 					break;
 					case 'Lehreinheit' : 
-						new_filter.stackby = 'Abschlussart';
-						new_filter.groupby = 'Geschlecht'
+						new_filter.groupby = 'Abschlussart';
+						new_filter.stackby = 'Geschlecht'
 					break;
 					case 'Abschlussart' : 
-						new_filter.stackby = 'Studienfach';
-						new_filter.groupby = 'Geschlecht';
+						new_filter.groupby = 'Abschlussart';
+						new_filter.stackby = 'Geschlecht';
 					break;
 					case 'Studienfach' : 
-						new_filter.stackby = 'Studienfach'
-						new_filter.groupby = 'Geschlecht';
+						new_filter.groupby = 'Abschlussart'
+						new_filter.stackby = 'Geschlecht';
 					break;
 					case 'Keine' :
-						new_filter.groupby = '';
-						new_filter.stackby = '';
+						new_filter.groupby = 'Status';
+						new_filter.stackby = 'Geschlecht';
 					break;
 					case 'Alter' :
-						new_filter.groupby = '' ;
-						new_filter.stackby = '' ;
+						new_filter.groupby = 'Alter' ;
+						new_filter.stackby = 'Geschlecht';
 					break;
 					case 'Land' :
 						if(new_filter.heimatland == 'de'){
 							new_filter.groupby = 'Bundesland';
-							new_filter.stackby = 'Status';
+							new_filter.stackby = 'Geschlecht';
 						}
 						else{
 							new_filter.groupby = 'Land';
-							new_filter.stackby = 'Status';
+							new_filter.stackby = 'Geschlecht';
 						}
+					break;
+					case 'Bundesland' :
+						new_filter.groupby = 'Bundesland';
+						new_filter.stackby = 'Geschlecht';
 					break;
 				}break;
 
@@ -152,46 +165,50 @@ App.filter = {
 				switch(new_filter.groupby)
 				{ 
 					case 'Geschlecht':
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Alter';
+						new_filter.stackby = 'Fachbereich'; 
 					break;
 					case 'Status':
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Geschlecht';
+						new_filter.stackby = 'Fachbereich'; 
 					break;
 					case 'Fachbereich': 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Lehreinheit';
+						new_filter.stackby = 'Fachbereich'; 
 					break;
 					case 'Lehreinheit' : 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Abschlussart';
+						new_filter.stackby = 'Fachbereich'; 
 					break;
 					case 'Abschlussart' : 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Abschlussart';
+						new_filter.stackby = 'Fachbereich'; 
 					break;
 					case 'Studienfach' :
-						new_filter.stackby = '';
-						new_filter.groupby = '';  
+						new_filter.groupby = 'Abschlussart';
+						new_filter.stackby = 'Fachbereich';  
 					break;
 					case 'Keine' :
-						new_filter.groupby = '';
-						new_filter.stackby = '';
+						new_filter.groupby = 'Status';
+						new_filter.stackby = 'Fachbereich';
 					break;
 					case 'Alter' :
-						new_filter.groupby = '' ;
-						new_filter.stackby = '' ;
+						new_filter.groupby = 'Alter';
+						new_filter.stackby = 'Fachbereich';
 					break;
 					case 'Land' :
 						if(new_filter.heimatland == 'de'){
 							new_filter.groupby = 'Bundesland';
-							new_filter.stackby = 'Status';
+							new_filter.stackby = 'Fachbereich';
 						}
 						else{
 							new_filter.groupby = 'Land';
-							new_filter.stackby = 'Status';
+							new_filter.stackby = 'Fachbereich';
 						}
+					break;
+					case 'Bundesland' :
+						new_filter.groupby = 'Bundesland';
+						new_filter.stackby = 'Fachbereich';
 					break;
 				}break;
 
@@ -199,46 +216,50 @@ App.filter = {
 				switch(new_filter.groupby)
 				{ 
 					case 'Geschlecht': 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Alter';
+						new_filter.stackby = 'Lehreinheit'; 
 					break;
 					case 'Status': 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Geschlecht';
+						new_filter.stackby = 'Lehreinheit'; 
 					break;
 					case 'Fachbereich': 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Abschlussart';
+						new_filter.stackby = 'Lehreinheit'; 
 					break;
 					case 'Lehreinheit' : 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Fachbereich';
+						new_filter.stackby = 'Lehreinheit'; 
 					break;
 					case 'Abschlussart' : 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 						
+						new_filter.groupby = 'Abschlussart';
+						new_filter.stackby = 'Lehreinheit'; 						
 					break;
 					case 'Studienfach' : 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Abschlussart';
+						new_filter.stackby = 'Lehreinheit'; 
 					break;
 					case 'Keine' :
-						new_filter.groupby = '';
-						new_filter.stackby = '';
+						new_filter.groupby = 'Status';
+						new_filter.stackby = 'Lehreinheit';
 					break;
 					case 'Alter' :
-						new_filter.groupby = '' ;
-						new_filter.stackby = '' ;
+						new_filter.groupby = 'Alter' ;
+						new_filter.stackby = 'Lehreinheit' ;
 					break;
 					case 'Land' :
 						if(new_filter.heimatland == 'de'){
 							new_filter.groupby = 'Bundesland';
-							new_filter.stackby = 'Status';
+							new_filter.stackby = 'Lehreinheit';
 						}
 						else{
 							new_filter.groupby = 'Land';
-							new_filter.stackby = 'Status';
+							new_filter.stackby = 'Lehreinheit';
 						}
+					break;
+					case 'Bundesland' :
+						new_filter.groupby = 'Bundesland';
+						new_filter.stackby = 'Lehreinheit';
 					break;
 				}break;
 
@@ -246,46 +267,50 @@ App.filter = {
 				switch(new_filter.groupby)
 				{ 
 					case 'Geschlecht': 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Alter';
+						new_filter.stackby = 'Abschlussart'; 
 					break;
 					case 'Status': 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Geschlecht';
+						new_filter.stackby = 'Abschlussart'; 
 					break;
 					case 'Fachbereich': 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Lehreinheit';
+						new_filter.stackby = 'Abschlussart'; 
 					break;
 					case 'Lehreinheit' : 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Studienfach';
+						new_filter.stackby = 'Abschlussart'; 
 					break;
 					case 'Abschlussart' : 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 						
+						new_filter.groupby = 'Fachbereich';
+						new_filter.stackby = 'Abschlussart'; 						
 					break;
 					case 'Studienfach' : 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Studienfach';
+						new_filter.stackby = 'Abschlussart'; 
 					break;
 					case 'Keine' :
-						new_filter.groupby = '';
-						new_filter.stackby = '';
+						new_filter.groupby = 'Status';
+						new_filter.stackby = 'Abschlussart';
 					break;
 					case 'Alter' :
-						new_filter.groupby = '' ;
-						new_filter.stackby = '' ;
+						new_filter.groupby = 'Alter' ;
+						new_filter.stackby = 'Abschlussart' ;
 					break;
 					case 'Land' :
 						if(new_filter.heimatland == 'de'){
 							new_filter.groupby = 'Bundesland';
-							new_filter.stackby = 'Status';
+							new_filter.stackby = 'Abschlussart';
 						}
 						else{
 							new_filter.groupby = 'Land';
-							new_filter.stackby = 'Status';
+							new_filter.stackby = 'Abschlussart';
 						}
+					break;
+					case 'Bundesland' :
+						new_filter.groupby = 'Bundesland';
+						new_filter.stackby = 'Abschlussart';
 					break;
 				}break;
 
@@ -293,46 +318,50 @@ App.filter = {
 				switch(new_filter.groupby)
 				{ 
 					case 'Geschlecht': 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Alter';
+						new_filter.stackby = 'Studienfach'; 
 					break;
 					case 'Status': 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Geschlecht';
+						new_filter.stackby = 'Studienfach'; 
 					break;
 					case 'Fachbereich': 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Lehreinheit';
+						new_filter.stackby = 'Studienfach'; 
 					break;
 					case 'Lehreinheit' : 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Abschlussart';
+						new_filter.stackby = 'Studienfach'; 
 					break;
 					case 'Abschlussart' : 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Abschlussart';
+						new_filter.stackby = 'Studienfach'; 
 					break;
 					case 'Studienfach' : 
-						new_filter.stackby = '';
-						new_filter.groupby = '';
+						new_filter.groupby = 'Fachbereich';
+						new_filter.stackby = 'Studienfach';
 					break;
 					case 'Keine' :
-						new_filter.groupby = '';
-						new_filter.stackby = '';
+						new_filter.groupby = 'Status';
+						new_filter.stackby = 'Studienfach';
 					break;
 					case 'Alter' :
-						new_filter.groupby = '' ;
-						new_filter.stackby = '' ;
+						new_filter.groupby = 'Alter' ;
+						new_filter.stackby = 'Studienfach' ;
 					break;
 					case 'Land' :
 						if(new_filter.heimatland == 'de'){
 							new_filter.groupby = 'Bundesland';
-							new_filter.stackby = 'Status';
+							new_filter.stackby = 'Studienfach';
 						}
 						else{
 							new_filter.groupby = 'Land';
-							new_filter.stackby = 'Status';
+							new_filter.stackby = 'Studienfach';
 						}
+					break;
+					case 'Bundesland' :
+						new_filter.groupby = 'Bundesland';
+						new_filter.stackby = 'Studienfach';
 					break;
 				}break;
 
@@ -340,46 +369,50 @@ App.filter = {
 				switch(new_filter.groupby)
 				{ 
 					case 'Geschlecht': 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Alter';
+						new_filter.stackby = 'Land'; 
 					break;
 					case 'Status': 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Geschlecht';
+						new_filter.stackby = 'Land'; 
 					break;
 					case 'Fachbereich': 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Lehreinheit';
+						new_filter.stackby = 'Land'; 
 					break;
 					case 'Lehreinheit' : 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Studienfach';
+						new_filter.stackby = 'Land'; 
 					break;
 					case 'Abschlussart' : 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Abschlussart';
+						new_filter.stackby = 'Land'; 
 					break;
 					case 'Studienfach' : 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Abschlussart';
+						new_filter.stackby = 'Land'; 
 					break;
 					case 'Keine' :
-						new_filter.groupby = '';
-						new_filter.stackby = '';
+						new_filter.groupby = 'Status';
+						new_filter.stackby = 'Land';
 					break;
 					case 'Alter' :
-						new_filter.groupby = '' ;
-						new_filter.stackby = '' ;
+						new_filter.groupby = 'Alter' ;
+						new_filter.stackby = 'Land' ;
 					break;
 					case 'Land' :
 						if(new_filter.heimatland == 'de'){
 							new_filter.groupby = 'Bundesland';
-							new_filter.stackby = 'Status';
+							new_filter.stackby = 'Land';
 						}
 						else{
 							new_filter.groupby = 'Land';
-							new_filter.stackby = 'Status';
+							new_filter.stackby = 'Land';
 						}
+					break;
+					case 'Bundesland' :
+						new_filter.groupby = 'Bundesland';
+						new_filter.stackby = 'Land';
 					break;
 				}break;
 
@@ -387,46 +420,50 @@ App.filter = {
 				switch(new_filter.groupby)
 				{ 
 					case 'Geschlecht': 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Alter';
+						new_filter.stackby = 'Keine'; 
 					break;
 					case 'Status': 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Geschlecht';
+						new_filter.stackby = 'Keine'; 
 					break;
 					case 'Fachbereich': 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Lehreinheit';
+						new_filter.stackby = 'Keine'; 
 					break;
 					case 'Lehreinheit' : 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Studienfach';
+						new_filter.stackby = 'Keine'; 
 					break;
 					case 'Abschlussart' : 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Abschlussart';
+						new_filter.stackby = 'Keine'; 
 					break;
 					case 'Studienfach' : 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.groupby = 'Abschlussart';
+						new_filter.stackby = 'Keine'; 
 					break;
 					case 'Keine' :
-						new_filter.groupby = '';
-						new_filter.stackby = '';
+						new_filter.groupby = 'Status';
+						new_filter.stackby = 'Keine';
 					break;
 					case 'Alter' :
-						new_filter.groupby = '' ;
-						new_filter.stackby = '' ;
+						new_filter.groupby = 'Alter' ;
+						new_filter.stackby = 'Keine' ;
 					break;
 					case 'Land' :
 						if(new_filter.heimatland == 'de'){
 							new_filter.groupby = 'Bundesland';
-							new_filter.stackby = 'Status';
+							new_filter.stackby = 'Keine';
 						}
 						else{
 							new_filter.groupby = 'Land';
-							new_filter.stackby = 'Status';
+							new_filter.stackby = 'Keine';
 						}
+					break;
+					case 'Bundesland' :
+						new_filter.groupby = 'Bundesland';
+						new_filter.stackby = 'Keine';
 					break;
 				}break;
 
@@ -434,50 +471,54 @@ App.filter = {
 				switch(new_filter.groupby)
 				{ 
 					case 'Geschlecht': 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.stackby = 'Geschlecht';
+						new_filter.groupby = 'Alter'; 
 					break;
 					case 'Status': 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.stackby = 'Geschlecht';
+						new_filter.groupby = 'Alter'; 
 					break;
 					case 'Fachbereich': 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.stackby = 'Lehreinheit';
+						new_filter.groupby = 'Alter'; 
 					break;
 					case 'Lehreinheit' : 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.stackby = 'Studienfach';
+						new_filter.groupby = 'Alter'; 
 					break;
 					case 'Abschlussart' : 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.stackby = 'Abschlussart';
+						new_filter.groupby = 'Alter'; 
 					break;
 					case 'Studienfach' : 
-						new_filter.stackby = '';
-						new_filter.groupby = ''; 
+						new_filter.stackby = 'Abschlussart';
+						new_filter.groupby = 'Alter'; 
 					break;
 					case 'Keine' :
-						new_filter.groupby = '';
-						new_filter.stackby = '';
+						new_filter.groupby = 'Status';
+						new_filter.stackby = 'Alter';
 					break;
 					case 'Alter' :
-						new_filter.groupby = '' ;
-						new_filter.stackby = '' ;
+						new_filter.groupby = 'Status' ;
+						new_filter.stackby = 'Alter' ;
 					break;
 					case 'Land' :
 						if(new_filter.heimatland == 'de'){
 							new_filter.groupby = 'Bundesland';
-							new_filter.stackby = 'Status';
+							new_filter.stackby = 'Alter';
 						}
 						else{
 							new_filter.groupby = 'Land';
-							new_filter.stackby = 'Status';
+							new_filter.stackby = 'Alter';
 						}
+					break;
+					case 'Bundesland' :
+						new_filter.groupby = 'Bundesland';
+						new_filter.stackby = 'Alter';
 					break;
 				}break;
 
-					}
+		}
 		//Neue Suche durchführen
 		App.model.post(new_filter);
 
