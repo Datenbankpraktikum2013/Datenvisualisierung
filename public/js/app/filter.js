@@ -108,7 +108,8 @@ App.filter = {
 						new_filter.groupby = 'Alter' ;
 						new_filter.stackby = 'Status' ;
 					break;
-				}break;
+				}
+			break;
 
 			case 'Geschlecht':
 				switch(new_filter.groupby)
@@ -159,9 +160,10 @@ App.filter = {
 						new_filter.groupby = 'Bundesland';
 						new_filter.stackby = 'Geschlecht';
 					break;
-				}break;
+				}
+			break;
 
-			case 'Fachbereich': break;
+			case 'Fachbereich': 
 				switch(new_filter.groupby)
 				{ 
 					case 'Geschlecht':
@@ -261,7 +263,8 @@ App.filter = {
 						new_filter.groupby = 'Bundesland';
 						new_filter.stackby = 'Lehreinheit';
 					break;
-				}break;
+				}
+			break;
 
 			case 'Abschlussart' :
 				switch(new_filter.groupby)
@@ -312,7 +315,8 @@ App.filter = {
 						new_filter.groupby = 'Bundesland';
 						new_filter.stackby = 'Abschlussart';
 					break;
-				}break;
+				}
+			break;
 
 			case 'Studienfach' :
 				switch(new_filter.groupby)
@@ -363,7 +367,8 @@ App.filter = {
 						new_filter.groupby = 'Bundesland';
 						new_filter.stackby = 'Studienfach';
 					break;
-				}break;
+				}
+			break;
 
 			case 'Land' :
 				switch(new_filter.groupby)
@@ -414,7 +419,8 @@ App.filter = {
 						new_filter.groupby = 'Bundesland';
 						new_filter.stackby = 'Land';
 					break;
-				}break;
+				}
+			break;
 
 			case 'Keine' : 
 				switch(new_filter.groupby)
@@ -465,34 +471,35 @@ App.filter = {
 						new_filter.groupby = 'Bundesland';
 						new_filter.stackby = 'Keine';
 					break;
-				}break;
+				}
+			break;
 
 			case 'Alter' : 
 				switch(new_filter.groupby)
 				{ 
 					case 'Geschlecht': 
-						new_filter.stackby = 'Geschlecht';
-						new_filter.groupby = 'Alter'; 
+						new_filter.groupby = 'Geschlecht';
+						new_filter.stackby = 'Alter'; 
 					break;
 					case 'Status': 
-						new_filter.stackby = 'Geschlecht';
-						new_filter.groupby = 'Alter'; 
+						new_filter.groupby = 'Geschlecht';
+						new_filter.stackby = 'Alter'; 
 					break;
 					case 'Fachbereich': 
-						new_filter.stackby = 'Lehreinheit';
-						new_filter.groupby = 'Alter'; 
+						new_filter.groupby = 'Lehreinheit';
+						new_filter.stackby = 'Alter'; 
 					break;
 					case 'Lehreinheit' : 
-						new_filter.stackby = 'Studienfach';
-						new_filter.groupby = 'Alter'; 
+						new_filter.groupby = 'Studienfach';
+						new_filter.stackby = 'Alter'; 
 					break;
 					case 'Abschlussart' : 
-						new_filter.stackby = 'Abschlussart';
-						new_filter.groupby = 'Alter'; 
+						new_filter.groupby = 'Abschlussart';
+						new_filter.stackby = 'Alter'; 
 					break;
 					case 'Studienfach' : 
-						new_filter.stackby = 'Abschlussart';
-						new_filter.groupby = 'Alter'; 
+						new_filter.groupby = 'Abschlussart';
+						new_filter.stackby = 'Alter'; 
 					break;
 					case 'Keine' :
 						new_filter.groupby = 'Status';
@@ -516,8 +523,54 @@ App.filter = {
 						new_filter.groupby = 'Bundesland';
 						new_filter.stackby = 'Alter';
 					break;
-				}break;
+				}
+			break;
 
+			case 'Bundesland' : 
+				switch(new_filter.groupby)
+				{ 
+					case 'Geschlecht': 
+						new_filter.groupby = 'Alter';
+						new_filter.stackby = 'Bundesland'; 
+					break;
+					case 'Status': 
+						new_filter.groupby = 'Geschlecht';
+						new_filter.stackby = 'Bundesland'; 
+					break;
+					case 'Fachbereich': 
+						new_filter.groupby = 'Lehreinheit';
+						new_filter.stackby = 'Bundesland'; 
+					break;
+					case 'Lehreinheit' : 
+						new_filter.groupby = 'Studienfach';
+						new_filter.stackby = 'Bundesland'; 
+					break;
+					case 'Abschlussart' : 
+						new_filter.groupby = 'Abschlussart';
+						new_filter.stackby = 'Bundesland'; 
+					break;
+					case 'Studienfach' : 
+						new_filter.groupby = 'Abschlussart';
+						new_filter.stackby = 'Bundesland'; 
+					break;
+					case 'Keine' :
+						new_filter.groupby = 'Status';
+						new_filter.stackby = 'Bundesland';
+					break;
+					case 'Alter' :
+						new_filter.groupby = 'Alter' ;
+						new_filter.stackby = 'Bundesland' ;
+					break;
+					case 'Land' :
+						new_filter.groupby = 'Status';
+						new_filter.stackby = 'Bundesland';
+					break;
+					case 'Bundesland' :
+						new_filter.groupby = 'Status';
+						new_filter.stackby = 'Bundesland';
+					break;
+				}
+			break;
 		}
 		//Neue Suche durchführen
 		App.model.post(new_filter);
