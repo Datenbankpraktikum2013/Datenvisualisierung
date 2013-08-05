@@ -36,7 +36,6 @@ module Migrator
 		:password => "soSRuntime",
 		:database => "misdb")
 
-	CLIENT2 = SQLite3::Database.new File.expand_path("db/germanCities.sqlite3")
 	def self.migrateStudents
 		
 		print "\n++++++++++++++++++++++++"
@@ -117,6 +116,8 @@ module Migrator
 
 	#Dumb creation of all not yet existing locations with
 	#their countries and federal states if exitend
+
+	#It is not checked wheter information has changed or not!!!
 	def self.migrateLocations
 		print "\n+++++++++++++++++++++++++"
 		print "\n+Now migrating locations+"
@@ -237,27 +238,36 @@ module Migrator
 	end
 
 	def self.migrateDepartments
+		print "\n+++++++++++++++++++++++++++"
+		print "\n+Now migrating departments+"
+		print "\n+++++++++++++++++++++++++++\n"
 
 		# the field STF_ASTAT_GRLTXT contains both, the number and the name of the department. therefore it will be put first in to 'name' and than later separated
 		# looks like this 
 
+		print "\nretrieving departments from datawarehouse"
 		departments = CLIENT.query(
 			"SELECT DISTINCT
 				STF_ASTAT_GRLTXT as 'name'
-			FROM DIM_STUDIENFAECHER ")
+			FROM DIM_STUDIENFAECHER")
 
+		numAll = departments.each.length
+		print "\ngot #{numAll} departments from datawarehouse"
+		print "\nnow iterating over them and creating missing ones\n"
 
+		bar = LoadingBar.new(numAll)
+		numCreated = 0
 		departments.each do |department|
-
-
+			bar.next
 			if(department["name"] == nil )
-				# if the name is null, this means, it is "Interdisziplinär" and we have to set is manualy
+				# if the name is null, this means, it is "Interdisziplinär" and we have to set it manually
 				departmentDB = Department.find_by_number(100)
 				if(departmentDB == nil)
 					departmentDB = Department.new
 					departmentDB.name = "Interdisziplinär"
 					departmentDB.number = 100
 					departmentDB.save
+					numCreated += 1
 				end
 			
 			else
@@ -268,32 +278,46 @@ module Migrator
 					departmentDB.number = department["name"].from(0).to(1)
 					departmentDB.name = department["name"].from(3).to(-1)
 					departmentDB.save
-					
+					numCreated += 1
 				end
 			end
 
 		end
+		bar.end
+		print "\ndone. Created #{numCreated} missing"
+		print "department".pluralize(numCreated)
 
 	end
 
 	def self.migrateTeachingUnits
+		print "\n++++++++++++++++++++++++++++++"
+		print "\n+Now migrating teaching units+"
+		print "\n++++++++++++++++++++++++++++++\n"
 
 		teaching_units = CLIENT.query(
-			"SELECT DISTINCT  
-				`LE_DTXT` AS  'name'
-			FROM DIM_LEHREINH")
+			"SELECT DISTINCT substring( STF_ASTAT_GRLTXT, 1, 2 ) AS number,substring(STF_ASTAT_GRLTXT,4)as dpt_name, LE_DTXT AS name
+			FROM DIM_STUDIENFAECHER
+			JOIN DIM_ABSTGLE ON DIM_STUDIENFAECHER.STF_ID = DIM_ABSTGLE.ABSTG_STG
+			JOIN DIM_LEHREINH ON DIM_ABSTGLE.ABSTG_LEHREINH = DIM_LEHREINH.LE_ID")
 
 
 		teaching_units.each do |teaching_unit|	
+			teaching_unit["name"].strip!
 
 			teaching_unitDB = TeachingUnit.find_by_name(teaching_unit["name"])
 
-			# remove white space later
-
 			if (teaching_unitDB == nil)
+
 				teaching_unitDB = TeachingUnit.new
-				teaching_unitDB.name = teaching_unit["name"].strip
+				teaching_unitDB.name = teaching_unit["name"]
+
+
+				teaching_unitDB.department = Department.find_by_number(teaching_unit["number"])
+				if(teaching_unitDB.department == nil)
+					raise "Could not find department #{teaching_unit["dpt_name"]} with number #{teaching_unit["number"]} for teaching unit #{teaching_unit["name"]}!\nMigrate departments first.\nIf error persists blame secretary."
+				end
 				teaching_unitDB.save
+
 			end
 
 		end	
@@ -301,20 +325,29 @@ module Migrator
 	end
 
 	def self.migrateDisciplines
+		print "\n+++++++++++++++++++++++++++"
+		print "\n+Now migrating disciplines+"
+		print "\n+++++++++++++++++++++++++++\n"
 
 		disciplines = CLIENT.query(
-			"SELECT DISTINCT  
-				`STF_DTXT`  AS 'name'
-			FROM `DIM_STUDIENFAECHER` ")
+			"SELECT DISTINCT STF_LTXT as discipline_name,LE_DTXT AS teaching_unit_name
+			FROM DIM_STUDIENFAECHER
+			JOIN DIM_ABSTGLE ON DIM_STUDIENFAECHER.STF_ID = DIM_ABSTGLE.ABSTG_STG
+			JOIN DIM_LEHREINH ON DIM_ABSTGLE.ABSTG_LEHREINH = DIM_LEHREINH.LE_ID")
 
 
 		disciplines.each do |discipline|	
+			discipline["discipline_name"].strip!
 
-			disciplineDB = Discipline.find_by_name(discipline["name"])
-
+			disciplineDB = Discipline.find_by_name(discipline["discipline_name"])
 			if (disciplineDB == nil)
 				disciplineDB = Discipline.new
-				disciplineDB.name = discipline["name"].strip
+				disciplineDB.name = discipline["discipline_name"]
+
+				discipline.teaching_unit = TeachingUnit.find_by_name(discipline["teaching_unit_name"])
+				if(discipline.teaching_unit == nil)
+					raise "Could not find teaching unit #{discipline["teaching_unit_name"]} for discipline #{discipline["discipline_name"]}!\nMigrate teaching units first.\nIf error persists blame secretary."
+				end
 				disciplineDB.save
 			end
 

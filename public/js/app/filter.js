@@ -6,13 +6,75 @@
 var App = App || {};
 
 App.filter = {
+
 	// Enthaelt ein Objekt in dem alle gesetzten Filter stehen.
 	filter : {},
+
+	init : function() {
+		radio('model.fetch').subscribe(this.loadingListener);
+		radio('model.fetched').subscribe(this.loadedListener);
+
+		// Wenn Formular veraendert wird, update das Filter Objekt.
+	    $('form input, form select').change(function() {
+	        App.filter.getFilter();
+	    });
+
+		// Event fuer Aktualisieren Button
+	    $('button[name="store"]').click(function() {
+	        radio('filter.submit').broadcast();
+	        //App.columnchart.render();
+	        $.cookie('formstate', $('form').formstate(':visible'));
+	        return false;
+	    });
+	    
+	    // Event fuer Reset Button
+	    $('button[name="restore"]').click(function() {
+	        $('form :input:visible').formstate($.cookie('formstate'));
+	        return false;
+	    });
+
+        $('#filter-form select[name="heimatland"]').change(function() {
+	        if ($(this).val() == "Deutschland") {
+	            $('#bundesland').slideDown();
+	        } else {
+	            if ($('#bundesland').css('display') != 'none') {
+	                $('#bundesland').slideUp();
+	            }
+	        }
+	    });
+
+	    $('#filter-form input[name="studentenart"]').change(function() {
+	        if ($('#absolventenart').is(":checked") && !($('#studentenart').is(":checked"))){
+	            $('#absolvent-hidden').slideDown();
+	            $('#student-hidden').slideUp();
+	        }
+	        if (!$('#absolventenart').is(":checked") && !($('#studentenart').is(":checked"))){
+	             $('#student-hidden').slideUp();
+	             $('#absolvent-hidden').slideUp();
+	        }
+	        if ((!$('#absolventenart').is(":checked")) && $('#studentenart').is(":checked")){
+	            $('#student-hidden').slideDown();
+	            $('#absolvent-hidden').slideUp();
+	        }
+	        if ($('#absolventenart').is(":checked") && $('#studentenart').is(":checked")){
+	            $('#absolvent-hidden').slideUp();
+	            $('#student-hidden').slideUp();
+	        }
+	    });
+	},
 
 	// Liest die aktuellen Filter aus dem Formular und speichert sie.
 	getFilter : function() {
 		this.filter = $('#filter-form').formstate(':visible');
 		return this.filter;
+    },
+
+    loadingListener : function(state) {
+    	$('#filter-form button[name="store"]').button('loading');
+    },
+
+    loadedListener : function() {
+		$('#filter-form button[name="store"]').button('reset');
     },
 
     setFilter : function(filter) {
@@ -38,22 +100,21 @@ App.filter = {
 		// 	this.filter.studentenart = ['a'];
 		// }
 		// this.filter.heimatland = new_filter.category;
-		// if(this.filter.heimatland == "Deutschland"){
-		// 	$('#bundesland').slideDown();
-		// }
-		// else{
-		// 	$('#bundesland').slideUp();
-		// }
+		
 
-		// 				App.model.data = '[4123,2313]'
-		// 				alert(App.model.data);
-		// new_filter.groupby = 'Fachbereich';
-		// 				new_filter.stackby = 'Geschlecht';
-		// 				new_filter.geschlecht = this.filter.geschlecht;
+		//Falls Deutschland Heimatland ist, kann nach 
+		//Bundeslaendern sortiert werden
+		if(this.filter.heimatland == "Deutschland"){
+		 	$('#bundesland').slideDown();
+		}
+		else{
+		 	$('#bundesland').slideUp();
+		}
 
 
 		$('#filter-form :input:visible').formstate(this.filter);
   		
+  		//Stacking und grouping nach Faellen sortiert 
 		switch(new_filter.stackby)
 		{
 			case 'Status':
@@ -718,7 +779,8 @@ App.filter = {
 		}
 		//Neue Suche durchführen
 		App.model.post(new_filter);
-
+		//Verzögern, damit Rails Ergebnis liefern kann
+		setTimeout(1000);	//Workaround -> wird noch geändert 
 		//Suche abrufen
 		App.model.fetch(App.model.getFilter());
 

@@ -1,6 +1,6 @@
 var App = App || {};
 
-App.piechart = {
+App.chart.piechart = {
 	el : $('#chart'),
 
 	render : function() {

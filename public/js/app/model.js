@@ -6,7 +6,15 @@
 var App = App || {};
 
 App.model = {
+
+	init : function() {
+		radio('filter.submit').subscribe(this.submitListener);
+	},
 	
+	submitListener : function() {
+		App.model.fetch(App.filter.getFilter());
+	},
+
 	// Enthaelt immer den aktuellen Datensatz
 	data : {
 		categories : ['Deutschland','Schweiz','Österreich'],
@@ -29,18 +37,21 @@ App.model = {
 	 * der Datenbank
 	 */
 	fetch : function(filter) {
+		radio('model.fetch').broadcast();
 		$.getJSON('searches/1.json', function(data) {
 			App.model.data = data.data;
 		}).fail(function() {
 			App.showAlert({
-				type: 'error', 
+				type: 'danger', 
 				heading: 'Verbindungsfehler!', 
 				message: 'Die Verbindung zum Server ist fehlgeschlagen!'
 			});
+		}).always(function(){
+			radio('model.fetched').broadcast();
 		});
 		console.log(this.data);
 		return this.data;
-	}
+	},
 
 	/* 
 	 * Fuehrt eine neue Suche aus indem ein POST-Objekt 
