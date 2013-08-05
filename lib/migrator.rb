@@ -295,9 +295,10 @@ module Migrator
 		print "\n++++++++++++++++++++++++++++++\n"
 
 		teaching_units = CLIENT.query(
-			"SELECT DISTINCT  
-				`LE_DTXT` AS  'name'
-			FROM DIM_LEHREINH")
+			"SELECT DISTINCT substring( STF_ASTAT_GRLTXT, 1, 2 ) AS number,substring(STF_ASTAT_GRLTXT,4)as dpt_name, LE_DTXT AS name
+			FROM DIM_STUDIENFAECHER
+			JOIN DIM_ABSTGLE ON DIM_STUDIENFAECHER.STF_ID = DIM_ABSTGLE.ABSTG_STG
+			JOIN DIM_LEHREINH ON DIM_ABSTGLE.ABSTG_LEHREINH = DIM_LEHREINH.LE_ID")
 
 
 		teaching_units.each do |teaching_unit|	
@@ -306,9 +307,17 @@ module Migrator
 			teaching_unitDB = TeachingUnit.find_by_name(teaching_unit["name"])
 
 			if (teaching_unitDB == nil)
+
 				teaching_unitDB = TeachingUnit.new
 				teaching_unitDB.name = teaching_unit["name"]
+
+
+				teaching_unitDB.department = Department.find_by_number(teaching_unit["number"])
+				if(teaching_unitDB.department == nil)
+					raise "Could not find department #{teaching_unit["dpt_name"]} with number #{teaching_unit["number"]} for teaching unit #{teaching_unit["name"]}!\nMigrate departments first.\nIf error persists blame secretary."
+				end
 				teaching_unitDB.save
+
 			end
 
 		end	
@@ -321,18 +330,24 @@ module Migrator
 		print "\n+++++++++++++++++++++++++++\n"
 
 		disciplines = CLIENT.query(
-			"SELECT DISTINCT  
-				`STF_DTXT`  AS 'name'
-			FROM `DIM_STUDIENFAECHER` ")
+			"SELECT DISTINCT STF_LTXT as discipline_name,LE_DTXT AS teaching_unit_name
+			FROM DIM_STUDIENFAECHER
+			JOIN DIM_ABSTGLE ON DIM_STUDIENFAECHER.STF_ID = DIM_ABSTGLE.ABSTG_STG
+			JOIN DIM_LEHREINH ON DIM_ABSTGLE.ABSTG_LEHREINH = DIM_LEHREINH.LE_ID")
 
 
 		disciplines.each do |discipline|	
+			discipline["discipline_name"].strip!
 
-			disciplineDB = Discipline.find_by_name(discipline["name"])
-
+			disciplineDB = Discipline.find_by_name(discipline["discipline_name"])
 			if (disciplineDB == nil)
 				disciplineDB = Discipline.new
-				disciplineDB.name = discipline["name"].strip
+				disciplineDB.name = discipline["discipline_name"]
+
+				discipline.teaching_unit = TeachingUnit.find_by_name(discipline["teaching_unit_name"])
+				if(discipline.teaching_unit == nil)
+					raise "Could not find teaching unit #{discipline["teaching_unit_name"]} for discipline #{discipline["discipline_name"]}!\nMigrate teaching units first.\nIf error persists blame secretary."
+				end
 				disciplineDB.save
 			end
 
