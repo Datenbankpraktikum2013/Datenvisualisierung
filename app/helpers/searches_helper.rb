@@ -42,6 +42,8 @@ module SearchesHelper
 	end
 
 	def render_json_for_maps(json)
+		search_results = @search.results
+
 		country_names.each do |country|
 			json.set! :country do
 				json.set! :iso_country_code, "DE"

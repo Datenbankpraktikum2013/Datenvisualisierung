@@ -61,6 +61,10 @@ class CountriesController < ApplicationController
     end
   end
 
+  def self.fetch_accessable_attributes
+    ["country_name","longitude","latitude","country_iso_code"]
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_country
@@ -69,6 +73,6 @@ class CountriesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def country_params
-      params.require(:country).permit(:country_name)
+      params.require(:country).permit(:country_name, :country_iso_code, :longitude, :latitude)
     end
 end
