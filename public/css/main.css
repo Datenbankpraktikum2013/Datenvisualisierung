@@ -5,8 +5,9 @@
    ========================================================================== */
 
 #chart {
-	height : 750px;
-	width : 1200px;
+	height : 80vmin;
+	min-height: 80vmin;
+	max-height: 80vmin;
 }
 
 #bundesland {

@@ -50,7 +50,7 @@ App.model = {
 			radio('model.fetched').broadcast();
 		});
 		//return this.data;
-	}
+	},
 
 	/* 
 	 * Fuehrt eine neue Suche aus indem ein POST-Objekt 

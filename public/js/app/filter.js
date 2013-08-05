@@ -43,7 +43,7 @@ App.filter = {
 	        }
 	    });
 
-	    $('#filter-form input[name="status"]').change(function() {
+	    $('#filter-form input[name="studentenart"]').change(function() {
 	        if ($('#absolventenart').is(":checked") && !($('#studentenart').is(":checked"))){
 	            $('#absolvent-hidden').slideDown();
 	            $('#student-hidden').slideUp();

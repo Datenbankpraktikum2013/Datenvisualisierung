@@ -15,22 +15,22 @@ App.chart = {
 		$('button[name="'+this.current_chart+'"]').addClass('active');
 
 		// Event fuer Balkendiagramm Button
-	    $('#chartswitch-buttons button').click(function() {
+	    $('#chartswitch button').click(function() {
 	    	App.chart.setChartType($(this).attr('name'));
 	        return false;
 	    });
 	    
-	    // Event fuer Tortendiagramm Button
+	    /* Event fuer Tortendiagramm Button
 	    $('#chartswitch-select select').change(function() {
 	        App.chart.setChartType($(this).val());
 	        return false;
-	    });
+	    });*/
 	},
 
 	updateChartSwitchView : function() {
-		$('#chartswitch-buttons button').removeClass('active');
-    	$('#chartswitch-buttons button[name="'+this.current_chart+'"]').addClass('active');
-    	$('#chartswitch-select select').val(this.current_chart);
+		$('#chartswitch button').removeClass('active');
+    	$('#chartswitch button[name="'+this.current_chart+'"]').addClass('active');
+    	//$('#chartswitch-select select').val(this.current_chart);
 	},
 
 	dataChangedListener : function() {

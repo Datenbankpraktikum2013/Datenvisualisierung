@@ -23,7 +23,7 @@ App.chart.columnchart = {
                     this.redraw();
                 },
                 click : function() {
-                    $('.popover').remove();
+                    //$('.popover').remove();
                 }
             },
             zoomType: 'xy',
@@ -71,7 +71,7 @@ App.chart.columnchart = {
         		point : {
                     events : {
             			click: function(event) {
-                            $('.popover').remove();
+                            /*$('.popover').remove();
                             $(event.target).popover({
                               title : '<strong>Diesen Datensatz aufteilen nach:</strong>',
                               html : true,
@@ -80,7 +80,7 @@ App.chart.columnchart = {
                               placement : 'auto right',
                               trigger : 'manual'
                             }).popover('show');
-                            console.log('bin hier!');
+                            console.log('bin hier!');*/
                         }
                     }
         		},
