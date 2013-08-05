@@ -71,16 +71,17 @@ App.chart.columnchart = {
         		point : {
                     events : {
             			click: function(event) {
-                            /*$('.popover').remove();
+                            $('.popover').remove();
                             $(event.target).popover({
                               title : '<strong>Diesen Datensatz aufteilen nach:</strong>',
                               html : true,
-                              content : '<ul><li>'+this.category+'</li><li>'+this.series.name+'</li></ul>',
+                              content : App.filter.extendFilter(),
                               container : 'body',
                               placement : 'auto right',
                               trigger : 'manual'
                             }).popover('show');
-                            console.log('bin hier!');*/
+                            console.log('bin hier!');
+                            console.log(App.filter.fetchFilter);
                         }
                     }
         		},
@@ -90,7 +91,7 @@ App.chart.columnchart = {
         series : App.model.data.series
 	},
 
-	// Rendert das Balkendiagramm in div#chart
+	// Rendert das Balkendiagramm in div#chart 
 	render : function() {
         // Wenn nur eine Series dann blende Legende aus
         this.config.legend.enabled = (App.model.data.series.length != 1);

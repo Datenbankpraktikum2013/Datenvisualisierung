@@ -2,7 +2,6 @@ module SearchesHelper
 
 	def render_json_for_highcharts(json)
 		search_results = @search.results
-		puts search_results
 
 		category_names = []
 		series_names = []
@@ -43,6 +42,25 @@ module SearchesHelper
 	end
 
 	def render_json_for_maps(json)
-		#to implement
+		country_names.each do |country|
+			json.set! :country do
+				json.set! :iso_country_code, "DE"
+				json.set! :longitude, 0
+				json.set! :latitude, 0
+				json.set! :number, 5
+				json.set! :states do
+					json.set! :iso_state_code, "DE-NI"
+					json.set! :longitude, 0
+					json.set! :latitude, 50
+					json.set! :number, 4
+					json.set! :cities do
+						json.set! :location_name, "Osna "
+						json.set! :longitude, 52
+						json.set! :latitude, 8
+						json.set! :number, 2
+					end
+				end
+			end
+		end
 	end
 end
