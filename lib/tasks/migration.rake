@@ -14,19 +14,11 @@ namespace :migrate do
 	task :students => :environment do
 		Migrator.migrateStudents
   	end
-	desc 'Migrate all Locations'
-	task :locations => :environment do
-		Migrator.migrateLocations
-	end
-	desc 'Migrate all Students'
-	task :students => :environment do
-		Migrator.migrateStudents
-	end
-	desc 'Migrate all Departments'
+	desc 'Migrate all departments'
 	task :departments => :environment do
 		Migrator.migrateDepartments
   	end
-  	desc 'Migrate all Teaching Units'
+  	desc 'Migrate all teaching units'
 	task :teaching_units => :environment do
 		Migrator.migrateTeachingUnits
   	end
