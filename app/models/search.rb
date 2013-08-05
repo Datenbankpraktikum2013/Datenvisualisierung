@@ -40,10 +40,14 @@ class Search < ActiveRecord::Base
 		puts "Filtered Classes:"
 		puts filtered_classes
 
+		filtered_classes << GroupingController.fetch_all_groupable_elements[search_category]
+
 		filtered_result = Student.all
-		filtered_classes.uniq.each do |class_name|
-			filtered_result = Student.joins(class_name.downcase.to_sym).load unless class_name == "Student"
-		end
+		#filtered_classes.uniq.each do |class_name|
+		#	filtered_result = filtered_result.joins(class_name.downcase.to_sym).load unless class_name == "Student"
+		#end
+
+		filtered_result = filtered_result.joins(location: :country)
 
 		filtered_attributes.each do |attribute|
 			if attribute == "year_of_birth"
