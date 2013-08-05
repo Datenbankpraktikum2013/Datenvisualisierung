@@ -107,6 +107,20 @@ App.filter = {
 					case 'Alter' :
 						new_filter.groupby = 'Alter' ;
 						new_filter.stackby = 'Status' ;
+						App.showAlert({
+								type: 'info', 
+								heading: 'Maximale Detailstufe', 
+								message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						});
+					break;
+					case 'Bundesland' :
+						new_filter.groupby = 'Bundesland';
+						new_filter.stackby = 'Status';
+						App.showAlert({
+								type: 'info', 
+								heading: 'Maximale Detailstufe', 
+								message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						});
 					break;
 				}
 			break;
@@ -133,6 +147,11 @@ App.filter = {
 					case 'Abschlussart' : 
 						new_filter.groupby = 'Abschlussart';
 						new_filter.stackby = 'Geschlecht';
+						App.showAlert({
+								type: 'info', 
+								heading: 'Maximale Detailstufe', 
+								message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						});
 					break;
 					case 'Studienfach' : 
 						new_filter.groupby = 'Abschlussart'
@@ -145,6 +164,11 @@ App.filter = {
 					case 'Alter' :
 						new_filter.groupby = 'Alter' ;
 						new_filter.stackby = 'Geschlecht';
+						App.showAlert({
+								type: 'info', 
+								heading: 'Maximale Detailstufe', 
+								message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						});
 					break;
 					case 'Land' :
 						if(new_filter.heimatland == 'de'){
@@ -159,6 +183,11 @@ App.filter = {
 					case 'Bundesland' :
 						new_filter.groupby = 'Bundesland';
 						new_filter.stackby = 'Geschlecht';
+						App.showAlert({
+								type: 'info', 
+								heading: 'Maximale Detailstufe', 
+								message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						});
 					break;
 				}
 			break;
@@ -184,7 +213,12 @@ App.filter = {
 					break;
 					case 'Abschlussart' : 
 						new_filter.groupby = 'Abschlussart';
-						new_filter.stackby = 'Fachbereich'; 
+						new_filter.stackby = 'Fachbereich';
+						App.showAlert({
+								type: 'info', 
+								heading: 'Maximale Detailstufe', 
+								message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						}); 
 					break;
 					case 'Studienfach' :
 						new_filter.groupby = 'Abschlussart';
@@ -197,6 +231,11 @@ App.filter = {
 					case 'Alter' :
 						new_filter.groupby = 'Alter';
 						new_filter.stackby = 'Fachbereich';
+						App.showAlert({
+								type: 'info', 
+								heading: 'Maximale Detailstufe', 
+								message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						});
 					break;
 					case 'Land' :
 						if(new_filter.heimatland == 'de'){
@@ -211,6 +250,11 @@ App.filter = {
 					case 'Bundesland' :
 						new_filter.groupby = 'Bundesland';
 						new_filter.stackby = 'Fachbereich';
+						App.showAlert({
+								type: 'info', 
+								heading: 'Maximale Detailstufe', 
+								message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						});
 					break;
 				}break;
 
@@ -235,7 +279,12 @@ App.filter = {
 					break;
 					case 'Abschlussart' : 
 						new_filter.groupby = 'Abschlussart';
-						new_filter.stackby = 'Lehreinheit'; 						
+						new_filter.stackby = 'Lehreinheit';
+						App.showAlert({
+								type: 'info', 
+								heading: 'Maximale Detailstufe', 
+								message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						}); 						
 					break;
 					case 'Studienfach' : 
 						new_filter.groupby = 'Abschlussart';
@@ -248,6 +297,11 @@ App.filter = {
 					case 'Alter' :
 						new_filter.groupby = 'Alter' ;
 						new_filter.stackby = 'Lehreinheit' ;
+						App.showAlert({
+								type: 'info', 
+								heading: 'Maximale Detailstufe', 
+								message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						});
 					break;
 					case 'Land' :
 						if(new_filter.heimatland == 'de'){
@@ -262,6 +316,11 @@ App.filter = {
 					case 'Bundesland' :
 						new_filter.groupby = 'Bundesland';
 						new_filter.stackby = 'Lehreinheit';
+						App.showAlert({
+								type: 'info', 
+								heading: 'Maximale Detailstufe', 
+								message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						});
 					break;
 				}
 			break;
@@ -291,7 +350,12 @@ App.filter = {
 					break;
 					case 'Studienfach' : 
 						new_filter.groupby = 'Studienfach';
-						new_filter.stackby = 'Abschlussart'; 
+						new_filter.stackby = 'Abschlussart';
+						App.showAlert({
+								type: 'info', 
+								heading: 'Maximale Detailstufe', 
+								message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						}); 
 					break;
 					case 'Keine' :
 						new_filter.groupby = 'Status';
@@ -299,7 +363,12 @@ App.filter = {
 					break;
 					case 'Alter' :
 						new_filter.groupby = 'Alter' ;
-						new_filter.stackby = 'Abschlussart' ;
+						new_filter.stackby = 'Abschlussart';
+						App.showAlert({
+								type: 'info', 
+								heading: 'Maximale Detailstufe', 
+								message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						});
 					break;
 					case 'Land' :
 						if(new_filter.heimatland == 'de'){
@@ -314,6 +383,11 @@ App.filter = {
 					case 'Bundesland' :
 						new_filter.groupby = 'Bundesland';
 						new_filter.stackby = 'Abschlussart';
+						App.showAlert({
+								type: 'info', 
+								heading: 'Maximale Detailstufe', 
+								message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						});
 					break;
 				}
 			break;
@@ -339,7 +413,12 @@ App.filter = {
 					break;
 					case 'Abschlussart' : 
 						new_filter.groupby = 'Abschlussart';
-						new_filter.stackby = 'Studienfach'; 
+						new_filter.stackby = 'Studienfach';
+						App.showAlert({
+								type: 'info', 
+								heading: 'Maximale Detailstufe', 
+								message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						}); 
 					break;
 					case 'Studienfach' : 
 						new_filter.groupby = 'Fachbereich';
@@ -352,6 +431,11 @@ App.filter = {
 					case 'Alter' :
 						new_filter.groupby = 'Alter' ;
 						new_filter.stackby = 'Studienfach' ;
+						App.showAlert({
+								type: 'info', 
+								heading: 'Maximale Detailstufe', 
+								message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						});
 					break;
 					case 'Land' :
 						if(new_filter.heimatland == 'de'){
@@ -366,6 +450,11 @@ App.filter = {
 					case 'Bundesland' :
 						new_filter.groupby = 'Bundesland';
 						new_filter.stackby = 'Studienfach';
+						App.showAlert({
+								type: 'info', 
+								heading: 'Maximale Detailstufe', 
+								message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						});
 					break;
 				}
 			break;
@@ -391,7 +480,12 @@ App.filter = {
 					break;
 					case 'Abschlussart' : 
 						new_filter.groupby = 'Abschlussart';
-						new_filter.stackby = 'Land'; 
+						new_filter.stackby = 'Land';
+						App.showAlert({
+								type: 'info', 
+								heading: 'Maximale Detailstufe', 
+								message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						}); 
 					break;
 					case 'Studienfach' : 
 						new_filter.groupby = 'Abschlussart';
@@ -404,6 +498,11 @@ App.filter = {
 					case 'Alter' :
 						new_filter.groupby = 'Alter' ;
 						new_filter.stackby = 'Land' ;
+						App.showAlert({
+								type: 'info', 
+								heading: 'Maximale Detailstufe', 
+								message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						});
 					break;
 					case 'Land' :
 						if(new_filter.heimatland == 'de'){
@@ -418,6 +517,11 @@ App.filter = {
 					case 'Bundesland' :
 						new_filter.groupby = 'Bundesland';
 						new_filter.stackby = 'Land';
+						App.showAlert({
+								type: 'info', 
+								heading: 'Maximale Detailstufe', 
+								message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						});
 					break;
 				}
 			break;
@@ -443,7 +547,12 @@ App.filter = {
 					break;
 					case 'Abschlussart' : 
 						new_filter.groupby = 'Abschlussart';
-						new_filter.stackby = 'Keine'; 
+						new_filter.stackby = 'Keine';
+						App.showAlert({
+								type: 'info', 
+								heading: 'Maximale Detailstufe', 
+								message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						}); 
 					break;
 					case 'Studienfach' : 
 						new_filter.groupby = 'Abschlussart';
@@ -456,6 +565,11 @@ App.filter = {
 					case 'Alter' :
 						new_filter.groupby = 'Alter' ;
 						new_filter.stackby = 'Keine' ;
+						App.showAlert({
+								type: 'info', 
+								heading: 'Maximale Detailstufe', 
+								message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						});
 					break;
 					case 'Land' :
 						if(new_filter.heimatland == 'de'){
@@ -470,6 +584,11 @@ App.filter = {
 					case 'Bundesland' :
 						new_filter.groupby = 'Bundesland';
 						new_filter.stackby = 'Keine';
+						App.showAlert({
+								type: 'info', 
+								heading: 'Maximale Detailstufe', 
+								message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						});
 					break;
 				}
 			break;
@@ -479,7 +598,12 @@ App.filter = {
 				{ 
 					case 'Geschlecht': 
 						new_filter.groupby = 'Geschlecht';
-						new_filter.stackby = 'Alter'; 
+						new_filter.stackby = 'Alter';
+						App.showAlert({
+								type: 'info', 
+								heading: 'Maximale Detailstufe', 
+								message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						}); 
 					break;
 					case 'Status': 
 						new_filter.groupby = 'Geschlecht';
@@ -495,7 +619,12 @@ App.filter = {
 					break;
 					case 'Abschlussart' : 
 						new_filter.groupby = 'Abschlussart';
-						new_filter.stackby = 'Alter'; 
+						new_filter.stackby = 'Alter';
+						App.showAlert({
+								type: 'info', 
+								heading: 'Maximale Detailstufe', 
+								message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						}); 
 					break;
 					case 'Studienfach' : 
 						new_filter.groupby = 'Abschlussart';
@@ -522,6 +651,11 @@ App.filter = {
 					case 'Bundesland' :
 						new_filter.groupby = 'Bundesland';
 						new_filter.stackby = 'Alter';
+						App.showAlert({
+								type: 'info', 
+								heading: 'Maximale Detailstufe', 
+								message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						});
 					break;
 				}
 			break;
@@ -547,7 +681,12 @@ App.filter = {
 					break;
 					case 'Abschlussart' : 
 						new_filter.groupby = 'Abschlussart';
-						new_filter.stackby = 'Bundesland'; 
+						new_filter.stackby = 'Bundesland';
+						App.showAlert({
+								type: 'info', 
+								heading: 'Maximale Detailstufe', 
+								message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						}); 
 					break;
 					case 'Studienfach' : 
 						new_filter.groupby = 'Abschlussart';
@@ -560,6 +699,11 @@ App.filter = {
 					case 'Alter' :
 						new_filter.groupby = 'Alter' ;
 						new_filter.stackby = 'Bundesland' ;
+						App.showAlert({
+								type: 'info', 
+								heading: 'Maximale Detailstufe', 
+								message: 'Um weitere Informationen abzurufen bitte eine weitere Suche durchführen.'
+						});
 					break;
 					case 'Land' :
 						new_filter.groupby = 'Status';
