@@ -1,4 +1,4 @@
-require File.expand_path('./lib/migrator.rb')
+require File.expand_path('./lib/warehouseMigration/migrator.rb')
 
 
 namespace :migrate do
