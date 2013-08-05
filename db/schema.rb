@@ -11,13 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130805120849) do
+ActiveRecord::Schema.define(version: 20130805132440) do
 
   create_table "countries", force: true do |t|
     t.string   "country_name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "iso_country_code"
+    t.string   "country_iso_code"
     t.float    "longitude"
     t.float    "latitude"
   end

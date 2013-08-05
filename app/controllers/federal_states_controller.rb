@@ -61,6 +61,10 @@ class FederalStatesController < ApplicationController
     end
   end
 
+  def self.fetch_accessable_attributes
+    ["federal_state_name","longitude","latitude","federal_state_iso_code"]
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_federal_state
@@ -69,6 +73,6 @@ class FederalStatesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def federal_state_params
-      params.require(:federal_state).permit(:federal_state_name)
+      params.require(:federal_state).permit(:federal_state_name, :federal_state_iso_code, :longitude, :latitude)
     end
 end
