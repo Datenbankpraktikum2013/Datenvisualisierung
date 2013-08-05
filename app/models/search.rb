@@ -5,7 +5,6 @@ class Search < ActiveRecord::Base
 		series_objects = []
 		category_list = []
 		series_list = []
-
 		filtered_result = []
 
 		class_of_category_argument = GroupingController.fetch_all_groupable_elements[search_category].constantize
@@ -28,13 +27,20 @@ class Search < ActiveRecord::Base
 					filtered_classes << SearchesController.fetch_all_searchable_elements[attribute]
 				end
 			else 
-				unless attribute.blank?
+				unless send(attribute).blank?
 					filtered_attributes << attribute
 					filtered_classes << SearchesController.fetch_all_searchable_elements[attribute]
 				end
 			end
 		end
 
+		puts "Filtered Attributes:"
+		puts filtered_attributes
+
+		puts "Filtered Classes:"
+		puts filtered_classes
+
+		filtered_result = Student.all
 		filtered_classes.uniq.each do |class_name|
 			filtered_result = Student.joins(class_name.downcase.to_sym).load unless class_name == "Student"
 		end
