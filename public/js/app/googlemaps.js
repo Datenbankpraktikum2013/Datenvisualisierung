@@ -7,10 +7,19 @@
 
  App.chart.googlemaps = {
 
- 	 setmarker : function(latitude, longitude, title){
- 		var marker = new google.maps.Marker({
- 			position: new google.maps.LatLng(latitude, longitude),
- 			title: title
+ 	if(App.model.data_gmaps.country_iso_code == 'DE'){
+ 		setmarker : function(latitude, longitude, title){
+ 		var marker = new google.maps.Marker({		
+ 			position: new google.maps.LatLng(App.model.data_gmaps.federal_states.cities.latitude,App.model.data_gmaps.federal_states.cities.longitude),
+ 			title: "Anzahl der Menschen: " + App.model.data_gmaps.federal_states.cities.number
+ 		});
+ 		marker.setMap(map);
+ 	}
+ 	}else{
+ 		setmarker : function(latitude, longitude, title){
+ 		var marker = new google.maps.Marker({		
+ 			position: new google.maps.LatLng(App.model.data_gmaps.latitude, App.model.data_gmaps.longitude),
+ 			title: "Anzahl der Menschen: " + App.model.data_gmaps.number
  		});
  		marker.setMap(map);
  	},
