@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.0.0'
 
 # Use mysql2 for connecting to warehouse database
+
 #gem 'mysql2'
 
 # Use sqlite3 as the database for Active Record

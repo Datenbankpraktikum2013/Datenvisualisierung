@@ -15,7 +15,7 @@
   <tbody>
     <% @locations.each do |location| %>
       <tr>
-        <td><%= location.name %></td>
+        <td><%= location.location_name %></td>
         <td><%= location.country.name unless location.country.nil? %></td>
         <td><%= location.federal_state.name unless location.federal_state.nil? %></td>
         <td><%= link_to 'Show', location %></td>
