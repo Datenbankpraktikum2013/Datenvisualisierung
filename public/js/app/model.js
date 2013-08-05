@@ -38,6 +38,7 @@ App.model = {
 	 */
 	fetch : function(filter) {
 		radio('model.fetch').broadcast();
+		App.filter.extendFilter();
 		$.getJSON('searches/1.json?representation=highcharts', function(data) {
 			App.model.data = data.data;
 		}).fail(function() {
