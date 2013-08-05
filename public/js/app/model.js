@@ -40,7 +40,7 @@ App.model = {
 		});
 		console.log(this.data);
 		return this.data;
-	}
+	},
 
 	/* 
 	 * Fuehrt eine neue Suche aus indem ein POST-Objekt 
