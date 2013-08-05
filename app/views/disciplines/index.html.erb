@@ -14,7 +14,7 @@
   <tbody>
     <% @disciplines.each do |discipline| %>
       <tr>
-        <td><%= discipline.name %></td>
+        <td><%= discipline.discipline_name %></td>
         <td><%= discipline.teaching_unit.name unless discipline.teaching_unit.nil? %></td>
         <td><%= link_to 'Show', discipline %></td>
         <td><%= link_to 'Edit', edit_discipline_path(discipline) %></td>

@@ -29,7 +29,7 @@
   </div>
   <div class="field">
     <%= f.label :discipline_ids %><br>
-    <%= f.collection_select(:discipline_ids, Discipline.all, :id, :name, {selected: @study.discipline_ids}, {multiple: true}) %>
+    <%= f.collection_select(:discipline_ids, Discipline.all, :id, :discipline_name, {selected: @study.discipline_ids}, {multiple: true}) %>
   </div>
   <div class="field">
     <%= f.label :degree_id %><br>
