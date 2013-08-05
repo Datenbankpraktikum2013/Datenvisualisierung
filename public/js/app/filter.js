@@ -113,7 +113,7 @@ App.filter = {
 
 
 		$('#filter-form :input:visible').formstate(this.filter);
-  		
+  		/*
   		//Stacking und grouping nach Faellen sortiert 
 		switch(new_filter.stackby)
 		{
@@ -776,7 +776,7 @@ App.filter = {
 					break;
 				}
 			break;
-		}
+		}*/
 		//Neue Suche durchführen
 		App.model.post(new_filter);
 		//Verzögern, damit Rails Ergebnis liefern kann

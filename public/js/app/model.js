@@ -38,7 +38,7 @@ App.model = {
 	 */
 	fetch : function(filter) {
 		radio('model.fetch').broadcast();
-		$.getJSON('searches/1.json', function(data) {
+		$.getJSON('searches/1.json?representation=highcharts', function(data) {
 			App.model.data = data.data;
 		}).fail(function() {
 			App.showAlert({
@@ -57,15 +57,12 @@ App.model = {
 	 * Fuehrt eine neue Suche aus indem ein POST-Objekt 
 	 * zur Rails Anwendung geschickt wird
 	 */
+	
 	post : function(filter) {
 		//Testweise
 		$.post('searches/student.html', function(data){
 			var string = 'ein lustiger String';
-		});
-
-
-
-	}
+		})}
 
 
 }; 
