@@ -49,7 +49,8 @@ App.model = {
 		}).always(function(){
 			radio('model.fetched').broadcast();
 		});
-		//return this.data;
+		console.log(this.data);
+		return this.data;
 	},
 
 	/* 
