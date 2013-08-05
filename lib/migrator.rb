@@ -353,8 +353,10 @@ module Migrator
 		print "\n now iterating over them and creating missing ones"
 		bar = LoadingBar.new(numAll)
 		numCreated = 0
+
 		disciplines.each do |discipline|	
 			discipline["discipline_name"].strip!
+			discipline["discipline_name"].gsub(/\.\.\./,'')
 			discipline["teaching_unit_name"].strip!
 
 			disciplineDB = Discipline.find_by_discipline_name(discipline["discipline_name"])
