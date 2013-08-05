@@ -47,7 +47,10 @@ App.model = {
 	 * zur Rails Anwendung geschickt wird
 	 */
 	post : function(filter) {
-
+		//Testweise
+		$.post('searches/student.html', function(data){
+			var string = 'ein lustiger String';
+		});
 
 
 

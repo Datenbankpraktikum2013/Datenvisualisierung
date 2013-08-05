@@ -136,6 +136,16 @@ App.filter = {
 						new_filter.groupby = '' ;
 						new_filter.stackby = '' ;
 					break;
+					case 'Land' :
+						if(new_filter.heimatland == 'de'){
+							new_filter.groupby = 'Bundesland';
+							new_filter.stackby = 'Status';
+						}
+						else{
+							new_filter.groupby = 'Land';
+							new_filter.stackby = 'Status';
+						}
+					break;
 				}break;
 
 			case 'Fachbereich': break;
@@ -172,6 +182,16 @@ App.filter = {
 					case 'Alter' :
 						new_filter.groupby = '' ;
 						new_filter.stackby = '' ;
+					break;
+					case 'Land' :
+						if(new_filter.heimatland == 'de'){
+							new_filter.groupby = 'Bundesland';
+							new_filter.stackby = 'Status';
+						}
+						else{
+							new_filter.groupby = 'Land';
+							new_filter.stackby = 'Status';
+						}
 					break;
 				}break;
 
@@ -210,6 +230,16 @@ App.filter = {
 						new_filter.groupby = '' ;
 						new_filter.stackby = '' ;
 					break;
+					case 'Land' :
+						if(new_filter.heimatland == 'de'){
+							new_filter.groupby = 'Bundesland';
+							new_filter.stackby = 'Status';
+						}
+						else{
+							new_filter.groupby = 'Land';
+							new_filter.stackby = 'Status';
+						}
+					break;
 				}break;
 
 			case 'Abschlussart' :
@@ -246,6 +276,16 @@ App.filter = {
 					case 'Alter' :
 						new_filter.groupby = '' ;
 						new_filter.stackby = '' ;
+					break;
+					case 'Land' :
+						if(new_filter.heimatland == 'de'){
+							new_filter.groupby = 'Bundesland';
+							new_filter.stackby = 'Status';
+						}
+						else{
+							new_filter.groupby = 'Land';
+							new_filter.stackby = 'Status';
+						}
 					break;
 				}break;
 
@@ -284,6 +324,16 @@ App.filter = {
 						new_filter.groupby = '' ;
 						new_filter.stackby = '' ;
 					break;
+					case 'Land' :
+						if(new_filter.heimatland == 'de'){
+							new_filter.groupby = 'Bundesland';
+							new_filter.stackby = 'Status';
+						}
+						else{
+							new_filter.groupby = 'Land';
+							new_filter.stackby = 'Status';
+						}
+					break;
 				}break;
 
 			case 'Land' :
@@ -320,6 +370,16 @@ App.filter = {
 					case 'Alter' :
 						new_filter.groupby = '' ;
 						new_filter.stackby = '' ;
+					break;
+					case 'Land' :
+						if(new_filter.heimatland == 'de'){
+							new_filter.groupby = 'Bundesland';
+							new_filter.stackby = 'Status';
+						}
+						else{
+							new_filter.groupby = 'Land';
+							new_filter.stackby = 'Status';
+						}
 					break;
 				}break;
 
@@ -358,6 +418,16 @@ App.filter = {
 						new_filter.groupby = '' ;
 						new_filter.stackby = '' ;
 					break;
+					case 'Land' :
+						if(new_filter.heimatland == 'de'){
+							new_filter.groupby = 'Bundesland';
+							new_filter.stackby = 'Status';
+						}
+						else{
+							new_filter.groupby = 'Land';
+							new_filter.stackby = 'Status';
+						}
+					break;
 				}break;
 
 			case 'Alter' : 
@@ -394,6 +464,16 @@ App.filter = {
 					case 'Alter' :
 						new_filter.groupby = '' ;
 						new_filter.stackby = '' ;
+					break;
+					case 'Land' :
+						if(new_filter.heimatland == 'de'){
+							new_filter.groupby = 'Bundesland';
+							new_filter.stackby = 'Status';
+						}
+						else{
+							new_filter.groupby = 'Land';
+							new_filter.stackby = 'Status';
+						}
 					break;
 				}break;
 
