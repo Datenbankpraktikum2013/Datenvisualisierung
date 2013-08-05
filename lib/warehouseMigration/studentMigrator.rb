@@ -52,7 +52,7 @@ module Migrator
 					numCreated += 1
 					studentDB.location = locations[hzbOrt]
 					if(studentDB.location == nil)
-						raise "Could not find location with warehouse ID #{hzbOrt} for Student with number #{studentDB.matriculation_number}!\nMigrate locations first.\nIf error persists blame secretary."
+						raise "Could not find location with warehouse ID #{hzbOrt} for Student with number #{studentDB.matriculation_number}!\nMigrate locations first and don't forget to check #{CSV_PATH}!\nIf error persists blame secretary."
 					end
 					dBstudents.insert(0,studentDB)
 				end

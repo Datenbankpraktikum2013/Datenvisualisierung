@@ -45,25 +45,35 @@ module Migrator
 			if(locationDB == nil)
 
 				location["country_name"].strip!
-				if(nameMapper.has_key?(location["country_name"]) and nameMapper[location["country_name"]] != "?")
+				if(nameMapper.has_key?(location["country_name"]))
 					location["country_name"] = nameMapper[location["country_name"]]
 				end
+
+				
 				country = Country.find_by_country_name(location["country_name"])
 
 				if(country == nil)
 					#If we could not find the country we have to create it
-					country = Country.new
-					country.country_name = location["country_name"]
-					countryGC = Geocoder.search(country.country_name).first
-					if(countryGC == nil)
-						unknownCountries.insert(-1,country.country_name)
+					if(location["country_name"] == "?")
+						countryGC = nil
 					else
+						countryGC = Geocoder.search(location["country_name"]).first
+					end
+
+					if(countryGC == nil or (countryGC.address_components.first["types"].first != "country"))
+						unless unknownCountries.include?(location["country_name"])
+							unknownCountries << location["country_name"]
+						end
+						next
+					else
+						country = Country.new
+						country.country_name = location["country_name"]
 						country.country_iso_code = countryGC.address_components.first["short_name"]
 						country.longitude = countryGC.longitude
 						country.latitude = countryGC.latitude
+						country.save
+						numNewCountries += 1
 					end
-					country.save
-					numNewCountries += 1
 				end
 
 				if(location["federal_state_name"] != nil)
@@ -79,7 +89,15 @@ module Migrator
 						end
 						fedState.longitude = fedStateGC.longitude
 						fedState.latitude = fedStateGC.latitude
-						fedState.federal_state_iso_code = fedStateGC.address_components.first["short_name"]
+
+						#Unfortunately the short_names for the city-states are their actual name.
+						#Therefore we have to overwrite them manually.
+						cityStates = {"Berlin" => "BE", "Hamburg" => "HH", "Bremen" => "HB" }
+						if(cityStates.has_key?(fedState.federal_state_name))
+							fedState.federal_state_iso_code = cityStates[fedState.federal_state_name]
+						else
+							fedState.federal_state_iso_code = fedStateGC.address_components.first["short_name"]
+						end
 
 						fedState.save
 						numNewFedStates += 1
@@ -95,14 +113,22 @@ module Migrator
 					location["location_name"].strip!
 					name = location["location_name"]
 
-					if(nameMapper.has_key?(name) and nameMapper[name] != "?")
-						result = Geocoder.search("#{nameMapper[name]},#{fedState.federal_state_name}").first
+					if(nameMapper.has_key?(name))
+						#If the information has not yet been added there is still a ? as value.
+						#In this case there is obviously no sense in using it for the query.
+						if(nameMapper[name] != "?")
+							result = Geocoder.search("#{nameMapper[name]},#{fedState.federal_state_name}").first
+						else
+							result = nil
+						end
 					else
 						result = Geocoder.search("#{name},#{fedState.federal_state_name}").first
 					end
 					sleep 0.25
 					if(result == nil)
-						unknownLocations.insert(-1,[name,fedState.federal_state_name])
+						unless(unknownLocations.include?([name,fedState.federal_state_name]))
+							unknownLocations << [name,fedState.federal_state_name]
+						end
 					else
 						locationDB.longitude = result.longitude
 						locationDB.latitude = result.latitude
@@ -131,8 +157,7 @@ module Migrator
 			print " and #{cLength} #{"country".pluralize(cLength)} that could not be found\n"
 			print "please add the missing information to #{CSV_PATH}\n"
 
-			CSV.open(File.expand_path(CSV_PATH), "wb") do |csv|
-				csv.eof
+			CSV.open(File.expand_path(CSV_PATH), "ab") do |csv|
 				unknownLocations.each do |value|
 					unless(nameMapper.has_key?(value[0]))
 						csv << [value[0],value[1],"?"]
