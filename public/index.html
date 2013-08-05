@@ -464,6 +464,8 @@
 											</select>
 										</label>
 									</div>
+								</div>
+								<div class="row-fluid">
 									<div class="span12">
 										<label>Aktuell im Fachsemester
 											<select class="span12">
@@ -484,6 +486,8 @@
 											</select>
 										</label>
 									</div>
+								</div>
+								<div class="row-fluid">
 									<div class="span12">
 										<label>Zahl der benötigten Semester
 											<select class="span12">
@@ -491,7 +495,8 @@
 											</select>
 										</label>
 									</div>
-
+								</div>
+								<div class="row-fluid">
 									<div class="span12">
 										<label>Abschlussnote
 											<select class="span12">
@@ -503,10 +508,6 @@
 									</div>
 								</div>
 							</div>
-
-
-
-
 							<div class="row-fluid">
 								<div class="span12">
 									<label>Abschlussarten:</label>
@@ -540,11 +541,15 @@
 										Gruppierung:
 										<select name="groupby" class="span12">
 											<option selected="selected">Keine</option>
-											<option>Geschlecht</option>
-											<option>Fachbereich</option>
-											<option>Fachsemester</option>
 											<option>Status</option>
-											<option>Abschluss</option>
+											<option>Geschlecht</option>
+											<option>Alter</option>
+											<option>Fachbereich</option>
+											<option>Lehreinheit</option>
+											<option>Studienfach</option>
+											<option>Abschlussart</option>
+											<option>Land</option>
+											<option>Bundesland</option>
 										</select>
 									</label>
 						    	</div>
@@ -555,11 +560,15 @@
 										Stacking:
 										<select name="stackby" class="span12">
 											<option selected="selected">Keine</option>
-											<option>Geschlecht</option>
-											<option>Fachbereich</option>
-											<option>Fachsemester</option>
 											<option>Status</option>
-											<option>Abschluss</option>
+											<option>Geschlecht</option>
+											<option>Alter</option>
+											<option>Fachbereich</option>
+											<option>Lehreinheit</option>
+											<option>Studienfach</option>
+											<option>Abschlussart</option>
+											<option>Land</option>
+											<option>Bundesland</option>
 										</select>
 									</label>
 						    	</div>
@@ -574,7 +583,7 @@
 					<div class="row-fluid">
 						<div class="span8 offset4">
 						    <div id="chartswitch" class="btn-group">
-							    <button name="barchart" class="btn active">Balkendiagramm</button>
+							    <button name="columnchart" class="btn active">Balkendiagramm</button>
 							    <button name="piechart" class="btn">Tortendiagramm</button>
 							    <button class="btn">Googlemaps</button>
 						    </div>
@@ -633,10 +642,12 @@
  		<script src="js/vendor/bootstrap-slider.js"></script>
 		<script src="js/vendor/bootstrap-multiselect.js"></script>
 		<script src="js/highcharts/highcharts.js"></script>
+		<script src="js/vendor/radio.min.js"></script>
 
 		<script src="js/app/app.js"></script>
 		<script src="js/app/model.js"></script>
 		<script src="js/app/filter.js"></script>
+		<script src="js/app/chart.js"></script>
 		<script src="js/app/columnchart.js"></script>
 		<script src="js/app/piechart.js"></script>
 		<script src="js/app/searches.js"></script>

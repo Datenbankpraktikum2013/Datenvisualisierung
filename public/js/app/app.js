@@ -12,106 +12,14 @@ App.init = function() {
     //if ($.cookie('formstate')) {
     	//$('form :input:visible').formstate($.cookie('formstate'));
     //}
-    
-    // Event fuer Aktualisieren Button
-    $('button[name="store"]').click(function() {
-        App.model.fetch(App.filter.getFilter());
-        App.columnchart.render();
-        $.cookie('formstate', $('form').formstate(':visible'));
-        return false;
-    });
-    
-    // Event fuer Reset Button
-    $('button[name="restore"]').click(function() {
-        $('form :input:visible').formstate($.cookie('formstate'));
-        return false;
-    });
-    
-    // Event fuer Balkendiagramm Button
-    $('button[name="barchart"]').click(function() {
-    	$('#chartswitch button').removeClass('active');
-    	$(this).addClass('active');
-        App.model.fetch(App.filter.getFilter());
-        App.columnchart.render();
-        return false;
-    });
-    
-    // Event fuer Tortendiagramm Button
-    $('button[name="piechart"]').click(function() {
-        $('#chartswitch button').removeClass('active');
-    	$(this).addClass('active');
-        App.model.fetch(App.filter.getFilter());
-        App.piechart.render();
-        return false;
-    });
 
-    // Wenn Formular veraendert wird, update das Filter Objekt.
-    $('form input, form select').change(function() {
-        App.filter.getFilter();
-    });
+    App.model.init();
+    App.filter.init();
+    App.searches.init();
+    App.chart.init();
 
-    $('#save-search-button').click(function() {
-        var data = $('form#save-search-form').formstate(':visible');
-        App.searches.add(data.bookmarkname, App.filter.getFilter());
-        App.searches.render();
-        $('#save-search-modal').modal('hide');
-    });
-
-    $(document).on('click', '#search-list a', function(e) {
-        var id = $(this).attr('data-bookmark-id');
-        App.filter.setFilter(App.searches.saved_searches[id]);
-        e.preventDefault();
-    });
-
-    $('#filter-form select[name="heimatland"]').change(function() {
-        if ($(this).val() == "Deutschland") {
-            $('#bundesland').slideDown();
-        } else {
-            if ($('#bundesland').css('display') != 'none') {
-                $('#bundesland').slideUp();
-            }
-        }
-    });
-
-    $('#studentenart').change(function() {
-        if ($('#absolventenart').is(":checked") && !($('#studentenart').is(":checked"))){
-            $('#absolvent-hidden').slideDown();
-            $('#student-hidden').slideUp();
-        }
-        if (!$('#absolventenart').is(":checked") && !($('#studentenart').is(":checked"))){
-             $('#student-hidden').slideUp();
-             $('#absolvent-hidden').slideUp();
-        }
-        if ((!$('#absolventenart').is(":checked")) && $('#studentenart').is(":checked")){
-            $('#student-hidden').slideDown();
-            $('#absolvent-hidden').slideUp();
-        }
-        if ($('#absolventenart').is(":checked") && $('#studentenart').is(":checked")){
-            $('#absolvent-hidden').slideUp();
-            $('#student-hidden').slideUp();
-        }
-    });
-    
-    $('#absolventenart').change(function() {
-        if ($('#absolventenart').is(":checked") && !($('#studentenart').is(":checked"))){
-             $('#student-hidden').slideUp();
-            $('#absolvent-hidden').slideDown();
-        }
-        if (!$('#absolventenart').is(":checked") && !($('#studentenart').is(":checked"))){
-             $('#absolvent-hidden').slideUp();
-             $('#student-hidden').slideUp();
-        }
-        if ((!$('#absolventenart').is(":checked")) && $('#studentenart').is(":checked")){
-            $('#absolvent-hidden').slideUp();
-            $('#student-hidden').slideDown();
-        }
-        if ($('#absolventenart').is(":checked") && $('#studentenart').is(":checked")){
-            $('#absolvent-hidden').slideUp();
-            $('#student-hidden').slideUp();
-        }
-    });
-
-
+    // Initales abrufen der Immatrikulationsdaten
+    App.model.fetch();
 
     $('.multiselect').multiselect({
         buttonWidth : false,
@@ -132,11 +40,6 @@ App.init = function() {
             }
         }
     });
-
-    App.searches.init();
-    App.model.fetch();
-    // Initiales zeichnen des Balkendiagramms
-    App.columnchart.render();
 };
 
 /*
