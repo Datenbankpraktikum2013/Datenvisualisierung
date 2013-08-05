@@ -45,11 +45,11 @@ App.filter = {
 		// 	$('#bundesland').slideUp();
 		// }
 
-// 				App.model.data = '[4123,2313]'
-// 				alert(App.model.data);
-// new_filter.groupby = 'Fachbereich';
-// 				new_filter.stackby = 'Geschlecht';
-// 				new_filter.geschlecht = this.filter.geschlecht;
+		// 				App.model.data = '[4123,2313]'
+		// 				alert(App.model.data);
+		// new_filter.groupby = 'Fachbereich';
+		// 				new_filter.stackby = 'Geschlecht';
+		// 				new_filter.geschlecht = this.filter.geschlecht;
 
 
 		$('#filter-form :input:visible').formstate(this.filter);
@@ -398,9 +398,15 @@ App.filter = {
 				}break;
 
 					}
+		//Neue Suche durchführen
+		App.model.post(new_filter);
+
+		//Suche abrufen
+		App.model.fetch(App.model.getFilter());
+
+		//Neu zeichnen
 		App.columnchart.render();
-		//Suche
-		//Redraw
+
 
 		
 	}
