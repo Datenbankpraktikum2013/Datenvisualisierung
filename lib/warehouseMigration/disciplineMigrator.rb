@@ -19,6 +19,7 @@ module Migrator
 		bar = LoadingBar.new(numAll)
 		numCreated = 0
 		disciplines.each do |discipline|	
+			discipline["discipline_name"].gsub!(/\.\.\./,'') 
 			discipline["discipline_name"].strip!
 			discipline["teaching_unit_name"].strip!
 
