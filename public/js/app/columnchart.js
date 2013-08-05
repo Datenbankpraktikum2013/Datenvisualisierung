@@ -5,7 +5,7 @@
 
 var App = App || {};
 
-App.columnchart = {
+App.chart.columnchart = {
 	// Konfigurationsdaten fuer das Balkendiagramm.
 	config : {
         chart: {
@@ -21,6 +21,9 @@ App.columnchart = {
                 },
                 addSeries: function(){
                     this.redraw();
+                },
+                click : function() {
+                    $('.popover').remove();
                 }
             },
             zoomType: 'xy',
@@ -64,15 +67,22 @@ App.columnchart = {
         plotOptions : {
         	series : {
         		stacking : 'normal',
+                cursor : 'pointer',
         		point : {
-        			events : {
-	        			click : function() {
-        					App.filter.setDrillDownFilter({
-    							category : this.category, 
-    							filter : this.series.name
-    						});
+                    events : {
+            			click: function(event) {
+                            $('.popover').remove();
+                            $(event.target).popover({
+                              title : '<strong>Diesen Datensatz aufteilen nach:</strong>',
+                              html : true,
+                              content : '<ul><li>'+this.category+'</li><li>'+this.series.name+'</li></ul>',
+                              container : 'body',
+                              placement : 'auto right',
+                              trigger : 'manual'
+                            }).popover('show');
+                            console.log('bin hier!');
                         }
-        			}
+                    }
         		},
                 
         	}

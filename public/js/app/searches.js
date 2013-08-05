@@ -10,6 +10,20 @@ App.searches = {
 
 	// Initialisierung
 	init : function() {
+    
+	    $('#save-search-button').click(function() {
+	        var data = $('form#save-search-form').formstate(':visible');
+	        App.searches.add(data.bookmarkname, App.filter.getFilter());
+	        App.searches.render();
+	        $('#save-search-modal').modal('hide');
+	    });
+
+	    $(document).on('click', '#search-list a', function(e) {
+	        var id = $(this).attr('data-bookmark-id');
+	        App.filter.setFilter(App.searches.saved_searches[id]);
+	        e.preventDefault();
+	    });
+	
 		this.load();
 		this.render();
 	},
