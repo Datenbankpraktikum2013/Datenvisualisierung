@@ -29,8 +29,8 @@
       map: map,
       heatmap: { enabled: false },
       query: {
-        select: "col24",
-        from: "18VIAMr_N2Q8_mx6c8NYCgueJ-EvlmPcmr07h2TA",
+        select: "col3",
+        from: "19rTks41BEHnaDg3LZnRptzmRt1Y1NTbI8c9hmEI",
         where: ""
       },
       options: {
@@ -42,8 +42,8 @@
 
  	render : function(){
     map = new google.maps.Map(document.getElementById('chart'), {
-      maxZoom : 14,
-      minZoom : 4,
+      maxZoom : 20,
+      minZoom : 1,
       zoom: 6,
       center: new google.maps.LatLng(52, 10),
       streetViewControl: false,
