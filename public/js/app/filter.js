@@ -13,7 +13,7 @@ App.filter = {
 	init : function() {
 		radio('model.fetch').subscribe(this.loadingListener);
 		radio('model.fetched').subscribe(this.loadedListener);
-
+		
 		// Wenn Formular veraendert wird, update das Filter Objekt.
 	    $('form input, form select').change(function() {
 	        App.filter.getFilter();

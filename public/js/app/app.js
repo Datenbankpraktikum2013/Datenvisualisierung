@@ -21,6 +21,15 @@ App.init = function() {
     // Initales abrufen der Immatrikulationsdaten
     App.model.fetch();
 
+    $('#slider').slider({
+         //.on('slide', function(ev){
+        
+       // }
+    });
+
+
+
+
     $('.multiselect').multiselect({
         buttonWidth : false,
         buttonContainer : '<div class="row-fluid btn-group" />',

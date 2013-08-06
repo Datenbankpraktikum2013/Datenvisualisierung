@@ -42,9 +42,23 @@ App.model = {
 	 * Holt einen neuen Datensatz mit den uebergebenen Filtern aus
 	 * der Datenbank
 	 */
+
+
+	 /*
+	 	TODO: Post Objekt zusammenbauen 
+	 		  Post Objekt mit URL suchen
+	 */
+
+
 	fetch : function(filter) {
 		radio('model.fetch').broadcast();
 		App.filter.extendFilter();
+
+		var formstate = App.filter.getFilter();
+
+		$.post('/searches/new');
+
+
 		$.getJSON('searches/1.json?representation=highcharts', function(data) {
 			App.model.data = data.data;
 		}).fail(function() {
