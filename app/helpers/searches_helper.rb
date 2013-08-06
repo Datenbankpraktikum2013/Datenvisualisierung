@@ -54,6 +54,13 @@ module SearchesHelper
 			end
 		end
 
+		city_values = {}
+		search_results.each do |k,v|
+			if k[0] == "GER"
+				city_values[k[1]] = v
+			end
+		end
+
 		json.set! :countries do
 			json.array! country_accumulations do |element|
 				country = Country.find_by_country_iso_code(element[0])
@@ -61,6 +68,17 @@ module SearchesHelper
 				json.set! :longitude, country.longitude
 				json.set! :latitude, country.latitude
 				json.set! :number, element[1]
+				if country.country_iso_code == "GER"
+					json.set! :cities do
+						json.array! city_values do |city_element|
+							city = Location.find_by_location_name(city_element[0])
+							json.set! :location_name, city.location_name
+							json.set! :longitude, city.longitude
+							json.set! :latitude, city.latitude
+							json.set! :number, city_element[1]
+						end
+					end
+				end
 			end
 		end
 	end
