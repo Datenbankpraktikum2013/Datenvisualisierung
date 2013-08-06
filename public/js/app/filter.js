@@ -95,7 +95,7 @@ App.filter = {
     			
     	}
     	else{
-	       		if((value == 'Keine') | (value == 'Alle') | (value == 'Kein') | (value == '') | (value == null)){
+	       		if((value == 'Keine') | (value == 'Alle') | (value == 'Kein') | (value == '') | (value == null) | ( value == 'Fachbereiche ausw&auml;hlen')){
 	      			if(index == 'stackby' | index == 'groupby' | index == 'altervon' | index == 'alterbis'){
 
 	      			}
@@ -114,16 +114,19 @@ App.filter = {
     	return returnString;
 
     },
-
+    /*
+    * @brief soll beim Onclick auf z.B. Deutschland
+    *		 Deutschland ins Formular eintrage.
+    */
     onClickEventHandle : function(category) {
     	var filter = App.filter.getFilter();
     	
     	$.each(filter,function(index,value){
-    	//	alert(value);
-	    	if(value == category){
-	    		//($#Heimatland)
+    		//alert(value);
+	    
+	    		value = category;
 	    		
-	    	}
+	    
 	    });
     },
 
