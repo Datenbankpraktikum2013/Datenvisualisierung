@@ -54,7 +54,7 @@ module Migrator
 				if(country == nil)
 					country = createCountry(location["country_name"])
 					if(country == nil)
-						unless unknownCountries.include?(location["country_name"])
+						unless (location["country_name"] == "?" or unknownCountries.include?(location["country_name"]))
 							unknownCountries << location["country_name"]
 						end
 						#we cannot create location without country
@@ -98,7 +98,7 @@ module Migrator
 					end
 					sleep 0.25
 					if(result == nil)
-						unless(unknownLocations.include?([name,fedState.federal_state_name]))
+						unless(name == "?" or unknownLocations.include?([name,fedState.federal_state_name]))
 							unknownLocations << [name,fedState.federal_state_name]
 						end
 					else
@@ -172,7 +172,7 @@ module Migrator
 		elsif(/(ü|Ü)briges (.+)/ === country_name)
 			country_name.slice!(/(ü|Ü)briges /)
 			attributes[:country_name] = country_name
-			gc = Geocoder.search(country_name)
+			gc = Geocoder.search(country_name).first
 			sleep 0.25
 			if(gc == nil)
 				return nil
@@ -182,9 +182,9 @@ module Migrator
 			attributes[:country_iso_code] = gc.address_components.first["short_name"]
 		else
 			attributes[:country_name] = country_name
-			gc = Geocoder.search(country_name)
+			gc = Geocoder.search(country_name).fisrst
 			sleep 0.25
-			if(gc == nil or Geocoder.address_components.first["types"].first != "country")
+			if(gc == nil or gc.address_components.first["types"].first != "country")
 				return nil
 			end
 			attributes[:longitude] = gc.longitude
