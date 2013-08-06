@@ -82,11 +82,12 @@ App.chart.columnchart = {
                               html : true,
                               content : App.filter.extendFilter(),
                               container : 'body',
-                              placement : 'auto right',
+                              placement : 'right',
                               trigger : 'manual'
                             }).popover('show');
+
                             App.filter.onClickEventHandle(this.category);
-                            console.log(this);
+                        
                         }
                     }
         		},

@@ -30,8 +30,15 @@
   <%= @search.location_name %>
 </p>
 
-<% @search.results.each do |k, v| %>
-	<%= k.to_s + ': ' + v.to_s %>
+
+<% if @search.search_series.blank? %>
+  <% @search.results_for_maps.each do |k, v| %>
+    <%= k.to_s + ': ' + v.to_s %>
+  <% end %>
+<% else %>
+  <% @search.results_for_highcharts.each do |k, v| %>
+  	<%= k.to_s + ': ' + v.to_s %>
+  <% end %>
 <% end %>
 
 
