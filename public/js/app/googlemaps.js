@@ -6,12 +6,16 @@
  var App = App || {};
 
  App.chart.googlemaps = {
+
+  markers : [],
+
   setmarker : function(latitude, longitude, title, number){ 		
  		 var marker = new google.maps.Marker({		
  			position: new google.maps.LatLng(latitude, longitude),
  			title: title + " : " + number
  		});
- 		 marker.setMap(map); 
+ 		 marker.setMap(map);
+     this.markers.push(marker);
   },
 
   addColorLayer : function () {
@@ -19,16 +23,23 @@
       map: map,
       heatmap: { enabled: false },
       query: {
-        select: "col24",
-        from: "18VIAMr_N2Q8_mx6c8NYCgueJ-EvlmPcmr07h2TA",
+        select: "col3",
+        from: "19rTks41BEHnaDg3LZnRptzmRt1Y1NTbI8c9hmEI",
         where: ""
       },
       options: {
         styleId: 2,
         templateId: 2
-      }
+      },
+      suppressInfoWindows : true
     });
   },
+
+  markerClusterer: null,
+  imageUrl: 'http://chart.apis.google.com/chart?cht=mm&chs=24x32&' +
+          'chco=FFFFFF,008CFF,000000&ext=.png',
+
+  addDomListener: google.maps.event.addDomListener(window, 'load', this.render),
 
  	render : function(){
     map = new google.maps.Map(document.getElementById('chart'), {
@@ -43,6 +54,8 @@
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
     this.addColorLayer();
+
+    
 
    // this.setmarker(App.model.data_gmaps[0].latitude,App.model.data_gmaps[0].longitude, 'title', App.model.data_gmaps[0].number);
     for(var i = 0; i < App.model.data_gmaps.length; i++){
@@ -61,18 +74,27 @@
           }
         }
       }else{
-        this.setmarker(App.model.data_gmaps[i].latitude,App.model.data_gmaps[i].longitude, App.model.data_gmaps[i].country_iso_code, App.model.data_gmaps[i].number)
+        this.setmarker(App.model.data_gmaps[i].latitude,App.model.data_gmaps[i].longitude, App.model.data_gmaps[i].country_iso_code, App.model.data_gmaps[i].number);
       }
     }
 
-        // var refresh = document.getElementById('refresh');
-        // google.maps.event.addDomListener(refresh, 'click', refreshMap);
+    
+    console.log(this.markers);
+    var markerImage = new google.maps.MarkerImage(this.imageUrl, new google.maps.Size(24,32));
 
-        // var clear = document.getElementById('clear');
-        // google.maps.event.addDomListener(clear, 'click', clearClusters);
+    var zoom = 7;
+    var size = 40;
+    var style = -1;
+    zoom = zoom == -1 ? null : zoom;
+    size = size == -1 ? null : size;
+    style = style == -1 ? null : style;
 
-        // refreshMap();
+    var markerClusterer = null;
+    markerClusterer = new MarkerClusterer(map, this.markers, {
+      maxZoom: zoom,
+      gridSize: size,
+    });
 
- 	}       
+ 	},    
 
  }

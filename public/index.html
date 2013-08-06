@@ -701,6 +701,14 @@
 		<script src="js/vendor/radio.min.js"></script>
 		<script src="http://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false&region=de&language=de"></script>
 		<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+		<script type="text/javascript">
+      	var script = '<script type="text/javascript" src="js/markerclusterer';
+      	if (document.location.search.indexOf('packed') !== -1) {
+        	script += '_packed';
+      	}
+      	script += '.js"><' + '/script>';
+      	document.write(script);
+    	</script>
 
 		<script src="js/app/app.js"></script>
 		<script src="js/app/model.js"></script>
