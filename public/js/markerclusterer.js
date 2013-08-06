@@ -1543,9 +1543,14 @@ MarkerClusterer.CALCULATOR = function (markers, numStyles) {
     index++;
   }
 
+  var sum = 0;
+  for (var i=0; i < markers.length; i++) {
+    sum += markers[i].count;
+  }
+
   index = Math.min(index, numStyles);
   return {
-    text: count,
+    text: sum,
     index: index
   };
 };
