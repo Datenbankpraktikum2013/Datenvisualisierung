@@ -51,7 +51,7 @@ module Migrator
 
 				
 				country = Country.find_by_country_name(location["country_name"])
-				if(country = nil)
+				if(country == nil)
 					country = createCountry(location["country_name"])
 					if(country == nil)
 						unless unknownCountries.include?(location["country_name"])
@@ -69,6 +69,9 @@ module Migrator
 					fedState = FederalState.find_by_federal_state_name(location["federal_state_name"])
 					if(fedState == nil)
 						fedState = createFederalState(location["federal_state_name"])
+						if(fedState == nil)
+							raise "Cannot find federal state #{fedState.federal_state_name}!\nTell secretary to change DIM_HZBORTE entry with HZBO_ID #{location["data_warehouse_id"]} or blame Google."
+						end
 						numNewFedStates += 1
 					end
 				end
@@ -148,7 +151,7 @@ module Migrator
 
 	def self.createCountry(country_name)
 		attributes = findCountryAttributes(country_name)
-		if(attributes = nil)
+		if(attributes == nil)
 			return nil
 		end
 		country = Country.new(attributes)
@@ -165,30 +168,41 @@ module Migrator
 		end
 		if(/!.+/ === country_name)
 			attributes[:country_name] = country_name[1..-1]
-		end
-		if(/(ü|Ü)briges (.+)/ === country_name)
+		
+		elsif(/(ü|Ü)briges (.+)/ === country_name)
 			country_name.slice!(/(ü|Ü)briges /)
 			attributes[:country_name] = country_name
 			gc = Geocoder.search(country_name)
 			sleep 0.25
-			if(gc = nil)
+			if(gc == nil)
+				return nil
+			end
+			attributes[:longitude] = gc.longitude
+			attributes[:latitude] = gc.latitude
+			attributes[:country_iso_code] = gc.address_components.first["short_name"]
+		else
+			attributes[:country_name] = country_name
+			gc = Geocoder.search(country_name)
+			sleep 0.25
+			if(gc == nil or Geocoder.address_components.first["types"].first != "country")
 				return nil
 			end
 			attributes[:longitude] = gc.longitude
 			attributes[:latitude] = gc.latitude
 			attributes[:country_iso_code] = gc.address_components.first["short_name"]
 		end
+
 		return attributes
 	end
 
 	def self.createFederalState(federal_state_name)
 		#If we could not find the federal state we have to create it
 		fedState = FederalState.new
-		fedState.federal_state_name = location["federal_state_name"]
+		fedState.federal_state_name = federal_state_name
 		fedStateGC = Geocoder.search(fedState.federal_state_name).first
 		sleep 0.25
 		if(fedStateGC == nil)
-			raise "Cannot find federal state #{fedState.federal_state_name}!\nTell secretary to change DIM_HZBORTE entry with HZBO_ID #{location["data_warehouse_id"]} or blame Google."
+			return nil
 		end
 		fedState.longitude = fedStateGC.longitude
 		fedState.latitude = fedStateGC.latitude
