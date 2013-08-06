@@ -77,11 +77,9 @@ App.chart.columnchart = {
                               html : true,
                               content : App.filter.extendFilter(),
                               container : 'body',
-                              placement : 'auto right',
+                              placement : 'right',
                               trigger : 'manual'
                             }).popover('show');
-                            console.log('bin hier!');
-                            console.log(App.filter.fetchFilter);
                         }
                     }
         		},
