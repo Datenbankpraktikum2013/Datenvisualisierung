@@ -4,6 +4,7 @@
  */
 
 var App = App || {};
+var inc = 1;
 
 App.model = {
 
@@ -44,22 +45,32 @@ App.model = {
 	 */
 
 
-	 /*
-	 	TODO: Post Objekt zusammenbauen 
-	 		  Post Objekt mit URL suchen
-	 */
-
+	/*
+		TODO: Post Objekt zusammenbauen 
+			  Post Objekt mit URL suchen
+	*/
+	/* 
+	* Fuehrt eine neue Suche aus indem ein POST-Objekt 
+	* zur Rails Anwendung geschickt wird
+	*/
+	post : function(filter) {
+		//Testweise
+		$.post('searches/new?representation=highcharts', function(filter){
+			return 'ein lustiger String';
+		});
+		//$.get('searches/');
+	},
 
 	fetch : function(filter) {
 		radio('model.fetch').broadcast();
 		App.filter.extendFilter();
-
+		var url = 'searches/'+inc+'.json?representation=highcharts';
 		var formstate = App.filter.getFilter();
 
-		$.post('/searches/new');
+		this.post(formstate);
 
 
-		$.getJSON('searches/1.json?representation=highcharts', function(data) {
+		$.getJSON(url, function(data) {
 			App.model.data = data.data;
 		}).fail(function() {
 			App.showAlert({
@@ -72,18 +83,7 @@ App.model = {
 		});
 		console.log(this.data);
 		return this.data;
-	},
+	}
 
-	/* 
-	 * Fuehrt eine neue Suche aus indem ein POST-Objekt 
-	 * zur Rails Anwendung geschickt wird
-	 */
-	
-	post : function(filter) {
-		//Testweise
-		$.post('searches/student.html', function(data){
-			var string = 'ein lustiger String';
-		})}
-
-
+		
 }; 
