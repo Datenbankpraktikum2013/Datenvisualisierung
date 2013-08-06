@@ -36,12 +36,7 @@ module Migrator
 		group by STG_MATRIKELNR"
 
 	
-	CLIENT = Mysql2::Client.new(
-		:host => "mysql5.serv.uni-osnabrueck.de",
-		:username => "sosruntime",
-		:password => "soSRuntime",
-		:database => "misdb")
-
+	
 	class LoadingBar
 
 		def initialize(datasize = 100, barLength = 25, barsign="*")

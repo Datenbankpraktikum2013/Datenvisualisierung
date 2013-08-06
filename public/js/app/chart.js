@@ -30,7 +30,7 @@ App.chart = {
 	updateChartSwitchView : function() {
 		$('#chartswitch button').removeClass('active');
     	$('#chartswitch button[name="'+this.current_chart+'"]').addClass('active');
-    	//$('#chartswitch-select select').val(this.current_chart);
+    	$('.popover').remove();
 	},
 
 	dataChangedListener : function() {
