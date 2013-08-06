@@ -30,7 +30,8 @@
       options: {
         styleId: 2,
         templateId: 2
-      }
+      },
+      suppressInfoWindows : true
     });
   },
 
