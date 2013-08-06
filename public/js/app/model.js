@@ -33,6 +33,34 @@ App.model = {
         }]
 	},
 	/*
+	 * einfügen der Daten für gMaps 
+	 */
+	data_gmaps: { 
+		country_iso_code : 'DE',
+  		longitude : 10,
+  		latitude : 50,
+  		number : 2000,
+		federal_states : {
+    		federal_states_iso_code : 'NDS',
+  			longitude : 80,
+    		latitude : 50,
+    		number : 1000,
+    		cities : [{
+      			location_name : 'Osnabrück',
+      			longitude : 88,
+      			latitude : 55,
+      			number : 100
+      			},{
+      			location_name : 'Melle',
+      			longitude : 87,
+      			latitude : 57,
+      			number : 100
+      		}]
+  		}
+
+	},
+
+	/*
 	 * Holt einen neuen Datensatz mit den uebergebenen Filtern aus
 	 * der Datenbank
 	 */
