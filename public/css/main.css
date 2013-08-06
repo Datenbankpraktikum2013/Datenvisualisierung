@@ -7,7 +7,7 @@
 #chart {
 	height : 80vmin;
 	min-height: 80vmin;
-	height: 100vmin;
+	max-height: 90vmin;
 }
 
 #chart img {
