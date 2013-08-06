@@ -51,27 +51,15 @@ module Migrator
 
 				
 				country = Country.find_by_country_name(location["country_name"])
-
 				if(country == nil)
-					#If we could not find the country we have to create it
-					if(location["country_name"] == "?")
-						countryGC = nil
-					else
-						countryGC = Geocoder.search(location["country_name"]).first
-					end
-
-					if(countryGC == nil or (countryGC.address_components.first["types"].first != "country"))
-						unless unknownCountries.include?(location["country_name"])
+					country = createCountry(location["country_name"])
+					if(country == nil)
+						unless (location["country_name"] == "?" or unknownCountries.include?(location["country_name"]))
 							unknownCountries << location["country_name"]
 						end
+						#we cannot create location without country
 						next
 					else
-						country = Country.new
-						country.country_name = location["country_name"]
-						country.country_iso_code = countryGC.address_components.first["short_name"]
-						country.longitude = countryGC.longitude
-						country.latitude = countryGC.latitude
-						country.save
 						numNewCountries += 1
 					end
 				end
@@ -80,26 +68,10 @@ module Migrator
 					location["federal_state_name"].strip!
 					fedState = FederalState.find_by_federal_state_name(location["federal_state_name"])
 					if(fedState == nil)
-						#If we could not find the federal state we have to create it
-						fedState = FederalState.new
-						fedState.federal_state_name = location["federal_state_name"]
-						fedStateGC = Geocoder.search(fedState.federal_state_name).first
-						if(fedStateGC == nil)
-							raise "Federal state #{fedState.federal_state_name} does not exist!\nTell secretary to change DIM_HZBORTE entry with HZBO_ID #{location["data_warehouse_id"]}."
+						fedState = createFederalState(location["federal_state_name"])
+						if(fedState == nil)
+							raise "Cannot find federal state #{fedState.federal_state_name}!\nTell secretary to change DIM_HZBORTE entry with HZBO_ID #{location["data_warehouse_id"]} or blame Google."
 						end
-						fedState.longitude = fedStateGC.longitude
-						fedState.latitude = fedStateGC.latitude
-
-						#Unfortunately the short_names for the city-states are their actual name.
-						#Therefore we have to overwrite them manually.
-						cityStates = {"Berlin" => "BE", "Hamburg" => "HH", "Bremen" => "HB" }
-						if(cityStates.has_key?(fedState.federal_state_name))
-							fedState.federal_state_iso_code = cityStates[fedState.federal_state_name]
-						else
-							fedState.federal_state_iso_code = fedStateGC.address_components.first["short_name"]
-						end
-
-						fedState.save
 						numNewFedStates += 1
 					end
 				end
@@ -126,13 +98,12 @@ module Migrator
 					end
 					sleep 0.25
 					if(result == nil)
-						unless(unknownLocations.include?([name,fedState.federal_state_name]))
+						unless(name == "?" or unknownLocations.include?([name,fedState.federal_state_name]))
 							unknownLocations << [name,fedState.federal_state_name]
 						end
 					else
 						locationDB.longitude = result.longitude
 						locationDB.latitude = result.latitude
-
 					end
 				end
 
@@ -146,6 +117,7 @@ module Migrator
 			end
 		end
 		bar.end
+		
 		lLength = unknownLocations.length
 		cLength = unknownCountries.length
 		if((lLength + cLength) > 0)
@@ -175,5 +147,75 @@ module Migrator
 		print "\n#{numNewCountries} new "+"country".pluralize(numNewCountries)
 		print "\n#{numNewFedStates} new federal "+"state".pluralize(numNewFedStates)
 		print "\n"
+	end
+
+	def self.createCountry(country_name)
+		attributes = findCountryAttributes(country_name)
+		if(attributes == nil)
+			return nil
+		end
+		country = Country.new(attributes)
+		country.save
+		return country
+	end
+	def self.findCountryAttributes(country_name)
+		attributes = {country_name:"unklar",country_iso_code:"",longitude:0.0,latitude:0.0}
+		if(country_name == "?")
+			return nil
+		end
+		if(country_name == "!")
+			return attributes
+		end
+		if(/!.+/ === country_name)
+			attributes[:country_name] = country_name[1..-1]
+		
+		elsif(/(ü|Ü)briges (.+)/ === country_name)
+			country_name.slice!(/(ü|Ü)briges /)
+			attributes[:country_name] = country_name
+			gc = Geocoder.search(country_name).first
+			sleep 0.25
+			if(gc == nil)
+				return nil
+			end
+			attributes[:longitude] = gc.longitude
+			attributes[:latitude] = gc.latitude
+			attributes[:country_iso_code] = gc.address_components.first["short_name"]
+		else
+			attributes[:country_name] = country_name
+			gc = Geocoder.search(country_name).first
+			sleep 0.25
+			if(gc == nil or gc.address_components.first["types"].first != "country")
+				return nil
+			end
+			attributes[:longitude] = gc.longitude
+			attributes[:latitude] = gc.latitude
+			attributes[:country_iso_code] = gc.address_components.first["short_name"]
+		end
+
+		return attributes
+	end
+
+	def self.createFederalState(federal_state_name)
+		#If we could not find the federal state we have to create it
+		fedState = FederalState.new
+		fedState.federal_state_name = federal_state_name
+		fedStateGC = Geocoder.search(fedState.federal_state_name).first
+		sleep 0.25
+		if(fedStateGC == nil)
+			return nil
+		end
+		fedState.longitude = fedStateGC.longitude
+		fedState.latitude = fedStateGC.latitude
+
+		#Unfortunately the short_names for the city-states are their actual name.
+		#Therefore we have to overwrite them manually.
+		cityStates = {"Berlin" => "BE", "Hamburg" => "HH", "Bremen" => "HB" }
+		if(cityStates.has_key?(fedState.federal_state_name))
+			fedState.federal_state_iso_code = cityStates[fedState.federal_state_name]
+		else
+			fedState.federal_state_iso_code = fedStateGC.address_components.first["short_name"]
+		end
+		fedState.save
+		return fedState
 	end
 end

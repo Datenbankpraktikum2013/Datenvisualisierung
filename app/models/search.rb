@@ -10,12 +10,11 @@ class Search < ActiveRecord::Base
 		filtered_attributes = filter_attributes_and_classes[0]
 		filtered_classes = filter_attributes_and_classes[1]
 
-		filtered_result = filtered_result.joins(location: :country)
-
+		filtered_result = filtered_result.joins(location: :country).joins("LEFT OUTER JOIN federal_states ON federal_states.id = locations.federal_state_id")
 		filtered_result = filter_search_results(filtered_attributes, filtered_result)
 
 		search_results = {}
-		search_results = filtered_result.group(:country_iso_code, :location_name).count
+		search_results = filtered_result.group(:country_iso_code, :federal_state_iso_code, :location_name).count
 
 		search_results
 	end

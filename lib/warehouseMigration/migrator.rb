@@ -3,6 +3,7 @@ require File.expand_path("lib/warehouseMigration/locationMigrator.rb")
 require File.expand_path("lib/warehouseMigration/departmentMigrator.rb")
 require File.expand_path("lib/warehouseMigration/teachingUnitMigrator.rb")
 require File.expand_path("lib/warehouseMigration/disciplineMigrator.rb")
+require File.expand_path("lib/warehouseMigration/credentials.rb")
 
 module Migrator
 

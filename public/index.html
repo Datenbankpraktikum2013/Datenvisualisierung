@@ -426,8 +426,24 @@
 								<label>
 									Bundesland:
 									<select name="Bundesland" class="span12">
-										<option value="All">Alle</option>
-										<option value="Niedersachsen">Niedersachsen</option>
+										<option  selected = "selected" value="All">Alle</option>		
+										<option>Bayern</option>
+										<option>Badenw&uuml;rtenberg</option>
+										<option>Berlin</option>
+										<option>Brandenburg</option>
+										<option>Bremen</option>
+										<option>Hamburg</option>
+										<option>Hessen</option>
+										<option>Mecklenburg-Vorpommern</option>
+										<option>Niedersachsen</option>
+										<option>Nordrhein-Westfalen</option>
+										<option>Rheinland-Pfalz</option>
+										<option>Saarland</option>
+										<option>Sachsen</option>
+										<option>Sachsen-Anhalt</option>
+										<option>Schleswig-Holstein</option>
+										<option>Th&uuml;ringen</option>
+
 									</select>
 								</label>
 						    	</div>
@@ -584,7 +600,7 @@
 											<option>Lehreinheit</option>
 											<option>Studienfach</option>
 											<option>Abschlussart</option>
-											<option>Land</option>
+											<option>Heimatland</option>
 											<option>Bundesland</option>
 										</select>
 									</label>
@@ -603,7 +619,7 @@
 											<option>Lehreinheit</option>
 											<option>Studienfach</option>
 											<option>Abschlussart</option>
-											<option>Land</option>
+											<option>Heimatland</option>
 											<option>Bundesland</option>
 										</select>
 									</label>
@@ -682,6 +698,14 @@
 		<script src="js/vendor/radio.min.js"></script>
 		<script src="http://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false&region=de&language=de"></script>
 		<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+		<script type="text/javascript">
+      	var script = '<script type="text/javascript" src="js/markerclusterer';
+      	if (document.location.search.indexOf('packed') !== -1) {
+        	script += '_packed';
+      	}
+      	script += '.js"><' + '/script>';
+      	document.write(script);
+    	</script>
 
 		<script src="js/app/app.js"></script>
 		<script src="js/app/model.js"></script>

@@ -21,6 +21,11 @@ module Migrator
 		disciplines.each do |discipline|	
 			discipline["discipline_name"].gsub!(/\.\.\./,'') 
 			discipline["discipline_name"].strip!
+
+			if (discipline["discipline_name"][0]  == '-' )
+				discipline["discipline_name"].slice!(0)
+			end
+
 			discipline["teaching_unit_name"].strip!
 
 			disciplineDB = Discipline.find_by_discipline_name(discipline["discipline_name"])

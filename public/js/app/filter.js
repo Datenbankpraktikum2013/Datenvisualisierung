@@ -85,27 +85,51 @@ App.filter = {
     extendFilter : function(){
     	var filter = App.filter.getFilter();
     	var returnString = '<ul>';
+    	
+    	//$.each(filter
 
     	$.each(filter,function(index,value){
-    
-       		if((value == 'Keine') | (value == 'Alle') | (value == 'Kein') | (value == '') | (value == null)){
-      			if(index == 'stackby' | index == 'groupby' | index == 'altervon' | index == 'alterbis'){
+    	
 
-      			}
-      			else returnString = returnString +'<li><a href="#" class="launch" onclick="alert(\'test\')"">'+index+'</a></li>';
-      			
-    		}
-    		else{ 
-    			if(value == 'Deutschland'){
-    				returnString = returnString + '<li>Bundesland</li>';
-    			}
-    		}
+    	if(filter.groupby == index){
+    			
+    	}
+    	else{
+	       		if((value == 'Keine') | (value == 'Alle') | (value == 'Kein') | (value == '') | (value == null) | ( value == 'Fachbereiche ausw&auml;hlen')){
+	      			if(index == 'stackby' | index == 'groupby' | index == 'altervon' | index == 'alterbis'){
 
+	      			}
+	      			else returnString = returnString +'<li><a href="#" class="launch" onclick="alert(\'test\')"">'+index+'</a></li>';
+	      			
+	    		}
+	    		else{ 
+	    			if(value == 'Deutschland'){
+	    				returnString = returnString + '<li><a href="#" class="launch" onclick="alert(\'test\')"">Bundesland</a></li>';
+	    			}
+	    		}
+		}
 		});
-		returnString = returnString+'</ul>';
+			returnString = returnString+'</ul>';
+		
     	return returnString;
 
     },
+    /*
+    * @brief soll beim Onclick auf z.B. Deutschland
+    *		 Deutschland ins Formular eintrage.
+    */
+    onClickEventHandle : function(category) {
+    	var filter = App.filter.getFilter();
+    	
+    	$.each(filter,function(index,value){
+    		//alert(value);
+	    
+	    		value = category;
+	    		
+	    
+	    });
+    },
+
 
     // Setzt abhaengig des uebergebenen Daten die entsprechenden Filter
     // aus den DrillDownClicks.
@@ -114,6 +138,9 @@ App.filter = {
 		
      	new_filter.groupby = filters.groupby; // X-Achse
      	new_filter.stackby = filters.stackby; // Y-Achse
+
+     	// alert(new_filter.category);
+     	// alert(new_filter.filter);
 
      	if (new_filter.filter == 'm') {
 		 	this.filter.Geschlecht = ['m'];
@@ -124,12 +151,13 @@ App.filter = {
 		 } else if (new_filter.filter == 'Absolventen') {
 		 	this.filter.studentenart = ['a'];
 		 }
-		 this.filter.heimatland = new_filter.category;
-		
+		 filters.heimatland = new_filter.category;
+
+		//alert(this.filter.heimatland);
 
 		//Falls Deutschland Heimatland ist, kann nach 
 		//Bundeslaendern sortiert werden
-		if(this.filter.heimatland == "Deutschland"){
+		if(filters.heimatland == "Deutschland"){
 		 	$('#Bundesland').slideDown();
 		}
 		else{
@@ -803,14 +831,14 @@ App.filter = {
 			break;
 		}*/
 		//Neue Suche durchführen
-		App.model.post(new_filter);
+		//App.model.post(new_filter);
 		//Verzögern, damit Rails Ergebnis liefern kann
-		setTimeout(1000);	//Workaround -> wird noch geändert 
+	//	setTimeout(1000);	//Workaround -> wird noch geändert 
 		//Suche abrufen
-		App.model.fetch(App.model.getFilter());
+		//App.model.fetch(App.model.getFilter());
 
 		//Neu zeichnen
-		App.columnchart.render();
+		//App.columnchart.render();
 
 
 		
