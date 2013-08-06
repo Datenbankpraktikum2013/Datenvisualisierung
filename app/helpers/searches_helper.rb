@@ -66,7 +66,7 @@ module SearchesHelper
 
 		cities_of_federal_state = {}
 		search_results.each do |k,v|
-			if k[0] == "GER"
+			if k[0] == "DE"
 				federal_state_accumulations.keys.each do |federal_state|
 					if k[1] == federal_state
 						if cities_of_federal_state[federal_state].nil?
