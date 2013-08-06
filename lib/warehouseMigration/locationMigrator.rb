@@ -182,7 +182,7 @@ module Migrator
 			attributes[:country_iso_code] = gc.address_components.first["short_name"]
 		else
 			attributes[:country_name] = country_name
-			gc = Geocoder.search(country_name).fisrst
+			gc = Geocoder.search(country_name).first
 			sleep 0.25
 			if(gc == nil or gc.address_components.first["types"].first != "country")
 				return nil
