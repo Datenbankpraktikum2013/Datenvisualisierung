@@ -159,7 +159,7 @@ module Migrator
 		return country
 	end
 	def self.findCountryAttributes(country_name)
-		attibutes = {country_name:"unklar",country_iso_code:"",longitude:0.0,latitude:0.0}
+		attributes = {country_name:"unklar",country_iso_code:"",longitude:0.0,latitude:0.0}
 		if(country_name == "?")
 			return nil
 		end
