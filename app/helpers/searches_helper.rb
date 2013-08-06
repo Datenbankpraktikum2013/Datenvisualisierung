@@ -54,14 +54,34 @@ module SearchesHelper
 			end
 		end
 
-		city_values = {}
-		search_results.each do |k,v|
-			if k[0] == "GER"
-				city_values[k[1]] = v
+		federal_state_accumulations = {}
+		search_results.each do |k,v| 
+			federal_state_iso_code = k[1]
+			if federal_state_accumulations.has_key? federal_state_iso_code
+				federal_state_accumulations[federal_state_iso_code] += v unless federal_state_iso_code.nil?
+			else 
+				federal_state_accumulations[federal_state_iso_code] = v unless federal_state_iso_code.nil?
 			end
 		end
 
-		json.set! :countries do
+		cities_of_federal_state = {}
+		search_results.each do |k,v|
+			if k[0] == "GER"
+				federal_state_accumulations.keys.each do |federal_state|
+					if k[1] == federal_state
+						if cities_of_federal_state[federal_state].nil?
+							cities_of_federal_state[federal_state] = []
+						end
+						cities_of_federal_state[federal_state] << [k[2], v]
+					end
+				end
+			end
+		end
+
+		puts cities_of_federal_state
+
+
+		json.set! :data_gmaps do
 			json.array! country_accumulations do |element|
 				country = Country.find_by_country_iso_code(element[0])
 				json.set! :country_iso_code, country.country_iso_code
@@ -69,13 +89,22 @@ module SearchesHelper
 				json.set! :latitude, country.latitude
 				json.set! :number, element[1]
 				if country.country_iso_code == "GER"
-					json.set! :cities do
-						json.array! city_values do |city_element|
-							city = Location.find_by_location_name(city_element[0])
-							json.set! :location_name, city.location_name
-							json.set! :longitude, city.longitude
-							json.set! :latitude, city.latitude
-							json.set! :number, city_element[1]
+					json.set! :federal_states do
+						json.array! federal_state_accumulations do |federal_state_element|
+							federal_state = FederalState.find_by_federal_state_iso_code(federal_state_element[0])
+							json.set! :federal_state_iso_code, federal_state.federal_state_iso_code
+							json.set! :longitude, federal_state.longitude
+							json.set! :latitude, federal_state.latitude
+							json.set! :number, federal_state_element[1]
+							json.set! :cities do
+								json.array! cities_of_federal_state[federal_state.federal_state_iso_code] do |city_element|
+									city = Location.find_by_location_name(city_element[0])
+									json.set! :location_name, city.location_name
+									json.set! :longitude, city.longitude
+									json.set! :latitude, city.latitude
+									json.set! :number, city_element[1]
+								end
+							end
 						end
 					end
 				end
