@@ -88,7 +88,7 @@ module SearchesHelper
 				json.set! :longitude, country.longitude
 				json.set! :latitude, country.latitude
 				json.set! :number, element[1]
-				if country.country_iso_code == "GER"
+				if country.country_iso_code == "DE"
 					json.set! :federal_states do
 						json.array! federal_state_accumulations do |federal_state_element|
 							federal_state = FederalState.find_by_federal_state_iso_code(federal_state_element[0])
