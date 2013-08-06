@@ -1,7 +1,7 @@
 module SearchesHelper
 
 	def render_json_for_highcharts(json)
-		search_results = @search.results
+		search_results = @search.results_for_highcharts
 
 		category_names = []
 		series_names = []
@@ -42,27 +42,26 @@ module SearchesHelper
 	end
 
 	def render_json_for_maps(json)
-		#search_results = @search.results
-
-		#country_names.each do |country|
-			json.set! :country do
-				json.set! :iso_code_country, "DE"
-				json.set! :longitude, 0
-				json.set! :latitude, 0
-				json.set! :number, 5
-				json.set! :federal_states do
-					json.set! :iso_code_federal_state, "DE-NI"
-					json.set! :longitude, 0
-					json.set! :latitude, 50
-					json.set! :number, 4
-					json.set! :cities do
-						json.set! :location_name, "Osna "
-						json.set! :longitude, 52
-						json.set! :latitude, 8
-						json.set! :number, 2
-					end
-				end
+		search_results = @search.results_for_maps
+		
+		country_accumulations = {}
+		search_results.each do |k,v| 
+			country_iso_code = k[0]
+			if country_accumulations.has_key? country_iso_code
+				country_accumulations[country_iso_code] += v unless country_iso_code.nil?
+			else 
+				country_accumulations[country_iso_code] = v unless country_iso_code.nil?
 			end
-		#end
+		end
+
+		json.set! :countries do
+			json.array! country_accumulations do |element|
+				country = Country.find_by_country_iso_code(element[0])
+				json.set! :country_iso_code, country.country_iso_code
+				json.set! :longitude, country.longitude
+				json.set! :latitude, country.latitude
+				json.set! :number, element[1]
+			end
+		end
 	end
 end
