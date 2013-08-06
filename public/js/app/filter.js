@@ -115,21 +115,21 @@ App.filter = {
      	new_filter.groupby = filters.groupby; // X-Achse
      	new_filter.stackby = filters.stackby; // Y-Achse
 
-  //   	if (new_filter.filter == 'm') {
-		// 	this.filter.geschlecht = ['m'];
-		// } else if (new_filter.filter == 'w') {
-		// 	this.filter.geschlecht = ['w'];
-		// } else if (new_filter.filter == 'Studenten') {
-		// 	this.filter.studentenart = ['s'];
-		// } else if (new_filter.filter == 'Absolventen') {
-		// 	this.filter.studentenart = ['a'];
-		// }
-		// this.filter.heimatland = new_filter.category;
+     	if (new_filter.filter == 'm') {
+		 	this.filter.Geschlecht = ['m'];
+		 } else if (new_filter.filter == 'w') {
+		 	this.filter.Geschlecht = ['w'];
+		 } else if (new_filter.filter == 'Studenten') {
+		 	this.filter.studentenart = ['s'];
+		 } else if (new_filter.filter == 'Absolventen') {
+		 	this.filter.studentenart = ['a'];
+		 }
+		 this.filter.heimatland = new_filter.category;
 		
 
 		//Falls Deutschland Heimatland ist, kann nach 
 		//Bundeslaendern sortiert werden
-		if(this.filter.Heimatland == "Deutschland"){
+		if(this.filter.heimatland == "Deutschland"){
 		 	$('#Bundesland').slideDown();
 		}
 		else{
