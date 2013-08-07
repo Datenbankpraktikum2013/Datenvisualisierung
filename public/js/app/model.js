@@ -16,10 +16,10 @@ App.model = {
 		App.model.fetch(App.filter.getFilter());
 	},
 
-	// Enthaelt immer den aktuellen Datensatz
+	//Enthaelt immer den aktuellen Datensatz
 	data : {
-		categories : ['Deutschland','Schweiz','Österreich'],
-		title : 'Test der Laender',
+		categories : [],
+		title : '',
 		series : 
 		[{
             name: 'Maenner',
@@ -56,15 +56,17 @@ App.model = {
 	post : function(filter) {
 		//Testweise
 		$.post("/searches",{ search : {
-			gender : filter.Geschlecht , nationality: filter.Heimatland, location: null, minimum_age: filter.altervon, maximum_age: filter.alterbis, search_category: filter.groupby, search_series: filter.stackby
+			gender : filter.Geschlecht , nationality: filter.Heimatland, minimum_age: filter.altervon, maximum_age: filter.alterbis, search_category: filter.groupby, search_series: filter.stackby
 		}});
+		inc = inc + 1;
 		//$.get('searches/');
 	},
 
 	fetch : function(filter) {
 		radio('model.fetch').broadcast();
 		App.filter.extendFilter();
-		var url = 'searches/'+inc+'.json?representation=highcharts';
+		var url = 'searches/9.json?representation=highcharts';
+		var url_gmaps = 'searches/9.json?representation=maps';
 		var formstate = App.filter.getFilter();
 
 		//this.post(formstate);
@@ -79,10 +81,21 @@ App.model = {
 				message: 'Die Verbindung zum Server ist fehlgeschlagen!'
 			});
 		}).always(function(){
-			radio('model.fetched').broadcast();
+			// radio('model.fetched').broadcast();
 		});
-		console.log(this.data);
-		return this.data;
+		//console.log(this.data);
+		//return this.data;
+		$.getJSON(url_gmaps, function(data) {
+			App.model.data_gmaps = data.data_gmaps;
+		}).fail(function() {
+			App.showAlert({
+				type: 'danger', 
+				heading: 'Verbindungsfehler!', 
+				message: 'Die Verbindung zum Server ist fehlgeschlagen!'
+			});
+		}).always(function(){
+			radio('model.fetched').broadcast();	//@ToDo muss noch gefangen werden
+		});
 	}
 
 		
