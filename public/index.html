@@ -153,7 +153,7 @@
 								<div class="span12">
 									<label>
 										Heimatland:
-										<select name="Heimatland" class="span12">
+										<select name="Heimatland" id="Heimatland" class="span12">
 											<option value="Alle">Alle</option>
 											<option value="Deutschland">Deutschland</option>
 											<option value="Österreich">&Ouml;sterreich</option>
@@ -426,8 +426,24 @@
 								<label>
 									Bundesland:
 									<select name="Bundesland" class="span12">
-										<option value="All">Alle</option>
-										<option value="Niedersachsen">Niedersachsen</option>
+										<option  selected = "selected" value="All">Alle</option>		
+										<option>Bayern</option>
+										<option>Badenw&uuml;rtenberg</option>
+										<option>Berlin</option>
+										<option>Brandenburg</option>
+										<option>Bremen</option>
+										<option>Hamburg</option>
+										<option>Hessen</option>
+										<option>Mecklenburg-Vorpommern</option>
+										<option>Niedersachsen</option>
+										<option>Nordrhein-Westfalen</option>
+										<option>Rheinland-Pfalz</option>
+										<option>Saarland</option>
+										<option>Sachsen</option>
+										<option>Sachsen-Anhalt</option>
+										<option>Schleswig-Holstein</option>
+										<option>Th&uuml;ringen</option>
+
 									</select>
 								</label>
 						    	</div>
@@ -627,20 +643,22 @@
 						</div>
 					</div>
 					<hr/>
+
 					<div class="row-fluid" id="chart">
+
 					</div>
-					<div id="timescale" class="row-fluid">
+					
+				</div>
+			</div>
+			<div id="timescale" class="row-fluid">
 						<form class="span12" id="slider-form">
-							<svg class="span12" xmlns="http://www.w3.org/2000/svg" version="1.1" height="190" width="100%">
+							<!--  <svg class="span12" xmlns="http://www.w3.org/2000/svg" version="1.1" height="190" width="100%">
   								<line x1="1" y1="1" x2="700" y2="1" style="stroke:black; stroke-width: 0.5" opacity="1"/>
-							</svg>	
-							<input id="slider" type="text" class="span12" value="" data-slider-min="1950" data-slider-max="2013" data-slider-step="1" data-slider-value="1950" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="show">
+							</svg>	  -->
+							<input id="slider" type="hidden" class="span12" value="" data-slider-min="1950" data-slider-max="2013" data-slider-step="1" data-slider-value="1950" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="show">
 						</form>
 						
 					</div>
-				</div>
-			</div>
-
 			<hr>
 
 			<footer>
@@ -671,6 +689,7 @@
 			    <button id="save-search-button" class="btn btn-primary">Speichern</button>
 		    </div>
 	    </div>
+
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 		<script>
 			window.jQuery || document.write('<script src="js/vendor/jquery-1.10.1.min.js"><\/script>')
@@ -682,6 +701,14 @@
 		<script src="js/vendor/radio.min.js"></script>
 		<script src="http://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false&region=de&language=de"></script>
 		<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+		<script type="text/javascript">
+      	var script = '<script type="text/javascript" src="js/markerclusterer';
+      	if (document.location.search.indexOf('packed') !== -1) {
+        	script += '_packed';
+      	}
+      	script += '.js"><' + '/script>';
+      	document.write(script);
+    	</script>
 
 		<script src="js/app/app.js"></script>
 		<script src="js/app/model.js"></script>

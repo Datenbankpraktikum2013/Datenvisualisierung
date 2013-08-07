@@ -7,11 +7,12 @@
 #chart {
 	height : 80vmin;
 	min-height: 80vmin;
-	max-height: 80vmin;
+	max-height: 90vmin;
 }
 
 #chart img {
 	max-width: none;
+
 }
 
 #Bundesland {
@@ -27,7 +28,7 @@
 }
 
 #slider {
-	display: none;
+	display: visible;
 }
 
 #scale-label {
