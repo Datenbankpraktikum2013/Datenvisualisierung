@@ -7,6 +7,9 @@
       <th>Nationality</th>
       <th>Alter (von - bis)</th>
       <th>Location Name</th>
+      <th>Abschlussart</th>
+      <th>Lehreinheit</th>
+      <th>Fachbereich</th>
       <th></th>
       <th></th>
       <th></th>
@@ -20,6 +23,9 @@
         <td><%= search.nationality %></td>
         <td><%= search.minimum_age %> - <%= search.maximum_age %></td>
         <td><%= search.location_name %></td>
+        <td><%= search.kind_of_degree %></td>
+        <td><%= search.teaching_unit_name %> </td>
+        <td><%= search.department_number %></td>
         <td><%= link_to 'Show', search %></td>
         <td><%= link_to 'Edit', edit_search_path(search) %></td>
         <td><%= link_to 'Destroy', search, method: :delete, data: { confirm: 'Are you sure?' } %></td>

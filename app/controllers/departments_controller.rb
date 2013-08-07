@@ -61,6 +61,24 @@ class DepartmentsController < ApplicationController
     end
   end
 
+  def self.fetch_accessable_attributes
+    ["department_number"]
+  end
+
+  def self.fetch_joinable_classes
+    []
+  end
+
+  def self.fetch_all_joinable_classes
+    all_successors = fetch_joinable_classes
+    fetch_joinable_classes.each do |class_name|
+      controller_class = class_name.pluralize + "Controller"
+      controller_class = controller_class.constantize
+      all_successors += controller_class.fetch_all_joinable_classes
+    end 
+    all_successors
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_department
@@ -69,6 +87,6 @@ class DepartmentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def department_params
-      params.require(:department).permit(:department_name, :number)
+      params.require(:department).permit(:department_name, :department_number)
     end
 end

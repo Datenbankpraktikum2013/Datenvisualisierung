@@ -27,7 +27,7 @@ class Search < ActiveRecord::Base
 		filtered_classes << GroupingController.fetch_all_groupable_elements[search_series]
 		filtered_classes.delete("Student")
 		filtered_classes.uniq!
-		puts filtered_classes
+		filtered_classes.compact!
 
 		joined_classes = []
 
@@ -83,6 +83,7 @@ class Search < ActiveRecord::Base
 
 			filtered_attributes = []
 			filtered_classes = []
+
 			all_attributes.each do |attribute|
 				if attribute == "year_of_birth"
 					unless minimum_age.blank? and maximum_age.blank?

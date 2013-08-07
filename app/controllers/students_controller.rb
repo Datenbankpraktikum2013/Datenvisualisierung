@@ -66,7 +66,7 @@ class StudentsController < ApplicationController
   end
 
   def self.fetch_joinable_classes
-    ["Location"]
+    ["Location", "Study"]
   end
 
   def self.fetch_all_joinable_classes
@@ -75,7 +75,8 @@ class StudentsController < ApplicationController
       controller_class = class_name.pluralize + "Controller"
       controller_class = controller_class.constantize
       all_successors += controller_class.fetch_all_joinable_classes
-    end 
+    end
+    all_successors
   end
 
   private
