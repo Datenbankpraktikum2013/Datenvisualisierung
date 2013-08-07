@@ -30,7 +30,7 @@ App.chart.columnchart = {
             pinchType: 'xy'
         },
         title: {
-            text: App.model.data.title,
+            text: "Ihre Suche",
             style: {
                 fontWeight: 'bold'
             }

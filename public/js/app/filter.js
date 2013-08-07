@@ -13,7 +13,7 @@ App.filter = {
 	init : function() {
 		radio('model.fetch').subscribe(this.loadingListener);
 		radio('model.fetched').subscribe(this.loadedListener);
-
+		
 		// Wenn Formular veraendert wird, update das Filter Objekt.
 	    $('form input, form select').change(function() {
 	        App.filter.getFilter();
@@ -33,13 +33,16 @@ App.filter = {
 	        return false;
 	    });
 
-        $('#filter-form select[name="Heimatland"]').change(function() {
+        $('#filter-form select[name="nationality"]').change(function() {
+	       
 	        if ($(this).val() == "Deutschland") {
-	            $('#Bundesland').slideDown();
+	         
+	            $('#Bundesland').slideDown(); 
 	        } else {
 	            if ($('#Bundesland').css('display') != 'none') {
 	                $('#Bundesland').slideUp();
 	            }
+	            
 	        }
 	    });
 
@@ -81,6 +84,22 @@ App.filter = {
     	this.filter = filter;
     	$('#filter-form :input:visible').formstate(this.filter);
     },
+
+    setFilterOption : function(input, value) {
+    	this.filter[input] = value;
+    	/*if (this.filter[input] === undefined) {
+    		this.filter[input] = value;
+    	} else if (this.filter[input] instanceof Array) {
+    		if (this.filter[input].indexOf(value) < 0) {
+    			this.filter[input].push(value);
+    		}
+    	}*/
+    	$('#filter-form :visible').formstate(this.filter);
+    	if (input == "nationality") {
+    		$('#filter-form select[name="nationality"]').change();
+    	}
+    },
+
     //Clickon Event um Filterauswahl festzulegen
     extendFilter : function(){
     	var filter = App.filter.getFilter();
@@ -151,18 +170,20 @@ App.filter = {
 		 } else if (new_filter.filter == 'Absolventen') {
 		 	this.filter.studentenart = ['a'];
 		 }
-		 filters.heimatland = new_filter.category;
-
+		 this.filter.nationality = new_filter.category;
+		 $('#filter-form select[name="nationality"]').change();
 		//alert(this.filter.heimatland);
 
 		//Falls Deutschland Heimatland ist, kann nach 
 		//Bundeslaendern sortiert werden
-		if(filters.heimatland == "Deutschland"){
-		 	$('#Bundesland').slideDown();
-		}
-		else{
-		 	$('#Bundesland').slideUp();
-		}
+		// if(this.filter.heimatland == "Deutschland"){
+		//  	$('#Bundesland').slideDown();
+		//  	$('[name=Heimatland]').val('Deutschland');
+		//  	console.log($('#Heimatland').select("1"));
+		// }
+		// else{
+		//  	$('#Bundesland').slideUp();
+		// }
 
 
 		$('#filter-form :input:visible').formstate(this.filter);

@@ -91,11 +91,11 @@
 								</div>
 								<div class="span7">
 									<label class="checkbox">
-										<input name="Geschlecht" type="checkbox" value="m" checked="checked">
+										<input name="gender" type="checkbox" value="M" checked="checked">
 										M&auml;nnlich 
 									</label>
 									<label class="checkbox">
-										<input name="Geschlecht" type="checkbox" value="w" checked="checked">
+										<input name="gender" type="checkbox" value="W" checked="checked">
 										Weiblich
 									</label>
 								</div>
@@ -106,11 +106,11 @@
 									<div class="row-fluid">
 										<div class="span6 input-prepend">
 											<span class="add-on">Von</span>
-											<input class="input-mini" type="text" name="altervon">
+											<input class="input-mini" type="text" name="minimum_age">
 										</div>
 										<div class="span6 input-prepend text-right">
 											<span class="add-on">Bis</span>
-											<input class="input-mini" type="text" name="alterbis">
+											<input class="input-mini" type="text" name="maximum_age">
 										</div>
 									</div>
 								</div>
@@ -121,17 +121,17 @@
 										Fachbereich(e):
 										<select data-role="multiselect" multiple="multiple" 
 											name="Fachbereich" class="multiselect span12">
-											<option>1 Sozialwissenschaften</option>
-											<option>2 Kultur- und Geowissenschaften
+											<option value="1">1 Sozialwissenschaften</option>
+											<option value="2">2 Kultur- und Geowissenschaften
 											</option>
-											<option>3 Erziehungs- und Kulturwissenschaften</option>
-											<option>4 Physik</option>
-											<option>5 Biologie und Chemie</option>
-											<option>6 Mathematik und Informatik</option>
-											<option>7 Sprach- und Literaturwissenschaften</option>
-											<option>8 Humanwissenschaften</option>
-											<option>9 Wirtschaftswissenschaften</option>
-											<option>10 Rechtswissenschaften</option>
+											<option value="3">3 Erziehungs- und Kulturwissenschaften</option>
+											<option value="4">4 Physik</option>
+											<option value="5">5 Biologie und Chemie</option>
+											<option value="6">6 Mathematik und Informatik</option>
+											<option value="7">7 Sprach- und Literaturwissenschaften</option>
+											<option value="8">8 Humanwissenschaften</option>
+											<option value="9">9 Wirtschaftswissenschaften</option>
+											<option value="10">10 Rechtswissenschaften</option>
 										</select>
 									</label>
 						    	</div>
@@ -153,8 +153,8 @@
 								<div class="span12">
 									<label>
 										Heimatland:
-										<select name="Heimatland" class="span12">
-											<option value="Alle">Alle</option>
+										<select name="nationality" class="span12">
+											<option value="">Alle</option>
 											<option value="Deutschland">Deutschland</option>
 											<option value="Österreich">&Ouml;sterreich</option>
 											<option value="Schweiz">Schweiz</option>
@@ -591,16 +591,15 @@
 								<div class="span12">
 									<label>
 										Gruppierung:
-										<select name="groupby" class="span12">
-											<option selected="selected">Keine</option>
+										<select name="search_category" class="span12">
 											<option>Status</option>
-											<option>Geschlecht</option>
+											<option value="gender" selected="selected">Geschlecht</option>
 											<option>Alter</option>
 											<option>Fachbereich</option>
 											<option>Lehreinheit</option>
 											<option>Studienfach</option>
 											<option>Abschlussart</option>
-											<option>Heimatland</option>
+											<option value="nationality">Heimatland</option>
 											<option>Bundesland</option>
 										</select>
 									</label>
@@ -610,25 +609,25 @@
 								<div class="span12">
 									<label>
 										Stacking:
-										<select name="stackby" class="span12">
-											<option selected="selected">Keine</option>
+										<select name="search_series" class="span12">
 											<option>Status</option>
-											<option>Geschlecht</option>
+											<option value="gender">Geschlecht</option>
 											<option>Alter</option>
 											<option>Fachbereich</option>
 											<option>Lehreinheit</option>
 											<option>Studienfach</option>
 											<option>Abschlussart</option>
-											<option>Heimatland</option>
+											<option value="nationality" selected="selected">Heimatland</option>
 											<option>Bundesland</option>
 										</select>
 									</label>
 						    	</div>
 							</div>
-							<hr/>
-						    <button type="submit" name="store" class="btn btn-primary" 
+							<div class="row-fluid">
+								<button type="submit" name="store" class="span8 btn btn-primary" 
 						    	data-loading-text="Laden...">Aktualisieren</button>
-						    <button type="button" name="restore" class="btn" onclick="this.form.reset()">Reset</button>
+						    	<button type="button" name="restore" class="span4 btn" onclick="this.form.reset()">Reset</button>
+							</div>
 						</fieldset>
 					</form>
 				</div>
@@ -643,20 +642,21 @@
 						</div>
 					</div>
 					<hr/>
+
 					<div class="row-fluid" id="chart">
+
 					</div>
-					<div id="timescale" class="row-fluid">
-						<form class="span12" id="slider-form">
-							<svg class="span12" xmlns="http://www.w3.org/2000/svg" version="1.1" height="190" width="100%">
-  								<line x1="1" y1="1" x2="700" y2="1" style="stroke:black; stroke-width: 0.5" opacity="1"/>
-							</svg>	
-							<input id="slider" type="text" class="span12" value="" data-slider-min="1950" data-slider-max="2013" data-slider-step="1" data-slider-value="1950" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="show">
-						</form>
-						
-					</div>
+					
 				</div>
 			</div>
-
+			<div id="timescale" class="row">
+				<form class="span12" id="slider-form">
+					<!--  <svg class="span12" xmlns="http://www.w3.org/2000/svg" version="1.1" height="190" width="100%">
+							<line x1="1" y1="1" x2="700" y2="1" style="stroke:black; stroke-width: 0.5" opacity="1"/>
+					</svg>	  -->
+					<input id="slider" type="hidden" class="span12" value="" data-slider-min="1950" data-slider-max="2013" data-slider-step="1" data-slider-value="1950" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="show">
+				</form>
+			</div>
 			<hr>
 
 			<footer>
@@ -687,6 +687,7 @@
 			    <button id="save-search-button" class="btn btn-primary">Speichern</button>
 		    </div>
 	    </div>
+
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
 		<script>
 			window.jQuery || document.write('<script src="js/vendor/jquery-1.10.1.min.js"><\/script>')
@@ -698,6 +699,14 @@
 		<script src="js/vendor/radio.min.js"></script>
 		<script src="http://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false&region=de&language=de"></script>
 		<script type="text/javascript" src="http://www.google.com/jsapi"></script>
+		<script type="text/javascript">
+      	var script = '<script type="text/javascript" src="js/markerclusterer';
+      	if (document.location.search.indexOf('packed') !== -1) {
+        	script += '_packed';
+      	}
+      	script += '.js"><' + '/script>';
+      	document.write(script);
+    	</script>
 
 		<script src="js/app/app.js"></script>
 		<script src="js/app/model.js"></script>
