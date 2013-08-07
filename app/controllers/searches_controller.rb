@@ -37,6 +37,7 @@ class SearchesController < ApplicationController
         format.json { render json: @search.errors, status: :unprocessable_entity }
       end
     end
+   
   end
 
   # PATCH/PUT /searches/1
