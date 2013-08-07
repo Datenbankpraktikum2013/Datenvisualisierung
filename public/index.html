@@ -623,10 +623,11 @@
 									</label>
 						    	</div>
 							</div>
-							<hr/>
-						    <button type="submit" name="store" class="btn btn-primary" 
+							<div class="row-fluid">
+								<button type="submit" name="store" class="span8 btn btn-primary" 
 						    	data-loading-text="Laden...">Aktualisieren</button>
-						    <button type="button" name="restore" class="btn" onclick="this.form.reset()">Reset</button>
+						    	<button type="button" name="restore" class="span4 btn" onclick="this.form.reset()">Reset</button>
+							</div>
 						</fieldset>
 					</form>
 				</div>
@@ -648,15 +649,14 @@
 					
 				</div>
 			</div>
-			<div id="timescale" class="row-fluid">
-						<form class="span12" id="slider-form">
-							<!--  <svg class="span12" xmlns="http://www.w3.org/2000/svg" version="1.1" height="190" width="100%">
-  								<line x1="1" y1="1" x2="700" y2="1" style="stroke:black; stroke-width: 0.5" opacity="1"/>
-							</svg>	  -->
-							<input id="slider" type="hidden" class="span12" value="" data-slider-min="1950" data-slider-max="2013" data-slider-step="1" data-slider-value="1950" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="show">
-						</form>
-						
-					</div>
+			<div id="timescale" class="row">
+				<form class="span12" id="slider-form">
+					<!--  <svg class="span12" xmlns="http://www.w3.org/2000/svg" version="1.1" height="190" width="100%">
+							<line x1="1" y1="1" x2="700" y2="1" style="stroke:black; stroke-width: 0.5" opacity="1"/>
+					</svg>	  -->
+					<input id="slider" type="hidden" class="span12" value="" data-slider-min="1950" data-slider-max="2013" data-slider-step="1" data-slider-value="1950" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="show">
+				</form>
+			</div>
 			<hr>
 
 			<footer>
