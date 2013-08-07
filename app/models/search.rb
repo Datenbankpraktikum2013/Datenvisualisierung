@@ -1,21 +1,14 @@
 class Search < ActiveRecord::Base
 
-	def results_for_maps
-
-		filtered_attributes = filter_attributes_and_classes[0]
-		filtered_classes = filter_attributes_and_classes[1]
-
+	def join_classes classes_to_join
 		filtered_result = Student.all
-
-		filtered_classes << GroupingController.fetch_all_groupable_elements[search_series]
-		filtered_classes << "Country" << "FederalState"
-		filtered_classes.delete("Student")
-		filtered_classes.uniq!
-		filtered_classes.compact!
-
 		joined_classes = []
 
-		filtered_classes.each do |class_name|
+		classes_to_join.delete("Student")
+		classes_to_join.uniq!
+		classes_to_join.compact!
+
+		classes_to_join.each do |class_name|
 			neighbor = ""
 			current_class = "Student"
 			current_controller_class = controllize_name(current_class)
@@ -42,6 +35,16 @@ class Search < ActiveRecord::Base
 				end
 			end
 		end
+		filtered_result
+	end
+
+	def results_for_maps
+
+		filtered_attributes = filter_attributes_and_classes[0]
+		filtered_classes = filter_attributes_and_classes[1]
+		filtered_classes << "Country" << "FederalState"
+		
+		filtered_result = join_classes(filtered_classes)
 
 		#filtered_result = filtered_result.joins("LEFT OUTER JOIN federal_states ON federal_states.id = locations.federal_state_id")
 		filtered_result = filter_search_results(filtered_attributes, filtered_result)
@@ -58,47 +61,19 @@ class Search < ActiveRecord::Base
 		filtered_attributes = filter_attributes_and_classes[0]
 		filtered_classes = filter_attributes_and_classes[1]
 
-		filtered_result = Student.all
-
 		filtered_classes << GroupingController.fetch_all_groupable_elements[search_series]
-		filtered_classes.delete("Student")
-		filtered_classes.uniq!
-		filtered_classes.compact!
-
-		joined_classes = []
-
-		filtered_classes.each do |class_name|
-			neighbor = ""
-			current_class = "Student"
-			current_controller_class = controllize_name(current_class)
-			until class_name == neighbor
-				neighbored_classes = current_controller_class.fetch_joinable_classes
-				neighbored_classes.each do |neighbor_class|
-					all_joinable_classes = controllize_name(neighbor_class).fetch_all_joinable_classes
-					if neighbor_class == class_name
-						method = "with_" + neighbor_class.tableize.pluralize
-						filtered_result = filtered_result.merge(current_class.constantize.send(method))
-						joined_classes << neighbor_class
-					elsif all_joinable_classes.include? class_name
-						unless joined_classes.include? neighbor_class
-							method = "with_" + neighbor_class.tableize.pluralize
-							filtered_result = filtered_result.merge(current_class.constantize.send(method))
-							joined_classes << neighbor_class
-						end
-						current_class = neighbor_class
-						current_controller_class = controllize_name(current_class)
-					else
-					end
-					neighbor = neighbor_class
-					break if class_name == neighbor
-				end
-			end
-		end
+		
+		filtered_result = join_classes(filtered_classes)
 
 		filtered_result = filter_search_results(filtered_attributes, filtered_result)
 
 		search_results = {}
-		search_results = filtered_result.group(search_category.to_sym, search_series.to_sym).count
+		
+		if search_series.blank?
+			search_results = filtered_result.group(search_category.to_sym).count
+		else
+			search_results = filtered_result.group(search_category.to_sym, search_series.to_sym).count
+		end
 					
 		search_results
 	end

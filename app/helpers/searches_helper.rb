@@ -7,21 +7,38 @@ module SearchesHelper
 		series_names = []
 		data_of_every_series_hash = {}
 
+		stacking = true
+		
 		search_results.keys.each do |categories_and_series|
-			category_names << categories_and_series[0]
-			series_names << categories_and_series[1]
+			if categories_and_series.is_a? Array
+				category_names << categories_and_series[0]
+				series_names << categories_and_series[1]
+			else
+				category_names << categories_and_series
+				stacking = false
+			end
 		end 
 		category_names.uniq!
 		series_names.uniq!
+
+		series_names << "" unless stacking
 
 		data_of_every_series_hash = {}
 		series_names.each do |series|
 			data_array = []
 			category_names.each do |category|
-				if search_results.has_key?([category, series])
-					data_array << search_results[[category, series]]
+				if stacking 	
+					if search_results.has_key?([category, series])
+						data_array << search_results[[category, series]]
+					else
+						data_array << 0
+					end
 				else
-					data_array << 0
+					if search_results.has_key?(category)
+						data_array << search_results[category]
+					else
+						data_array << 0
+					end
 				end
 			end
 			data_of_every_series_hash[series] = data_array
