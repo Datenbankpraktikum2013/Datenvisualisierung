@@ -42,7 +42,6 @@ App.model = {
 
 	prepareParameters : function(filter){
 		var parameters = {};
-		console.log(filter);
 		$.each(filter, function(index, value){
 			if (value instanceof Array) {
 				if (value.length == 1) {
@@ -52,7 +51,6 @@ App.model = {
 				parameters[index] = value;
 			} 
 		});
-		console.log(parameters);
 		return parameters;
 	},
 	/* 
@@ -77,46 +75,40 @@ App.model = {
 			}
 			
 		});
-		console.log(filter.Geschlecht);
 		return location;
 	},
 
 	fetch : function(filter) {
 		radio('model.fetch').broadcast();
 		App.filter.extendFilter();
-		var formstate = App.filter.getFilter();
-		this.post(formstate);
+		
+		this.post(App.filter.getFilter());
+		
 		var url = 'searches/'+App.model.location+'.json?representation=highcharts';
 		var url_gmaps = 'searches/'+App.model.location+'.json?representation=maps';
 	
-
-	
-
-
 		$.getJSON(url, function(data) {
 			App.model.data = data.data;
+			radio('model.hc.fetched').broadcast();
 		}).fail(function() {
 			App.showAlert({
 				type: 'danger', 
 				heading: 'Verbindungsfehler!', 
 				message: 'Die Verbindung zum Server ist fehlgeschlagen!'
 			});
-		}).always(function(){
-	
 		});
 	
 		$.getJSON(url_gmaps, function(data) {
 			App.model.data_gmaps = data.data_gmaps;
+			radio('model.gmaps.fetched').broadcast();
 		}).fail(function() {
 			App.showAlert({
 				type: 'danger', 
 				heading: 'Verbindungsfehler!', 
 				message: 'Die Verbindung zum Server ist fehlgeschlagen!'
 			});
-		}).always(function(){
+		}).always(function() {
 			radio('model.fetched').broadcast();
 		});
 	}
-
-		
 }; 

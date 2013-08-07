@@ -101,38 +101,32 @@ App.filter = {
     },
 
     //Clickon Event um Filterauswahl festzulegen
-    extendFilter : function(){
+    extendFilter : function() {
     	var filter = App.filter.getFilter();
     	var returnString = '<ul>';
-    	
-    	//$.each(filter
 
-    	$.each(filter,function(index,value){
-    	
+    	$.each(filter,function(index,value) {
+	    	if(filter.groupby == index){
+	    			
+	    	}
+	    	else{
+		       		if((value == 'Keine') | (value == 'Alle') | (value == 'Kein') | (value == '') | (value == null) | ( value == 'Fachbereiche ausw&auml;hlen')){
+		      			if(index == 'stackby' | index == 'groupby' | index == 'altervon' | index == 'alterbis'){
 
-    	if(filter.groupby == index){
-    			
-    	}
-    	else{
-	       		if((value == 'Keine') | (value == 'Alle') | (value == 'Kein') | (value == '') | (value == null) | ( value == 'Fachbereiche ausw&auml;hlen')){
-	      			if(index == 'stackby' | index == 'groupby' | index == 'altervon' | index == 'alterbis'){
-
-	      			}
-	      			else returnString = returnString +'<li><a href="#" class="launch" onclick="alert(\'test\')"">'+index+'</a></li>';
-	      			
-	    		}
-	    		else{ 
-	    			if(value == 'Deutschland'){
-	    				returnString = returnString + '<li><a href="#" class="launch" onclick="alert(\'test\')"">Bundesland</a></li>';
-	    			}
-	    		}
-		}
+		      			}
+		      			else returnString = returnString +'<li><a href="#" class="launch" onclick="alert(\'test\')"">'+index+'</a></li>';
+		      			
+		    		}
+		    		else{ 
+		    			if(value == 'Deutschland'){
+		    				returnString = returnString + '<li><a href="#" class="launch" onclick="alert(\'test\')"">Bundesland</a></li>';
+		    			}
+		    		}
+			}
 		});
-			returnString = returnString+'</ul>';
-		
-    	return returnString;
-
-    },
+		returnString = returnString+'</ul>';
+		return returnString;
+	},
     /*
     * @brief soll beim Onclick auf z.B. Deutschland
     *		 Deutschland ins Formular eintrage.
