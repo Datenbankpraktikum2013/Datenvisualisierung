@@ -15,7 +15,7 @@ class GroupingController < ApplicationController
     end
 
     FederalStatesController.fetch_accessable_attributes.each do |attribute|
-      all_groupable_elements[attribute] = "FederalStates"
+      all_groupable_elements[attribute] = "FederalState"
     end
   	all_groupable_elements
   end

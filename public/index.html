@@ -91,11 +91,11 @@
 								</div>
 								<div class="span7">
 									<label class="checkbox">
-										<input name="Geschlecht" type="checkbox" value="m" checked="checked">
+										<input name="gender" type="checkbox" value="M" checked="checked">
 										M&auml;nnlich 
 									</label>
 									<label class="checkbox">
-										<input name="Geschlecht" type="checkbox" value="w" checked="checked">
+										<input name="gender" type="checkbox" value="W" checked="checked">
 										Weiblich
 									</label>
 								</div>
@@ -106,11 +106,11 @@
 									<div class="row-fluid">
 										<div class="span6 input-prepend">
 											<span class="add-on">Von</span>
-											<input class="input-mini" type="text" name="altervon">
+											<input class="input-mini" type="text" name="minimum_age">
 										</div>
 										<div class="span6 input-prepend text-right">
 											<span class="add-on">Bis</span>
-											<input class="input-mini" type="text" name="alterbis">
+											<input class="input-mini" type="text" name="maximum_age">
 										</div>
 									</div>
 								</div>
@@ -153,7 +153,7 @@
 								<div class="span12">
 									<label>
 										Heimatland:
-										<select name="Heimatland" class="span12">
+										<select name="nationality" class="span12">
 											<option value="Alle">Alle</option>
 											<option value="Deutschland">Deutschland</option>
 											<option value="Österreich">&Ouml;sterreich</option>
@@ -591,10 +591,9 @@
 								<div class="span12">
 									<label>
 										Gruppierung:
-										<select name="groupby" class="span12">
-											<option selected="selected">Keine</option>
+										<select name="search_category" class="span12">
 											<option>Status</option>
-											<option>Geschlecht</option>
+											<option value="gender" selected="selected">Geschlecht</option>
 											<option>Alter</option>
 											<option>Fachbereich</option>
 											<option>Lehreinheit</option>
@@ -610,16 +609,15 @@
 								<div class="span12">
 									<label>
 										Stacking:
-										<select name="stackby" class="span12">
-											<option selected="selected">Keine</option>
+										<select name="search_series" class="span12">
 											<option>Status</option>
-											<option>Geschlecht</option>
+											<option value="gender">Geschlecht</option>
 											<option>Alter</option>
 											<option>Fachbereich</option>
 											<option>Lehreinheit</option>
 											<option>Studienfach</option>
 											<option>Abschlussart</option>
-											<option>Heimatland</option>
+											<option value="nationality" selected="selected">Heimatland</option>
 											<option>Bundesland</option>
 										</select>
 									</label>
