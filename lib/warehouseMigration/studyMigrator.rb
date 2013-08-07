@@ -5,7 +5,10 @@ module Migrator
 		print "+++++++++++++++++++++++\n\n"
 
 		print "preload all disciplines\n"
-		Discipline.all
+		disciplineHash = {}
+		Discipline.all.each do |discipline|
+			disciplineHash[discipline.data_warehouse_id] = discipline
+		end
 
 		print "done loading #{Discipline.all.length} disciplines\n"
 
@@ -40,46 +43,72 @@ module Migrator
 					 ) AS number_of_semester
 				FROM
 					#{QUERY_LAST_FIELD_INFO}
+				ORDER BY
+					matriculation_number ASC
 				LIMIT
-					#{batchnumber*BATCHSIZE},#{BATCHSIZE}")
-			numAll = studies.each.length
+					#{batchnumber*BATCHSIZE},#{BATCHSIZE}").each
+			numAll = studies.length
+
+			print "now preloading students\n"
+			minMat = studies.first["matriculation_number"]
+			maxMat = studies.last["matriculation_number"]
+			students = Student.includes(studies: [:disciplines]).where("matriculation_number between #{minMat} and #{maxMat}")
+			print "building hash for students\n"
+			studentHash = {}
+			students.each do |student|
+				studyHash = {:student => student, :studies => {}}
+				student.studies.each do |study|
+					studyHash[:studies][study.study_number] = study
+				end
+				studentHash[student.matriculation_number] = studyHash
+			end
 
 			print "now iterating over the batch and creating missing studies\n"
 			
 			studiesToSave = Array.new
 			numCreated = 0
 			bar = LoadingBar.new(numAll)
-			#Create all the students
+
+			#Create all the studies if necessary
 			studies.each do |study|
 				bar.next
 				
 				matriculation_number = study.delete("matriculation_number")
-				studentDB = Student.find_by_matriculation_number(matriculation_number)
+				studentDB = studentHash[matriculation_number][:student]
+				if(studentDB == nil)
+					studentDB = Student.find_by_matriculation_number(matriculation_number)
+					unless studentDB == nil
+						studentHash[matriculation_number][:student] = studentDB
+						studentHash[matriculation_number][:studies] = {}
+					end
+				end
 				if(studentDB == nil)
 					raise "Cannot create study for student #{matriculation_number} who does not yet exist. Try to migrate students first.\n"
 				end
 
 				discipline_data_warehouse_id = study.delete("discipline_data_warehouse_id")
-				disciplineDB = Discipline.find_by_data_warehouse_id(discipline_data_warehouse_id)
+
+				disciplineDB = disciplineHash[discipline_data_warehouse_id]
 				if(disciplineDB == nil)
 					raise "Cannot find the discipline of student #{matriculation_number} with custom ID #{discipline_data_warehouse_id} which is concatenation of STG_FACH and STG_LE.\n Try to migrate disciplines first.\n"
 				end
 				
-				studyDB = studentDB.studies.includes(:disciplines).find_by_study_number(study["study_number"])
+				studyDB = studentHash[matriculation_number][:studies][study["study_number"]]
 				
 				if(studyDB == nil)
-
 					studyDB = Study.new(study)
 					studyDB.disciplines << disciplineDB
 					numCreated += 1
+					studentHash[matriculation_number][:studies][study["study_number"]] = studyDB
+
 					unless(studiesToSave.include?([study,studentDB]))
 						studiesToSave << [studyDB,studentDB]
 					end
 				else
 					unless(studyDB.disciplines.include?(disciplineDB))
 						studyDB.disciplines << disciplineDB
-						unless(studiesToSave.include?([study,studentDB]))
-							studiesToSave << [studyDB,studentDB]
+						unless(studiesToSave.include?([study,nil]))
+							studiesToSave << [studyDB,nil]
 						end
 					end
 				end
