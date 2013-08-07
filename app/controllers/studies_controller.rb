@@ -62,6 +62,24 @@ class StudiesController < ApplicationController
     end
   end
 
+  def self.fetch_accessable_attributes
+    ["kind_of_degree"]
+  end
+
+  def self.fetch_joinable_classes
+    ["Degree", "Discipline"]
+  end
+
+  def self.fetch_all_joinable_classes
+    all_successors = fetch_joinable_classes
+    fetch_joinable_classes.each do |class_name|
+      controller_class = class_name.pluralize + "Controller"
+      controller_class = controller_class.constantize
+      all_successors += controller_class.fetch_all_joinable_classes
+    end 
+    all_successors
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_study

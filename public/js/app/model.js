@@ -4,9 +4,10 @@
  */
 
 var App = App || {};
-var inc = 1;
 
 App.model = {
+	
+	location : 2,
 
 	init : function() {
 		radio('filter.submit').subscribe(this.submitListener);
@@ -39,6 +40,7 @@ App.model = {
 
 	"data_gmaps":[],
 
+
 	/*
 	 * Holt einen neuen Datensatz mit den uebergebenen Filtern aus
 	 * der Datenbank
@@ -48,27 +50,59 @@ App.model = {
 		TODO: Post Objekt zusammenbauen 
 			  Post Objekt mit URL suchen
 	*/
+
+	prepareParameters : function(filter){
+		var parameters = {};
+		console.log(filter);
+		$.each(filter, function(index, value){
+			if (value instanceof Array) {
+				if (value.length == 1) {
+					parameters[index] = value[0];
+				}
+			} else if (value != false) {
+				parameters[index] = value;
+			} 
+		});
+		console.log(parameters);
+		return parameters;
+	},
+
 	/* 
 	* Fuehrt eine neue Suche aus indem ein POST-Objekt 
 	* zur Rails Anwendung geschickt wird
 	*/
 	post : function(filter) {
-		//Testweise
-		$.post("/searches",{ search : {
-			gender : filter.Geschlecht , nationality: filter.Heimatland, minimum_age: filter.altervon, maximum_age: filter.alterbis, search_category: filter.groupby, search_series: filter.stackby
-		}});
-		inc = inc + 1;
-		//$.get('searches/');
+		
+		var parameters = this.prepareParameters(filter);
+		//Macht das Postrequest 
+		$.ajax({
+			type : "POST", 
+			url: "/searches.json" ,
+			async : false,
+			data : { 
+				search : parameters
+			},
+			success : function(data, textStatus, request){
+				var response = request.getResponseHeader('Location');
+				var patt = /([0-9]+$)/;
+				App.model.location = patt.exec(response)[0];
+			}
+			
+		});
+		console.log(filter.Geschlecht);
+		return location;
 	},
 
 	fetch : function(filter) {
 		radio('model.fetch').broadcast();
 		App.filter.extendFilter();
-		var url = 'searches/9.json?representation=highcharts';
-		var url_gmaps = 'searches/9.json?representation=maps';
 		var formstate = App.filter.getFilter();
+		this.post(formstate);
+		var url = 'searches/'+App.model.location+'.json?representation=highcharts';
+		var url_gmaps = 'searches/'+App.model.location+'.json?representation=maps';
+	
 
-		//this.post(formstate);
+	
 
 
 		$.getJSON(url, function(data) {
@@ -80,10 +114,9 @@ App.model = {
 				message: 'Die Verbindung zum Server ist fehlgeschlagen!'
 			});
 		}).always(function(){
-			// radio('model.fetched').broadcast();
+	
 		});
-		//console.log(this.data);
-		//return this.data;
+	
 		$.getJSON(url_gmaps, function(data) {
 			App.model.data_gmaps = data.data_gmaps;
 		}).fail(function() {
@@ -93,7 +126,7 @@ App.model = {
 				message: 'Die Verbindung zum Server ist fehlgeschlagen!'
 			});
 		}).always(function(){
-			radio('model.fetched').broadcast();	//@ToDo muss noch gefangen werden
+			radio('model.fetched').broadcast();
 		});
 	}
 

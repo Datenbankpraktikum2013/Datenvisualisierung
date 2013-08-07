@@ -37,6 +37,7 @@ class SearchesController < ApplicationController
         format.json { render json: @search.errors, status: :unprocessable_entity }
       end
     end
+   
   end
 
   # PATCH/PUT /searches/1
@@ -72,6 +73,18 @@ class SearchesController < ApplicationController
     LocationsController.fetch_accessable_attributes.each do |attribute|
       all_searchable_elements[attribute] = "Location"
     end
+    StudiesController.fetch_accessable_attributes.each do |attribute|
+      all_searchable_elements[attribute] = "Study"
+    end
+    TeachingUnitsController.fetch_accessable_attributes.each do |attribute|
+      all_searchable_elements[attribute] = "TeachingUnit"
+    end
+    DisciplinesController.fetch_accessable_attributes.each do |attribute|
+      all_searchable_elements[attribute] = "Discipline"
+    end
+    DepartmentsController.fetch_accessable_attributes.each do |attribute|
+      all_searchable_elements[attribute] = "Department"
+    end
 
     all_searchable_elements
   end
@@ -84,6 +97,6 @@ class SearchesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def search_params
-      params.require(:search).permit(:gender, :nationality, :location_name, :minimum_age, :maximum_age, :search_category, :search_series)
+      params.require(:search).permit(:gender, :nationality, :location_name, :minimum_age, :maximum_age, :search_category, :search_series, :department_number, :teaching_unit_name, :kind_of_degree)
     end
 end

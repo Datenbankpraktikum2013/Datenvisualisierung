@@ -45,7 +45,7 @@
  	render : function(){
     map = new google.maps.Map(document.getElementById('chart'), {
       maxZoom : 14,
-      minZoom : 1,
+      minZoom : 2,
       zoom: 6,
       center: new google.maps.LatLng(52, 10),
       streetViewControl: false,
