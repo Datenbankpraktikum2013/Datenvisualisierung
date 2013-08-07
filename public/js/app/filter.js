@@ -34,12 +34,15 @@ App.filter = {
 	    });
 
         $('#filter-form select[name="Heimatland"]').change(function() {
+	       
 	        if ($(this).val() == "Deutschland") {
-	            $('#Bundesland').slideDown();
+	         
+	            $('#Bundesland').slideDown(); 
 	        } else {
 	            if ($('#Bundesland').css('display') != 'none') {
 	                $('#Bundesland').slideUp();
 	            }
+	            
 	        }
 	    });
 
@@ -151,18 +154,20 @@ App.filter = {
 		 } else if (new_filter.filter == 'Absolventen') {
 		 	this.filter.studentenart = ['a'];
 		 }
-		 filters.heimatland = new_filter.category;
-
+		 this.filter.heimatland = new_filter.category;
+		 $('#filter-form select[name="Heimatland"]').change();
 		//alert(this.filter.heimatland);
 
 		//Falls Deutschland Heimatland ist, kann nach 
 		//Bundeslaendern sortiert werden
-		if(filters.heimatland == "Deutschland"){
-		 	$('#Bundesland').slideDown();
-		}
-		else{
-		 	$('#Bundesland').slideUp();
-		}
+		// if(this.filter.heimatland == "Deutschland"){
+		//  	$('#Bundesland').slideDown();
+		//  	$('[name=Heimatland]').val('Deutschland');
+		//  	console.log($('#Heimatland').select("1"));
+		// }
+		// else{
+		//  	$('#Bundesland').slideUp();
+		// }
 
 
 		$('#filter-form :input:visible').formstate(this.filter);

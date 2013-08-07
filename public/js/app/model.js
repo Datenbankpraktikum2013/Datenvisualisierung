@@ -55,9 +55,9 @@ App.model = {
 	*/
 	post : function(filter) {
 		//Testweise
-		$.post('searches/new?representation=highcharts', function(filter){
-			return 'ein lustiger String';
-		});
+		$.post("/searches",{ search : {
+			gender : filter.Geschlecht , nationality: filter.Heimatland, location: null, minimum_age: filter.altervon, maximum_age: filter.alterbis, search_category: filter.groupby, search_series: filter.stackby
+		}});
 		//$.get('searches/');
 	},
 
@@ -67,7 +67,7 @@ App.model = {
 		var url = 'searches/'+inc+'.json?representation=highcharts';
 		var formstate = App.filter.getFilter();
 
-		this.post(formstate);
+		//this.post(formstate);
 
 
 		$.getJSON(url, function(data) {
