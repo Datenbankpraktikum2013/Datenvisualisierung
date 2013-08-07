@@ -48,7 +48,7 @@ App.model = {
 				if (value.length == 1) {
 					parameters[index] = value[0];
 				}
-			} else {
+			} else if (value != false) {
 				parameters[index] = value;
 			} 
 		});
@@ -61,22 +61,14 @@ App.model = {
 	*/
 	post : function(filter) {
 		
-		parameters = this.prepareParameters(filter);
+		var parameters = this.prepareParameters(filter);
 		//Macht das Postrequest 
 		$.ajax({
 			type : "POST", 
 			url: "/searches.json" ,
 			async : false,
 			data : { 
-				search : {
-					gender : filter.Geschlecht, 
-					nationality: //filter.Heimatland, 
-					'D',
-					minimum_age: filter.altervon, 
-					maximum_age: filter.alterbis, 
-					search_category: filter.groupby, 
-					search_series: filter.stackby
-				}
+				search : parameters
 			},
 			success : function(data, textStatus, request){
 				var response = request.getResponseHeader('Location');

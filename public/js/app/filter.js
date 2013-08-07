@@ -33,7 +33,7 @@ App.filter = {
 	        return false;
 	    });
 
-        $('#filter-form select[name="Heimatland"]').change(function() {
+        $('#filter-form select[name="nationality"]').change(function() {
 	       
 	        if ($(this).val() == "Deutschland") {
 	         
@@ -154,8 +154,8 @@ App.filter = {
 		 } else if (new_filter.filter == 'Absolventen') {
 		 	this.filter.studentenart = ['a'];
 		 }
-		 this.filter.heimatland = new_filter.category;
-		 $('#filter-form select[name="Heimatland"]').change();
+		 this.filter.nationality = new_filter.category;
+		 $('#filter-form select[name="nationality"]').change();
 		//alert(this.filter.heimatland);
 
 		//Falls Deutschland Heimatland ist, kann nach 
