@@ -27,7 +27,7 @@ module Migrator
 				if(departmentDB == nil)
 					departmentDB = Department.new
 					departmentDB.department_name = "Interdisziplinär"
-					departmentDB.number = 100
+					departmentDB.department_number = 100
 					departmentDB.save
 					numCreated += 1
 				end
@@ -37,7 +37,7 @@ module Migrator
 				if(departmentDB == nil)
 
 					departmentDB = Department.new 
-					departmentDB.number = department["department_name"].from(0).to(1)
+					departmentDB.department_number = department["department_name"].from(0).to(1)
 					departmentDB.department_name = department["department_name"].from(3).to(-1)
 					departmentDB.save
 					numCreated += 1
