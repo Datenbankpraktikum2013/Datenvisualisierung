@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130805132440) do
+ActiveRecord::Schema.define(version: 20130807085339) do
 
   create_table "countries", force: true do |t|
     t.string   "country_name"
@@ -42,7 +42,10 @@ ActiveRecord::Schema.define(version: 20130805132440) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "teaching_unit_id"
+    t.string   "data_warehouse_id"
   end
+
+  add_index "disciplines", ["data_warehouse_id"], name: "index_disciplines_on_data_warehouse_id"
 
   create_table "disciplines_studies", id: false, force: true do |t|
     t.integer "discipline_id", null: false
