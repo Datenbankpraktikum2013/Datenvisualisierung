@@ -23,7 +23,7 @@ module Migrator
 			bar.next
 			if(department["department_name"] == nil )
 				# if the name is null, this means, it is "Interdisziplinär" and we have to set it manually
-				departmentDB = Department.find_by_number(100)
+				departmentDB = Department.find_by_department_number(100)
 				if(departmentDB == nil)
 					departmentDB = Department.new
 					departmentDB.department_name = "Interdisziplinär"
@@ -33,7 +33,7 @@ module Migrator
 				end
 			
 			else
-				departmentDB = Department.find_by_number(department["department_name"].from(0).to(1))
+				departmentDB = Department.find_by_department_number(department["department_name"].from(0).to(1))
 				if(departmentDB == nil)
 
 					departmentDB = Department.new 

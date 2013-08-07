@@ -17,9 +17,14 @@ module Migrator
 
 		#To use floor here is okay, look at the next query and you'll see why.
 		allbatches = CLIENT.query(
-			"SELECT floor(count(STG_MATRIKELNR)/#{BATCHSIZE}) as batches
-			FROM (#{QUERY_LAST_STUDENT_INFO}) as LI").first["batches"]
-
+			"SELECT
+				floor(count(STG_MATRIKELNR)/#{BATCHSIZE}) as batches
+			FROM
+				(SELECT STG_MATRIKELNR
+				FROM
+					#{QUERY_LAST_STUDENT_INFO}
+				) AS STUD").first["batches"]
+		
 		for batchnumber in 0..allbatches
 			print "retrieving batch #{batchnumber+1} of #{allbatches+1}\n"
 
@@ -30,13 +35,15 @@ module Migrator
 					STG_GESCHLECHT AS 'gender',
 					STG_STAATSANGH AS 'nationality',
 					STG_HZBORT AS 'HZBOrt'
-				FROM (#{QUERY_LAST_STUDENT_INFO}) as LI
-				LIMIT #{batchnumber*BATCHSIZE},#{BATCHSIZE}
+				FROM 
+					#{QUERY_LAST_STUDENT_INFO}
+				LIMIT
+					#{batchnumber*BATCHSIZE},#{BATCHSIZE}
 				")
 			numAll = students.each.length
 			print "now iterating over the batch and creating missing students\n"
 			
-			dBstudents = Array.new
+			studentsToSave = Array.new
 			numCreated = 0
 			bar = LoadingBar.new(numAll)
 			#Create all the students
@@ -54,7 +61,7 @@ module Migrator
 					if(studentDB.location == nil)
 						raise "Could not find location with warehouse ID #{hzbOrt} for Student with number #{studentDB.matriculation_number}!\nMigrate locations first and don't forget to check #{CSV_PATH}!\nIf error persists blame secretary."
 					end
-					dBstudents.insert(0,studentDB)
+					studentsToSave.insert(0,studentDB)
 				end
 			
 				#Get study fields for Student
@@ -67,7 +74,7 @@ module Migrator
 				print "now saving them\n"
 				bar = LoadingBar.new(numCreated)
 				Student.transaction do
-					dBstudents.each do |student|
+					studentsToSave.each do |student|
 						bar.next
 						student.save
 					end
