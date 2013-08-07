@@ -91,11 +91,11 @@
 								</div>
 								<div class="span7">
 									<label class="checkbox">
-										<input name="Geschlecht" type="checkbox" value="m" checked="checked">
+										<input name="Geschlecht" type="checkbox" value="M" checked="checked">
 										M&auml;nnlich 
 									</label>
 									<label class="checkbox">
-										<input name="Geschlecht" type="checkbox" value="w" checked="checked">
+										<input name="Geschlecht" type="checkbox" value="W" checked="checked">
 										Weiblich
 									</label>
 								</div>
@@ -592,9 +592,8 @@
 									<label>
 										Gruppierung:
 										<select name="groupby" class="span12">
-											<option selected="selected">Keine</option>
 											<option>Status</option>
-											<option>Geschlecht</option>
+											<option value="gender" selected="selected">Geschlecht</option>
 											<option>Alter</option>
 											<option>Fachbereich</option>
 											<option>Lehreinheit</option>
@@ -611,15 +610,14 @@
 									<label>
 										Stacking:
 										<select name="stackby" class="span12">
-											<option selected="selected">Keine</option>
 											<option>Status</option>
-											<option>Geschlecht</option>
+											<option value="gender">Geschlecht</option>
 											<option>Alter</option>
 											<option>Fachbereich</option>
 											<option>Lehreinheit</option>
 											<option>Studienfach</option>
 											<option>Abschlussart</option>
-											<option>Heimatland</option>
+											<option value="nationality" selected="selected">Heimatland</option>
 											<option>Bundesland</option>
 										</select>
 									</label>
