@@ -81,6 +81,22 @@ App.filter = {
     	this.filter = filter;
     	$('#filter-form :input:visible').formstate(this.filter);
     },
+
+    setFilterOption : function(input, value) {
+    	this.filter[input] = value;
+    	/*if (this.filter[input] === undefined) {
+    		this.filter[input] = value;
+    	} else if (this.filter[input] instanceof Array) {
+    		if (this.filter[input].indexOf(value) < 0) {
+    			this.filter[input].push(value);
+    		}
+    	}*/
+    	$('#filter-form :visible').formstate(this.filter);
+    	if (input == "nationality") {
+    		$('#filter-form select[name="nationality"]').change();
+    	}
+    },
+
     //Clickon Event um Filterauswahl festzulegen
     extendFilter : function(){
     	var filter = App.filter.getFilter();
