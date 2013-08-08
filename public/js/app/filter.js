@@ -40,7 +40,7 @@ App.filter = {
 	        return false;
 	    });
 
-
+	    //Wenn Nationalitäten ausgewählt wird, verstecke 
         $('#filter-form select[name="nationality"]').change(function() {
 	       
 	        if ($(this).val() == "Deutschland") {
@@ -54,6 +54,23 @@ App.filter = {
 	        }
 	    });
 
+		//Wenn Nationalitäten ausgewählt wird, verstecke 
+        $('#filter-form select[name="Studienfach1"]').change(function() {
+	       
+	        if ($(this).val() != "Kein") {
+	         
+	            $('#Studienfach2').slideDown(); 
+	        } else {
+	            if ($('#Studienfach2').css('display') != 'none') {
+	                $('#Studienfach2').slideUp();
+	            }
+	            
+	        }
+	    });
+
+
+        //Wenn Studentenarten wie Absolvent oder Studenten
+        //gewählt werden, dann mache Slide up, Slide down
 	    $('#filter-form input[name="studentenart"]').change(function() {
 	        if ($('#absolventenart').is(":checked") && !($('#studentenart').is(":checked"))){
 	            $('#absolvent-hidden').slideDown();
