@@ -25,6 +25,7 @@ App.init = function() {
     $('#slider').slider()
          .on('slideStop', function(ev){
             App.model.year = ev.value;
+            alert(ev.value);
           });
     
 

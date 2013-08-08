@@ -33,6 +33,14 @@ App.filter = {
 	        return false;
 	    });
 
+	    // Event für Alle Jahre Button
+	    $('button[name="sliderReset"]').click(function() {
+	    	$('#slider').slider()
+	        .slider('setValue',1950);
+	        return false;
+	    });
+
+
         $('#filter-form select[name="nationality"]').change(function() {
 	       
 	        if ($(this).val() == "Deutschland") {
