@@ -7,13 +7,15 @@
 
  App.chart.googlemaps = {
 
+  
   markers : [],
 
-  setmarker : function(latitude, longitude, title, number){ 		
+  setmarker : function(latitude, longitude, title, number){
+
  		 var marker = new google.maps.Marker({		
  			position: new google.maps.LatLng(latitude, longitude),
  			title: title + " : " + number,
-      count : number
+      count : number 
  		});
  		 marker.setMap(map);
      this.markers.push(marker);
@@ -52,7 +54,9 @@
       panControl: false,
       scaleControl: false,
       mapTypeControl: false,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      //google.maps.visualRefresh: false
+      visualRefresh: false
     });
     this.addColorLayer();
     this.markers = [];
@@ -88,6 +92,7 @@
     markerClusterer = new MarkerClusterer(map, this.markers, {
       maxZoom: zoom,
       gridSize: size,
+      minimumClusterSize: 1
     });
 
  	},    
