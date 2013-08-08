@@ -18,8 +18,6 @@ App.init = function() {
     App.searches.init();
     App.chart.init();
 
-    // Initales abrufen der Immatrikulationsdaten
-    App.model.fetch();
 
     //Listener für den Slider 
     $('#slider').slider()
@@ -28,7 +26,10 @@ App.init = function() {
             alert(ev.value);
           });
     
-
+    $('#slider-form').jqtimeline({
+        numYears: 44,
+        startYear: 1968
+    });
 
 
 
@@ -51,6 +52,10 @@ App.init = function() {
             }
         }
     });
+
+    // Initales abrufen der Immatrikulationsdaten
+    App.model.fetch();
+
 };
 
 /*

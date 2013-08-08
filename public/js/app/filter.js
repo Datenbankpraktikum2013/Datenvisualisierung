@@ -36,7 +36,7 @@ App.filter = {
 	    // Event für Alle Jahre Button
 	    $('button[name="sliderReset"]').click(function() {
 	    	$('#slider').slider()
-	        .slider('setValue',1950);
+	        .slider('setValue',1968);
 	        return false;
 	    });
 
@@ -119,14 +119,14 @@ App.filter = {
 	    	}
 	    	else{
 		       		if((value == 'Keine') | (value == 'Alle') | (value == 'Kein') | (value == '') | (value == null) | ( value == 'Fachbereiche ausw&auml;hlen')){
-		      			if(index == 'stackby' | index == 'groupby' | index == 'altervon' | index == 'alterbis'){
+		      			if(index == 'stackby' | index == 'groupby' | index == 'minimum_age' | index == 'maximum_age'){
 
 		      			}
 		      			else returnString = returnString +'<li><a href="#" class="launch" onclick="alert(\'test\')"">'+index+'</a></li>';
 		      			
 		    		}
 		    		else{ 
-		    			if(value == 'Deutschland'){
+		    			if(value == 'Deutschland') {
 		    				returnString = returnString + '<li><a href="#" class="launch" onclick="alert(\'test\')"">Bundesland</a></li>';
 		    			}
 		    		}
