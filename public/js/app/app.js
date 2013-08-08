@@ -6,32 +6,25 @@ var App = App || {};
 
 // Initialisiert die Applikation. z.B binding der events.
 App.init = function() {
-	// Erlaubt Speicherung von JSON Objekt im Cookie
-	//$.cookie.json = true;
-	// Wenn Formularstatus in Cookie gespeichert, wird er geladen.
-    //if ($.cookie('formstate')) {
-    	//$('form :input:visible').formstate($.cookie('formstate'));
-    //}
-
+	
     App.model.init();
     App.filter.init();
     App.searches.init();
     App.chart.init();
 
-    // Initales abrufen der Immatrikulationsdaten
-    App.model.fetch();
-
-    //Listener für den Slider 
+    // Listener für den Slider 
     $('#slider').slider()
          .on('slideStop', function(ev){
-            App.model.year = ev.value;
-            alert(ev.value);
+            App.filter.filter.year = ev.value;
           });
     
+    // Erstellen der Jahresskala
+    $('#slider-form').jqtimeline({
+        numYears: 44,
+        startYear: 1968
+    });
 
-
-
-
+    // Erstellen des Multiselects fuer die Fachbereichsauswahl
     $('.multiselect').multiselect({
         buttonWidth : false,
         buttonContainer : '<div class="row-fluid btn-group" />',
@@ -51,6 +44,10 @@ App.init = function() {
             }
         }
     });
+
+    // Initales abrufen der Immatrikulationsdaten
+    App.model.fetch();
+
 };
 
 /*

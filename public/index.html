@@ -19,9 +19,11 @@
 				padding-bottom: 40px;
 			}
 		</style>
+		<link rel="stylesheet" href="css/globe.css">
 		<link rel="stylesheet" href="css/bootstrap-responsive.min.css">
 		<link rel="stylesheet" href="css/bootstrap-multiselect.css">
 		<link rel="stylesheet" href="css/bootstrap-slider.css">
+		<link rel="stylesheet" href="css/jquery.jqtimeline.css">
 		<link rel="stylesheet" href="css/main.css">
 
 		<script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
@@ -76,11 +78,11 @@
 								</div>
 								<div class="span7">
 									<label class="checkbox">
-										<input id="studentenart" name="studentenart" type="checkbox" value="S" checked="checked">
+										<input id="studentenart" name="graduation_status" type="checkbox" value="S" checked="checked">
 										Studenten 
 									</label>
 									<label class="checkbox">
-										<input id="absolventenart" name="studentenart" type="checkbox" value="A" checked="checked">
+										<input id="absolventenart" name="graduation_status" type="checkbox" value="A" checked="checked">
 										Absolventen 
 									</label>
 								</div>
@@ -120,7 +122,7 @@
 									<label>
 										Fachbereich(e):
 										<select data-role="multiselect" multiple="multiple" 
-											name="Fachbereich" class="multiselect span12">
+											name="department_number" class="multiselect span12">
 											<option value="1">1 Sozialwissenschaften</option>
 											<option value="2">2 Kultur- und Geowissenschaften
 											</option>
@@ -140,11 +142,12 @@
 								<div class="span12">
 									<label>
 										Lehreinheit:
-										<select name="Lehreinheit" class="span12">
-											<option>Informatik</option>
-											<option>Mathematik</option>
-											<option>Physik</option>
-											<option>Biologie</option>
+										<select name="teaching_unit_name" class="span12">
+											<option value="">Alle</option>
+											<option value="Informatik">Informatik</option>
+											<option value="Mathematik">Mathematik</option>
+											<option value="Physik">Physik</option>
+											<option value="Biologie">Biologie</option>
 										</select>
 									</label>
 						    	</div>
@@ -155,8 +158,7 @@
 										Heimatland:
 										<select name="nationality" class="span12">
 											<option value="">Alle</option>
-											<option value="Deutschland">Deutschland</option>
-											<option value="Ohne">Ohne Deutschland</option>
+											<option value="D">Deutschland</option>
 											<option value="Österreich">&Ouml;sterreich</option>
 											<option value="Schweiz">Schweiz</option>
 											<option value="-">------------------</option>
@@ -453,7 +455,7 @@
 								<div class="span12">
 								<label>
 									1. Studienfach:
-									<select name="1.Studienfach" class="span12">
+									<select name="Studienfach1" id="Studienfach1" class="span12">
 										<option>Kein</option>
 										<option value="Informatik">Informatik</option>
 										<option>Mathematik</option>
@@ -462,13 +464,13 @@
 						    	</div>
 							</div>
 							<div class="row-fluid">
-								<div class="span12">
+								<div class="span12" id="Studienfach2">
 								<label>
 									2. Studienfach:
-									<select name="2.Studienfach" class="span12">
-										<option>Kein</option>
-										<option>Informatik</option>
-										<option>Mathematik</option>
+									<select name="Studienfach2" class="span12">
+										<option value="">Kein</option>
+										<option value="Informatik">Informatik</option>
+										<option value="Mathematik">Mathematik</option>
 									</select>
 								</label>
 						    	</div>
@@ -476,86 +478,65 @@
 
 							<div id="student-hidden">
 								<div class="row-fluid">
-									<div class="span12">
-										<label>Erfassungssemester:
-											<select name="Erfassungssemester" class="span12">
-												<option selected="selected">Kein</option>
-												<option>WS 2012/2013</option>
-												<option>SS 2013</option>
-											</select>
-										</label>
-									</div>
-								</div>
-								<div class="row-fluid">
-									<div class="span12">
-										<label>Aktuell im Fachsemester
-											<select name="Fachsemester" class="span12">
-												<option selected="selected">Kein</option>
-												<option>1. Semester</option>
-											</select>
-										</label>
+								<div class="span12">
+									<label>Aktuell im Fachsemester:</label>
+									<div class="row-fluid">
+										<div class="span6 input-prepend">
+											<span class="add-on"> </span>
+											<input class="input-mini" type="text" name="in_term">
+										</div>
 									</div>
 								</div>
 							</div>
-
+							</div>
 							<div id="absolvent-hidden">
 								<div class="row-fluid">
 									<div class="span12">
-										<label>Abgangssemester:
-											<select name="Abgangssemester" class="span12">
-												<option selected="selected">Keine</option>
-												<option>WS 2012/2013</option>
-												<option>SS 2013</option>
-											</select>
-										</label>
-									</div>
-								</div>
-								<div class="row-fluid">
-									<div class="span12">
-										<label>Zahl der benötigten Semester
-											<select name="Anzahl benötigter Semester"class="span12">
-												<option selected="selected">Alle</option>
-												<option>1. Semester</option>
-											</select>
-										</label>
+									<label>Zahl der benötigten Semester:</label>
+										<div class="row-fluid">
+											<div class="span6 input-prepend">
+											<span class="add-on"> </span>
+											<input class="input-mini" type="text" name="used_terms">
+											</div>
+										</div>
 									</div>
 								</div>
 								<div class="row-fluid">
 									<div class="span12">
 										<label>Abschlussnote
-											<select name="Abschlussnote" class="span12">
-												<option>Alle</option>
-												<option>1.0</option>
-												<option>1.1</option>
-												<option>1.2</option>
-												<option>1.3</option>
-												<option>1.4</option>
-												<option>1.5</option>
-												<option>1.6</option>
-												<option>1.7</option>
-												<option>1.8</option>
-												<option>1.9</option>
-												<option>2.0</option>
-												<option>2.1</option>
-												<option>2.2</option>
-												<option>2.3</option>
-												<option>2.4</option>
-												<option>2.5</option>
-												<option>2.6</option>
-												<option>2.7</option>
-												<option>2.8</option>
-												<option>2.9</option>
-												<option>3.0</option>
-												<option>3.1</option>
-												<option>3.2</option>
-												<option>3.3</option>
-												<option>3.4</option>
-												<option>3.5</option>
-												<option>3.6</option>
-												<option>3.7</option>
-												<option>3.8</option>
-												<option>3.9</option>
-												<option>4.0</option>
+											<select name="grade" class="span12">
+												<option value="">Alle</option>
+												<option value="1.0">1.0</option>
+												<option value="1.1">1.1</option>
+												<option value="1.2">1.2</option>
+												<option value="1.3">1.3</option>
+												<option value="1.4">1.4</option>
+												<option value="1.5">1.5</option>
+												<option value="1.6">1.6</option>
+												<option value="1.7">1.7</option>
+												<option value="1.8">1.8</option>
+												<option value="1.9">1.9</option>
+												<option value="2.0">2.0</option>
+												<option value="2.1">2.1</option>
+												<option value="2.2">2.2</option>
+												<option value="2.3">2.3</option>
+												<option value="2.4">2.4</option>
+												<option value="2.5">2.5</option>
+												<option value="2.6">2.6</option>
+												<option value="2.7">2.7</option>
+												<option value="2.8">2.8</option>
+												<option value="2.9">2.9</option>
+												<option value="3.0">3.0</option>
+												<option value="3.1">3.1</option>
+												<option value="3.2">3.2</option>
+												<option value="3.3">3.3</option>
+												<option value="3.4">3.4</option>
+												<option value="3.5">3.5</option>
+												<option value="3.6">3.6</option>
+												<option value="3.7">3.7</option>
+												<option value="3.8">3.8</option>
+												<option value="3.9">3.9</option>
+												<option value="4.0">4.0</option>
 											</select>
 										</label>
 									</div>
@@ -569,21 +550,21 @@
 							<div class="row-fluid">
 								<div class="span6">
 									<label class="checkbox">
-										<input type="checkbox" value="ba" name="Abschluss">
+										<input type="checkbox" value="ba" name="kind_of_degree">
 										Bachelor 
 									</label>
 									<label class="checkbox">
-										<input type="checkbox" value="ma" name="Abschluss">
+										<input type="checkbox" value="ma" name="kind_of_degree">
 										Master 
 									</label>
 								</div>
 								<div class="span6">
 									<label class="checkbox">
-										<input type="checkbox" value="diplom" name="Abschluss">
+										<input type="checkbox" value="diplom" name="kind_of_degree">
 										Diplom 
 									</label>
 									<label class="checkbox">
-										<input type="checkbox" value="magister" name="Abschluss">
+										<input type="checkbox" value="magister" name="kind_of_degree">
 										Magister
 									</label>
 								</div>
@@ -593,15 +574,14 @@
 									<label>
 										Gruppierung:
 										<select name="search_category" class="span12">
-											<option>Status</option>
-											<option value="gender" selected="selected">Geschlecht</option>
-											<option>Alter</option>
-											<option>Fachbereich</option>
-											<option>Lehreinheit</option>
-											<option>Studienfach</option>
-											<option>Abschlussart</option>
+											<option value="graduation_status">Status</option>
+											<option value="gender">Geschlecht</option>
+											<option  selected="selected" value="department_number">Fachbereich</option>
+											<option value="teaching_unit_name">Lehreinheit</option>
+											<option value="">Studienfach</option>
+											<option value="kind_of_degree">Abschlussart</option>
 											<option value="nationality">Heimatland</option>
-											<option>Bundesland</option>
+											<option value="federal_state">Bundesland</option>
 										</select>
 									</label>
 						    	</div>
@@ -611,15 +591,14 @@
 									<label>
 										Stacking:
 										<select name="search_series" class="span12">
-											<option>Status</option>
-											<option value="gender">Geschlecht</option>
-											<option>Alter</option>
-											<option>Fachbereich</option>
-											<option>Lehreinheit</option>
-											<option>Studienfach</option>
-											<option>Abschlussart</option>
-											<option value="nationality" selected="selected">Heimatland</option>
-											<option>Bundesland</option>
+											<option value="graduation_status">Status</option>
+											<option selected value="gender">Geschlecht</option>
+											<option value="department_number">Fachbereich</option>
+											<option value="teaching_unit_name">Lehreinheit</option>
+											<option value="">Studienfach</option>
+											<option value="kind_of_degree">Abschlussart</option>
+											<option value="nationality">Heimatland</option>
+											<option value="federal_state">Bundesland</option>
 										</select>
 									</label>
 						    	</div>
@@ -639,6 +618,7 @@
 							    <button name="columnchart" class="btn active">Balkendiagramm</button>
 							    <button name="piechart" class="btn">Tortendiagramm</button>
 							    <button name="googlemaps" class="btn">Googlemaps</button>
+							    <button name="googleglobe" class="btn">Secret Globe</button>
 						    </div>
 						</div>
 					</div>
@@ -652,10 +632,7 @@
 			</div>
 			<div id="timescale" class="row">
 				<form class="span12" id="slider-form">
-					<!--  <svg class="span12" xmlns="http://www.w3.org/2000/svg" version="1.1" height="190" width="100%">
-							<line x1="1" y1="1" x2="700" y2="1" style="stroke:black; stroke-width: 0.5" opacity="1"/>
-					</svg>	  -->
-					<input id="slider" type="hidden" class="span12" value="" data-slider-min="1950" data-slider-max="2013" data-slider-step="1" data-slider-value="1950" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="show">
+					<input id="slider" type="hidden" class="span12" value="" data-slider-min="1968" data-slider-max="2012" data-slider-step="1" data-slider-value="1968" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="show">
 				</form>
 				<div id="sliderReset" align="center">
 				<button name="sliderReset" class="btn">Alle Jahre</button>
@@ -722,10 +699,18 @@
 		<script src="js/app/piechart.js"></script>
 		<script src="js/app/searches.js"></script>
 		<script src="js/app/googlemaps.js"></script>
+		<script src="js/app/googleglobe.js"></script>
 
 		<script src="js/plugins.js"></script>
 		<script src="js/main.js"></script>
 
+	<!-- JS for Globe -->
+		<script type="text/javascript" src="/js/globe/Three/ThreeWebGL.js"></script>
+		<script type="text/javascript" src="/js/globe/Three/ThreeExtras.js"></script>
+		<script type="text/javascript" src="/js/globe/Three/RequestAnimationFrame.js"></script>
+		<script type="text/javascript" src="/js/globe/third-party/Three/Detector.js"></script>
+		<script type="text/javascript" src="/js/globe/Tween.js"></script>
+		<script type="text/javascript" src="/js/globe/globe.js"></script>
 
 	</body>
 </html>

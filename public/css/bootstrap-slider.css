@@ -28,7 +28,7 @@
   bottom: 0;
 }
 .slider.slider-horizontal .slider-handle {
-  margin-left: -10px;
+  /*margin-left: -10px;*/
   margin-top: -5px;
 }
 .slider.slider-horizontal .slider-handle.triangle {

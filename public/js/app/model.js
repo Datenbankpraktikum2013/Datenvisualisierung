@@ -8,50 +8,29 @@ var App = App || {};
 App.model = {
 	
 	location : 2,
-	year : undefined,
 
 	init : function() {
 		radio('filter.submit').subscribe(this.submitListener);
 	},
 	
 	submitListener : function() {
-		App.model.fetch(App.filter.getFilter());
+		App.model.fetch();
 	},
 
-	//Enthaelt immer den aktuellen Datensatz
-	data : {
-		categories : [],
-		title : '',
-		series : 
-		[{
-            name: 'Maenner',
-            data: [2600, 2100]
-            
-        },{
-        	name: 'Frauen',
-        	data: [2600]
-        },{
-        	name: 'Kinder',
-        	data: [900, 600, 800]
-        }]
-	},
 	/*
-	 * einfügen der Daten für gMaps 
+	 * Enthaelt immer den aktuellen Datensatz fuer Highcharts 
 	 */
+	data : {},
 
+	/*
+	 * Enthaelt immer den aktuellen Datensatz fuer GoogleMaps
+	 */
 	"data_gmaps":[],
 
-
 	/*
-	 * Holt einen neuen Datensatz mit den uebergebenen Filtern aus
-	 * der Datenbank
+	 * Bereitet die Filter aus dem Formular fuer das Erstellen des 
+	 * Suchobjektes auf.
 	 */
-
-	/*
-		TODO: Post Objekt zusammenbauen 
-			  Post Objekt mit URL suchen
-	*/
-
 	prepareParameters : function(filter){
 		var parameters = {};
 		$.each(filter, function(index, value){
@@ -67,7 +46,7 @@ App.model = {
 	},
 
 	/* 
-	* Fuehrt eine neue Suche aus indem ein POST-Objekt 
+	* Fuehrt eine neue Suche aus indem ein POST-Request 
 	* zur Rails Anwendung geschickt wird
 	*/
 	post : function(filter) {
@@ -88,12 +67,13 @@ App.model = {
 			}
 			
 		});
-		return location;
 	},
 
-	fetch : function(filter) {
+	/*
+	 * Laedt einen neuen Datensatz mit den aktuellen Filtern vom Server.
+	 */
+	fetch : function() {
 		radio('model.fetch').broadcast();
-		App.filter.extendFilter();
 		
 		this.post(App.filter.getFilter());
 		
@@ -113,9 +93,7 @@ App.model = {
 	
 		$.getJSON(url_gmaps, function(data) {
 			App.model.data_gmaps = data.data_gmaps;
-
 			radio('model.gmaps.fetched').broadcast();
-
 		}).fail(function() {
 			App.showAlert({
 				type: 'danger', 
