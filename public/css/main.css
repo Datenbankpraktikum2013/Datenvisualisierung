@@ -18,6 +18,9 @@
 .loading {
 	opacity: 0.4;
 }
+#Studienfach2 {
+	display: none;
+}
 
 #Bundesland {
 	display: none;
