@@ -18,7 +18,6 @@ App.init = function() {
     App.searches.init();
     App.chart.init();
 
-
     //Listener für den Slider 
     $('#slider').slider()
          .on('slideStop', function(ev){
@@ -30,8 +29,6 @@ App.init = function() {
         numYears: 44,
         startYear: 1968
     });
-
-
 
     $('.multiselect').multiselect({
         buttonWidth : false,
