@@ -35,7 +35,7 @@ class Search < ActiveRecord::Base
 		else
 			filtered_result = filtered_result.group(search_category.to_sym, search_series.to_sym)
 		end
-
+		
 		search_results = filtered_result.order("count_id DESC").count(:id)
 					
 		search_results
