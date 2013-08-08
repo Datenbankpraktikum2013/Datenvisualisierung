@@ -76,11 +76,11 @@
 								</div>
 								<div class="span7">
 									<label class="checkbox">
-										<input id="studentenart" name="studentenart" type="checkbox" value="s" checked="checked">
+										<input id="studentenart" name="studentenart" type="checkbox" value="S" checked="checked">
 										Studenten 
 									</label>
 									<label class="checkbox">
-										<input id="absolventenart" name="studentenart" type="checkbox" value="a" checked="checked">
+										<input id="absolventenart" name="studentenart" type="checkbox" value="A" checked="checked">
 										Absolventen 
 									</label>
 								</div>
@@ -156,6 +156,7 @@
 										<select name="nationality" class="span12">
 											<option value="">Alle</option>
 											<option value="Deutschland">Deutschland</option>
+											<option value="Ohne">Ohne Deutschland</option>
 											<option value="Österreich">&Ouml;sterreich</option>
 											<option value="Schweiz">Schweiz</option>
 											<option value="-">------------------</option>
@@ -656,6 +657,9 @@
 					</svg>	  -->
 					<input id="slider" type="hidden" class="span12" value="" data-slider-min="1950" data-slider-max="2013" data-slider-step="1" data-slider-value="1950" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="show">
 				</form>
+				<div id="sliderReset" align="center">
+				<button name="sliderReset" class="btn">Alle Jahre</button>
+				</div>
 			</div>
 			<hr>
 
