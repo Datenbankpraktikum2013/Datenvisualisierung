@@ -3,7 +3,7 @@ require File.expand_path('./lib/warehouseMigration/migrator.rb')
 
 namespace :migrate do
 	desc 'Migrates the whole database.'
- 	task :all => [:locations, :students, :departments, :teaching_units, :disciplines] do
+ 	task :all => [:locations, :students, :departments, :teaching_units, :disciplines, :studies] do
 	end
 
 	desc 'Migrates all locations. This also migrates countries and federal states.'
@@ -29,5 +29,10 @@ namespace :migrate do
   	desc 'Migrate all disciplines'
 	task :disciplines => :environment do
 		Migrator.migrateDisciplines
+  	end
+
+  	desc 'Migrate all studies'
+  	task :studies => :environment do
+  		Migrator.migrateStudies
   	end
 end

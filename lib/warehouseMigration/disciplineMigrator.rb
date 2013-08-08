@@ -6,10 +6,24 @@ module Migrator
 
 		print "retrieving disciplines units from datawarehouse\n"
 		disciplines = CLIENT.query(
-			"SELECT DISTINCT STF_LTXT as discipline_name,LE_DTXT AS teaching_unit_name
-			FROM DIM_STUDIENFAECHER
-			JOIN DIM_ABSTGLE ON DIM_STUDIENFAECHER.STF_ID = DIM_ABSTGLE.ABSTG_STG
-			JOIN DIM_LEHREINH ON DIM_ABSTGLE.ABSTG_LEHREINH = DIM_LEHREINH.LE_ID")
+			"SELECT DISTINCT
+				CONCAT(STF_ID, LE_ID) as data_warehouse_id,
+				STF_LTXT as discipline_name,
+				LE_DTXT AS teaching_unit_name
+			FROM
+				DIM_STUDIENFAECHER
+			JOIN(
+				SELECT DISTINCT
+					STG_LE,STG_FACH
+				FROM
+					FKT_STUDIENGAENGE
+				)as Stud
+			ON
+				STF_ID = STG_FACH
+			JOIN
+				DIM_LEHREINH
+			ON
+				STG_LE = LE_ID")
 
 
 		numAll = disciplines.each.length
@@ -28,11 +42,13 @@ module Migrator
 
 			discipline["teaching_unit_name"].strip!
 
-			disciplineDB = Discipline.find_by_discipline_name(discipline["discipline_name"])
+			disciplineDB = Discipline.find_by_data_warehouse_id(discipline["data_warehouse_id"])
 			if (disciplineDB == nil)
 				disciplineDB = Discipline.new
 				disciplineDB.discipline_name = discipline["discipline_name"]
+				disciplineDB.data_warehouse_id = discipline["data_warehouse_id"]
 
+				#Teaching units can be uniquely accessed by name was tested with query "SELECT LE_DTXT, COUNT( LE_ID ) FROM `DIM_LEHREINH` GROUP BY LE_DTXT ORDER BY COUNT( LE_ID ) DESC"
 				disciplineDB.teaching_unit = TeachingUnit.find_by_teaching_unit_name(discipline["teaching_unit_name"])
 				if(disciplineDB.teaching_unit == nil)
 					raise "Could not find teaching unit #{discipline["teaching_unit_name"]} for discipline #{discipline["discipline_name"]}!\nMigrate teaching units first.\nIf error persists blame secretary."

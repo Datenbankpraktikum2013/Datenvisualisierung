@@ -1,37 +1,14 @@
 class Search < ActiveRecord::Base
 
-	def results_for_maps
-
-		filtered_attributes = filter_attributes_and_classes[0]
-		filtered_classes = filter_attributes_and_classes[1]
-
-		filtered_result = join_relevant_classes(filtered_classes)
-
-		filtered_result = filtered_result.joins("LEFT OUTER JOIN federal_states ON federal_states.id = locations.federal_state_id")
-		filtered_result = filter_search_results(filtered_attributes, filtered_result)
-
-		search_results = {}
-		search_results = filtered_result.group(:country_iso_code, :federal_state_iso_code, :location_name).count
-
-		search_results
-	end
-
-
-	def results_for_highcharts
-		
-		filtered_attributes = filter_attributes_and_classes[0]
-		filtered_classes = filter_attributes_and_classes[1]
-
+	def join_classes classes_to_join
 		filtered_result = Student.all
-
-		filtered_classes << GroupingController.fetch_all_groupable_elements[search_series]
-		filtered_classes.delete("Student")
-		filtered_classes.uniq!
-		filtered_classes.compact!
-
 		joined_classes = []
 
-		filtered_classes.each do |class_name|
+		classes_to_join.delete("Student")
+		classes_to_join.uniq!
+		classes_to_join.compact!
+
+		classes_to_join.each do |class_name|
 			neighbor = ""
 			current_class = "Student"
 			current_controller_class = controllize_name(current_class)
@@ -58,11 +35,45 @@ class Search < ActiveRecord::Base
 				end
 			end
 		end
+		filtered_result
+	end
+
+	def results_for_maps
+
+		filtered_attributes = filter_attributes_and_classes[0]
+		filtered_classes = filter_attributes_and_classes[1]
+		filtered_classes << "Country" << "FederalState"
+		
+		filtered_result = join_classes(filtered_classes)
+
+		#filtered_result = filtered_result.joins("LEFT OUTER JOIN federal_states ON federal_states.id = locations.federal_state_id")
+		filtered_result = filter_search_results(filtered_attributes, filtered_result)
+
+		search_results = {}
+		search_results = filtered_result.group(:country_iso_code, :federal_state_iso_code, :location_name).count
+
+		search_results
+	end
+
+
+	def results_for_highcharts
+		
+		filtered_attributes = filter_attributes_and_classes[0]
+		filtered_classes = filter_attributes_and_classes[1]
+
+		filtered_classes << GroupingController.fetch_all_groupable_elements[search_series]
+		
+		filtered_result = join_classes(filtered_classes)
 
 		filtered_result = filter_search_results(filtered_attributes, filtered_result)
 
 		search_results = {}
-		search_results = filtered_result.group(search_category.to_sym, search_series.to_sym).count
+		
+		if search_series.blank?
+			search_results = filtered_result.group(search_category.to_sym).count
+		else
+			search_results = filtered_result.group(search_category.to_sym, search_series.to_sym).count
+		end
 					
 		search_results
 	end

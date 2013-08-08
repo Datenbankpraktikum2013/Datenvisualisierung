@@ -6,10 +6,25 @@ module Migrator
 
 		print "retrieving teaching units from datawarehouse\n"
 		teaching_units = CLIENT.query(
-			"SELECT DISTINCT substring( STF_ASTAT_GRLTXT, 1, 2 ) AS number,substring(STF_ASTAT_GRLTXT,4)as dpt_name, LE_DTXT AS teaching_unit_name
-			FROM DIM_STUDIENFAECHER
-			JOIN DIM_ABSTGLE ON DIM_STUDIENFAECHER.STF_ID = DIM_ABSTGLE.ABSTG_STG
-			JOIN DIM_LEHREINH ON DIM_ABSTGLE.ABSTG_LEHREINH = DIM_LEHREINH.LE_ID")
+			"SELECT DISTINCT
+				substring( STF_ASTAT_GRLTXT, 1, 2 ) AS number,
+				substring(STF_ASTAT_GRLTXT,4)as dpt_name,
+				LE_DTXT AS teaching_unit_name
+			FROM
+				DIM_STUDIENFAECHER
+			JOIN(
+				SELECT DISTINCT
+					STG_LE,STG_FACH
+				FROM
+					FKT_STUDIENGAENGE
+				)as Stud
+			ON
+				STF_ID = STG_FACH
+			JOIN
+				DIM_LEHREINH
+			ON
+				STG_LE = LE_ID")
+
 		numAll = teaching_units.each.length
 
 		print "got #{numAll} teaching units from datawarehouse\n"
@@ -28,7 +43,7 @@ module Migrator
 				teaching_unitDB.teaching_unit_name = teaching_unit["teaching_unit_name"]
 
 
-				teaching_unitDB.department = Department.find_by_number(teaching_unit["number"])
+				teaching_unitDB.department = Department.find_by_department_number(teaching_unit["number"])
 				if(teaching_unitDB.department == nil)
 					raise "Could not find department #{teaching_unit["dpt_name"]} with number #{teaching_unit["number"]} for teaching unit #{teaching_unit["teaching_unit_name"]}!\nMigrate departments first.\nIf error persists blame secretary."
 				end
