@@ -33,7 +33,7 @@
   </div>
   <div class="field">
     <%= f.label :degree_id %><br>
-    <%= f.select :degree_id, Degree.all, {include_blank: true}, {} %>
+    <%= f.collection_select :degree_id, Degree.all, :id, :id, {include_blank: true} %>
   </div>
   <div class="actions">
     <%= f.submit %>

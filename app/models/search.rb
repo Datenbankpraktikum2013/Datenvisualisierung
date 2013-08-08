@@ -36,7 +36,7 @@ class Search < ActiveRecord::Base
 			filtered_result = filtered_result.group(search_category.to_sym, search_series.to_sym)
 		end
 
-		search_results = filtered_result.order('count_all DESC').count
+		search_results = filtered_result.order("count_id DESC").count(:id)
 					
 		search_results
 	end
@@ -57,10 +57,6 @@ class Search < ActiveRecord::Base
 
 			filtered_attributes = []
 			filtered_classes = []
-
-
-			#hinzufügen von Student bzw Absolvent
-
 
 			all_attributes.each do |attribute|
 				if attribute == "year_of_birth"
@@ -90,9 +86,6 @@ class Search < ActiveRecord::Base
 					results = results.where("#{attribute} = ?", send(attribute)) unless self.send(attribute).blank?
 				end
 			end
-
-			### Filter nach Absolventen und/oder Studenten
-
 			results
 		end
 
@@ -100,6 +93,23 @@ class Search < ActiveRecord::Base
 	def join_classes classes_to_join
 		filtered_result = Student.all
 		joined_classes = []
+
+		unless graduation_status.blank?
+			filtered_result = filtered_result.merge(Student.with_studies)
+			joined_classes << "Study"
+			if graduation_status == "A"
+				#outer join degree: Alle studies zu denen MINDESTENS EIN degree vorhanden ist
+				filtered_result = filtered_result.merge(Study.with_degrees)
+			else
+				#outer join degree: Alle studies zu denen KEIN degree vorhanden ist
+				filtered_result = filtered_result.merge(Study.without_degrees)
+			end
+			joined_classes << "Degree"
+			classes_to_join.delete("Study")
+			classes_to_join.delete("Degree")
+		end
+
+
 
 		classes_to_join.delete("Student")
 		classes_to_join.uniq!
