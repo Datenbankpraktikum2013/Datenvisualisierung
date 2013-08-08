@@ -36,11 +36,11 @@ App.filter = {
 	    // Event für Alle Jahre Button
 	    $('button[name="sliderReset"]').click(function() {
 	    	$('#slider').slider()
-	        .slider('setValue',1950);
+	        .slider('setValue',1968);
 	        return false;
 	    });
 
-
+	    //Wenn Nationalitäten ausgewählt wird, verstecke 
         $('#filter-form select[name="nationality"]').change(function() {
 	       
 	        if ($(this).val() == "Deutschland") {
@@ -54,7 +54,24 @@ App.filter = {
 	        }
 	    });
 
-	    $('#filter-form input[name="studentenart"]').change(function() {
+		//Wenn Nationalitäten ausgewählt wird, verstecke 
+        $('#filter-form select[name="Studienfach1"]').change(function() {
+	       
+	        if ($(this).val() != "Kein") {
+	         
+	            $('#Studienfach2').slideDown(); 
+	        } else {
+	            if ($('#Studienfach2').css('display') != 'none') {
+	                $('#Studienfach2').slideUp();
+	            }
+	            
+	        }
+	    });
+
+
+        //Wenn Studentenarten wie Absolvent oder Studenten
+        //gewählt werden, dann mache Slide up, Slide down
+	    $('#filter-form input[name="graduation_status"]').change(function() {
 	        if ($('#absolventenart').is(":checked") && !($('#studentenart').is(":checked"))){
 	            $('#absolvent-hidden').slideDown();
 	            $('#student-hidden').slideUp();
@@ -119,14 +136,14 @@ App.filter = {
 	    	}
 	    	else{
 		       		if((value == 'Keine') | (value == 'Alle') | (value == 'Kein') | (value == '') | (value == null) | ( value == 'Fachbereiche ausw&auml;hlen')){
-		      			if(index == 'stackby' | index == 'groupby' | index == 'altervon' | index == 'alterbis'){
+		      			if(index == 'stackby' | index == 'groupby' | index == 'minimum_age' | index == 'maximum_age'){
 
 		      			}
 		      			else returnString = returnString +'<li><a href="#" class="launch" onclick="alert(\'test\')"">'+index+'</a></li>';
 		      			
 		    		}
 		    		else{ 
-		    			if(value == 'Deutschland'){
+		    			if(value == 'Deutschland') {
 		    				returnString = returnString + '<li><a href="#" class="launch" onclick="alert(\'test\')"">Bundesland</a></li>';
 		    			}
 		    		}

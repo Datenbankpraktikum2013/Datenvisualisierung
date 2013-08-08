@@ -47,11 +47,6 @@ App.model = {
 	 * der Datenbank
 	 */
 
-	/*
-		TODO: Post Objekt zusammenbauen 
-			  Post Objekt mit URL suchen
-	*/
-
 	prepareParameters : function(filter){
 		var parameters = {};
 		$.each(filter, function(index, value){
@@ -113,10 +108,7 @@ App.model = {
 	
 		$.getJSON(url_gmaps, function(data) {
 			App.model.data_gmaps = data.data_gmaps;
-			console.log(App.model.data_gmaps);
-
 			radio('model.gmaps.fetched').broadcast();
-
 		}).fail(function() {
 			App.showAlert({
 				type: 'danger', 

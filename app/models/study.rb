@@ -6,5 +6,6 @@ class Study < ActiveRecord::Base
 
 	scope :with_disciplines, -> { joins(:disciplines) }
 	scope :with_degrees, -> { joins(:degree) }
+	scope :without_degrees, -> { where(degree_id: nil ) } 
 
 end
