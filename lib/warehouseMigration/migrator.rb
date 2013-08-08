@@ -3,6 +3,7 @@ require File.expand_path("lib/warehouseMigration/locationMigrator.rb")
 require File.expand_path("lib/warehouseMigration/departmentMigrator.rb")
 require File.expand_path("lib/warehouseMigration/teachingUnitMigrator.rb")
 require File.expand_path("lib/warehouseMigration/disciplineMigrator.rb")
+require File.expand_path("lib/warehouseMigration/studyMigrator.rb")
 require File.expand_path("lib/warehouseMigration/credentials.rb")
 
 module Migrator
@@ -13,28 +14,47 @@ module Migrator
 
 	#This query retrieves the last entry for each students study field.
 	QUERY_LAST_FIELD_INFO = 
-		"select FKT_STUDIENGAENGE.*
-		from
+		"FKT_STUDIENGAENGE
+		JOIN (
+			SELECT
+				STG_MATRIKELNR AS A,
+				STG_FACHNR AS B,
+				STG_STGNR AS C,
+				MAX(STG_SEMESTER) AS D
+			FROM
 				FKT_STUDIENGAENGE
-			join (
-				select STG_MATRIKELNR as X, max(STG_SEMESTER) as Y
-				from FKT_STUDIENGAENGE
-				group by STG_MATRIKELNR, STG_FACH
-				)as Stud
-			on `STG_MATRIKELNR` = X and `STG_SEMESTER` = Y"
+			GROUP BY
+				STG_MATRIKELNR,
+				STG_FACHNR,
+				STG_STGNR
+		)AS Stud
+		ON
+			STG_MATRIKELNR = A AND
+			STG_FACHNR = B AND
+			STG_STGNR = C AND
+			STG_SEMESTER = D
+		JOIN
+			DIM_ABSCHLUESSE
+		ON
+			ABINT_ID = STG_ABSCHLUSS"
 
 	#This query retrieves the latest and therfore the most recent entry given for each student
 	QUERY_LAST_STUDENT_INFO = 
-		"select FKT_STUDIENGAENGE.*
-		from
+		"FKT_STUDIENGAENGE
+		JOIN (
+			SELECT
+				STG_MATRIKELNR AS X,
+				MAX(STG_SEMESTER) AS Y
+			FROM
 				FKT_STUDIENGAENGE
-			join (
-				select STG_MATRIKELNR as X, max(STG_SEMESTER) as Y
-				from FKT_STUDIENGAENGE
-				group by STG_MATRIKELNR
-				)as Stud
-			on `STG_MATRIKELNR` = X and `STG_SEMESTER` = Y
-		group by STG_MATRIKELNR"
+			GROUP BY
+				STG_MATRIKELNR
+			)AS Stud
+		ON 
+			STG_MATRIKELNR = X AND
+			STG_SEMESTER = Y
+		GROUP BY
+			STG_MATRIKELNR"
 
 	
 	

@@ -42,7 +42,10 @@ ActiveRecord::Schema.define(version: 20130808062302) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "teaching_unit_id"
+    t.string   "data_warehouse_id"
   end
+
+  add_index "disciplines", ["data_warehouse_id"], name: "index_disciplines_on_data_warehouse_id"
 
   create_table "disciplines_studies", id: false, force: true do |t|
     t.integer "discipline_id", null: false
@@ -107,6 +110,7 @@ ActiveRecord::Schema.define(version: 20130808062302) do
     t.datetime "updated_at"
     t.integer  "student_id"
     t.integer  "degree_id"
+    t.integer  "study_number"
   end
 
   create_table "teaching_units", force: true do |t|

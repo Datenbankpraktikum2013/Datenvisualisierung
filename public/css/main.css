@@ -15,6 +15,10 @@
 
 }
 
+.loading {
+	opacity: 0.4;
+}
+
 #Bundesland {
 	display: none;
 }

@@ -10,14 +10,18 @@ App.chart = {
 	current_chart : 'columnchart',
 
 	init : function() {
-		radio('model.fetched').subscribe(this.dataChangedListener);
+		radio('model.fetch').subscribe(this.listener.loading);
+		radio('model.hc.fetched').subscribe(this.listener.loadedHighCharts);
+		radio('model.gmaps.fetched').subscribe(this.listener.loadedGoogleMaps);
 
 		$('button[name="'+this.current_chart+'"]').addClass('active');
 
 		// Event fuer Balkendiagramm Button
 	    $('#chartswitch button').click(function() {
-	    	App.chart.setChartType($(this).attr('name'));
-	        return false;
+	    	if ( ! $(this).hasClass('disabled')) {
+	    		App.chart.setChartType($(this).attr('name'));
+	        }
+	    	return false;
 	    });
 	    
 	    /* Event fuer Tortendiagramm Button
@@ -27,14 +31,31 @@ App.chart = {
 	    });*/
 	},
 
+	listener : {
+		loading : function() {
+			$('#chartswitch button').addClass('disabled');
+			$('#chart').addClass('loading').spin();
+		},
+
+		loadedHighCharts : function() {
+			$('#chartswitch button[name="columnchart"], #chartswitch button[name="piechart"]').removeClass('disabled');
+			if (App.chart.current_chart != 'googlemaps') {
+				App.chart.render();
+			}
+		},
+
+		loadedGoogleMaps : function() {
+			$('#chartswitch button[name="googlemaps"]').removeClass('disabled');
+			if (App.chart.current_chart == 'googlemaps') {
+				App.chart.render();
+			}
+		}
+	},
+
 	updateChartSwitchView : function() {
 		$('#chartswitch button').removeClass('active');
     	$('#chartswitch button[name="'+this.current_chart+'"]').addClass('active');
     	$('.popover').remove();
-	},
-
-	dataChangedListener : function() {
-		App.chart.render();
 	},
 
 	setChartType : function(new_chart_type) {
@@ -48,6 +69,7 @@ App.chart = {
 	},
 
 	render : function() {
+		$('#chart').removeClass('loading');
 		this[this.current_chart].render();
 	}
 

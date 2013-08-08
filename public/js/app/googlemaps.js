@@ -55,7 +55,8 @@
       mapTypeId: google.maps.MapTypeId.ROADMAP
     });
     this.addColorLayer();
-
+    this.markers = [];
+    
     for (var i = 0; i < App.model.data_gmaps.length; i++){
       if (App.model.data_gmaps[i].country_iso_code == 'DE'){
           /* Marker für Deutschland, Zentral gelesen und absolute Anzhal.

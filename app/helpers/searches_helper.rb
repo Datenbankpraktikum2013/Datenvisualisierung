@@ -128,4 +128,19 @@ module SearchesHelper
 			end
 		end
 	end
+
+	def render_json_for_globe(json)
+		search_results = @search.results_for_maps
+
+		inputs = []
+
+		search_results.each do |key, value|
+			country = Country.find_by_country_iso_code (key[0])
+			inputs << country.latitude.to_s + ', ' + country.longitude.to_s + ', ' + value.to_s + ', '
+		end
+
+		json.set! :data do
+			json.set! :seriesA, inputs
+		end
+	end
 end

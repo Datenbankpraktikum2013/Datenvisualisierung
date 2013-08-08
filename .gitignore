@@ -12,7 +12,7 @@
 /db/*.sqlite3-journal
 
 # Ignore the file containing credentials
-/lib/warehouseMigration/credentials.rb
+/lib/warehouseMigration/credentials*
 
 # Ignore the csv because it may get filled if google query number exceeded
 /db/warehouseRealWorldMapping.csv
