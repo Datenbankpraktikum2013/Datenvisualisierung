@@ -8,6 +8,7 @@ var App = App || {};
 App.model = {
 	
 	location : 2,
+	year : undefined,
 
 	init : function() {
 		radio('filter.submit').subscribe(this.submitListener);
