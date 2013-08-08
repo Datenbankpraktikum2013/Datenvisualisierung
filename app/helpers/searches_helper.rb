@@ -136,6 +136,7 @@ module SearchesHelper
 
 		search_results.each do |key, value|
 			country = Country.find_by_country_iso_code (key[0])
+			value  = value.to_f/1000
 			inputs << country.latitude.to_s + ', ' + country.longitude.to_s + ', ' + value.to_s + ', '
 		end
 
