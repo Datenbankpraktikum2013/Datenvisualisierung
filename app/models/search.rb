@@ -80,8 +80,8 @@ class Search < ActiveRecord::Base
 		def filter_search_results (attributes, results)
 			attributes.each do |attribute|
 				if attribute == "year_of_birth"
-					results = results.where("#{attribute} < ?", Date.today.year - minimum_age) unless minimum_age.blank?
-					results = results.where("#{attribute} > ?", Date.today.year - maximum_age) unless maximum_age.blank?
+					results = results.where("#{attribute} <= ?", Date.today.year - minimum_age) unless minimum_age.blank?
+					results = results.where("#{attribute} >= ?", Date.today.year - maximum_age) unless maximum_age.blank?
 				else
 					results = results.where("#{attribute} = ?", send(attribute)) unless self.send(attribute).blank?
 				end
