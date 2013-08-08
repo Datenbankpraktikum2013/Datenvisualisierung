@@ -10,6 +10,16 @@ App.filter = {
 	// Enthaelt ein Objekt in dem alle gesetzten Filter stehen.
 	filter : {},
 
+	mapping : {
+		gender : 'Geschlecht',
+		nationality : 'Heimatland',
+		kind_of_degree : 'Abschluss',
+		federal_state_name : 'Bundesland',
+		teaching_unit_name : 'Lehreinheit',
+		department_number : 'Fachbereich',
+		graduation_status : 'Studenten/Absolventen'
+	},
+
 	init : function() {
 		radio('model.fetch').subscribe(this.loadingListener);
 		radio('model.fetched').subscribe(this.loadedListener);
@@ -68,6 +78,9 @@ App.filter = {
 	        }
 	    });
 
+	    $(document).on('click', 'a.drilldown', function(e) {
+	    	console.log($(e.target).attr('data-drilldown'));
+	    });
 
         //Wenn Studentenarten wie Absolvent oder Studenten
         //gewählt werden, dann mache Slide up, Slide down
@@ -93,7 +106,7 @@ App.filter = {
 
 	// Liest die aktuellen Filter aus dem Formular und speichert sie.
 	getFilter : function() {
-		this.filter = $('#filter-form').formstate(':visible');
+		this.filter = $('#filter-form').formstate();
 		return this.filter;
     },
 
@@ -130,44 +143,15 @@ App.filter = {
     	var filter = App.filter.getFilter();
     	var returnString = '<ul>';
 
-    	$.each(filter,function(index,value) {
-	    	if(filter.groupby == index){
-	    			
+    	$.each(this.mapping, function(index,value) {
+	    	if (filter[index] != '' && filter[index] != null) {
+				returnString += '<li><a href="#" data-drilldown="'
+									+ index +'">'+ value +'</li>';
 	    	}
-	    	else{
-		       		if((value == 'Keine') | (value == 'Alle') | (value == 'Kein') | (value == '') | (value == null) | ( value == 'Fachbereiche ausw&auml;hlen')){
-		      			if(index == 'stackby' | index == 'groupby' | index == 'minimum_age' | index == 'maximum_age'){
-
-		      			}
-		      			else returnString = returnString +'<li><a href="#" class="launch" onclick="alert(\'test\')"">'+index+'</a></li>';
-		      			
-		    		}
-		    		else{ 
-		    			if(value == 'Deutschland') {
-		    				returnString = returnString + '<li><a href="#" class="launch" onclick="alert(\'test\')"">Bundesland</a></li>';
-		    			}
-		    		}
-			}
-		});
+	    });
 		returnString = returnString+'</ul>';
 		return returnString;
 	},
-    /*
-    * @brief soll beim Onclick auf z.B. Deutschland
-    *		 Deutschland ins Formular eintrage.
-    */
-    onClickEventHandle : function(category) {
-    	var filter = App.filter.getFilter();
-    	
-    	$.each(filter,function(index,value){
-    		//alert(value);
-	    
-	    		value = category;
-	    		
-	    
-	    });
-    },
-
 
     // Setzt abhaengig des uebergebenen Daten die entsprechenden Filter
     // aus den DrillDownClicks.
