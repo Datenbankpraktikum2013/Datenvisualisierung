@@ -35,6 +35,26 @@
   <%= @search.location_name %>
 </p>
 
+<p>
+  <strong>Abschlussart:</strong>
+  <%= @search.kind_of_degree %>
+</p>
+
+<p>
+  <strong>Lehreinheit:</strong>
+  <%= @search.teaching_unit_name %>
+</p>
+
+<p>
+  <strong>Fachbereich:</strong>
+  <%= @search.department_number %>
+</p>
+
+<p>
+  <strong>Studienfächer:</strong>
+  <%= @search.discipline_name %>
+</p>
+
 
 <% @search.results_for_highcharts.each do |k, v| %>
  	<%= k.to_s + ': ' + v.to_s %>

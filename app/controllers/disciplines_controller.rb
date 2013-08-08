@@ -62,7 +62,7 @@ class DisciplinesController < ApplicationController
   end
 
   def self.fetch_accessable_attributes
-    []
+    ["discipline_name"]
   end
 
   def self.fetch_joinable_classes

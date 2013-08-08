@@ -11,6 +11,7 @@
       <th>Abschlussart</th>
       <th>Lehreinheit</th>
       <th>Fachbereich</th>
+      <th>Studienfächer</th>
       <th></th>
       <th></th>
       <th></th>
@@ -28,6 +29,7 @@
         <td><%= search.kind_of_degree %></td>
         <td><%= search.teaching_unit_name %> </td>
         <td><%= search.department_number %></td>
+        <td><%= search.discipline_name %></td>
         <td><%= link_to 'Show', search %></td>
         <td><%= link_to 'Edit', edit_search_path(search) %></td>
         <td><%= link_to 'Destroy', search, method: :delete, data: { confirm: 'Are you sure?' } %></td>

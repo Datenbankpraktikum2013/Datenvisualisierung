@@ -35,7 +35,7 @@ class Search < ActiveRecord::Base
 		else
 			filtered_result = filtered_result.group(search_category.to_sym, search_series.to_sym)
 		end
-		
+
 		search_results = filtered_result.order("count_id DESC").count(:id)
 					
 		search_results
@@ -79,7 +79,27 @@ class Search < ActiveRecord::Base
 
 		def filter_search_results (attributes, results)
 			attributes.each do |attribute|
-				if attribute == "year_of_birth"
+				if attribute == "discipline_name"
+					unless send(attribute).blank?
+					
+	 					disciplines_to_studies_relation = Discipline.all
+
+	 					manifestations = send(attribute).split(", ")
+
+	 					disciplines_to_studies_relation = disciplines_to_studies_relation.where(discipline_name: manifestations)
+	 					disciplines_to_studies_relation = disciplines_to_studies_relation.joins(:studies)
+	 					disciplines_to_studies_relation = disciplines_to_studies_relation.group(:study_id)
+	 					disciplines_to_studies_relation = disciplines_to_studies_relation.count(:discipline_id)
+
+						array = [] 
+						disciplines_to_studies_relation.each do |k, v|
+							( array << k ) if v >= 2
+					end
+
+					results = results.where("studies.id in (?)", array)
+
+					end
+				elsif attribute == "year_of_birth"
 					results = results.where("#{attribute} < ?", Date.today.year - minimum_age) unless minimum_age.blank?
 					results = results.where("#{attribute} > ?", Date.today.year - maximum_age) unless maximum_age.blank?
 				else
