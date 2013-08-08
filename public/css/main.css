@@ -35,9 +35,17 @@
 	display: visible;
 }
 
+#sliderreset {
+
+}
+
+
 #scale-label {
 	transform:rotate(10deg) translate(50px,50px);
 }
+
+
+
 
 #barscale {
 	position: relative;
