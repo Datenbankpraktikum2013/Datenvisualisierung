@@ -79,7 +79,16 @@ App.filter = {
 	    });
 
 	    $(document).on('click', 'a.drilldown', function(e) {
-	    	console.log($(e.target).attr('data-drilldown'));
+	    	var category = $(e.target).attr('data-category');
+	    	var series = $(e.target).attr('data-series');
+	    	var filter = $(e.target).attr('data-filter');
+	    	console.log(category + series + filter);
+	    	
+	    	App.filter.setFilterOption(App.filter.groupby, category);
+	    	App.filter.setFilterOption('search_category', filter);
+	    	//App.filter.setFilterOption('search_series', series);
+	    	e.preventDefault();
+	    	radio('filter.submit').broadcast();
 	    });
 
         //Wenn Studentenarten wie Absolvent oder Studenten
@@ -125,13 +134,12 @@ App.filter = {
 
     setFilterOption : function(input, value) {
     	this.filter[input] = value;
-    	/*if (this.filter[input] === undefined) {
+    	if (this.filter[input] === undefined) {
     		this.filter[input] = value;
     	} else if (this.filter[input] instanceof Array) {
-    		if (this.filter[input].indexOf(value) < 0) {
-    			this.filter[input].push(value);
-    		}
-    	}*/
+    		this.filter[input] = [];
+			this.filter[input].push(value);
+    	}
     	$('#filter-form :visible').formstate(this.filter);
     	if (input == "nationality") {
     		$('#filter-form select[name="nationality"]').change();
@@ -139,14 +147,17 @@ App.filter = {
     },
 
     //Clickon Event um Filterauswahl festzulegen
-    extendFilter : function() {
+    extendFilter : function(category, series_name) {
     	var filter = App.filter.getFilter();
     	var returnString = '<ul>';
 
     	$.each(this.mapping, function(index,value) {
 	    	if (filter[index] != '' && filter[index] != null) {
-				returnString += '<li><a href="#" data-drilldown="'
-									+ index +'">'+ value +'</li>';
+				returnString += '<li><a class="drilldown" href="#"'
+									+ ' data-category="' + category 
+									+'" data-series="' + series_name 
+									+'" data-filter="'+ index +'">'
+									+ value +'</li>';
 	    	}
 	    });
 		returnString = returnString+'</ul>';
