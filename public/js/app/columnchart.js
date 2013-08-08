@@ -71,29 +71,7 @@ App.chart.columnchart = {
         		point : {
                     events : {
             			click: function(event) {
-                            /*App.filter.setDrillDownFilter({
-                                    category: this.category,
-                                    filter: this.name
-
-                            });*/
-                            $('.popover').remove();
-                            var e = $(event.target).popover({
-                              title : '<strong>Diesen Datensatz aufteilen nach:</strong>',
-                              html : true,
-                              content : App.filter.extendFilter(this.category, this.series.name),
-                              container : 'body',
-                              placement : 'right',
-                              trigger : 'manual',
-                              delay: { 
-                                 show : '500',
-                                 hide : '100'
-                                 }
-                            }).popover('show');
-                            //Popover hides after 5s
-                            timeout = setTimeout(function() 
-                            {
-                                e.popover('hide')
-                            },3000);
+                            App.chart.showDrilldownPopup(this, event);
                         }
                     }
         		},
@@ -107,7 +85,7 @@ App.chart.columnchart = {
 	render : function() {
         // Wenn nur eine Series dann blende Legende aus
         this.config.legend.enabled = (App.model.data.series.length != 1);
-        this.config.categories = App.model.data.categories;
+        this.config.xAxis.categories = App.model.data.categories;
         this.config.series = App.model.data.series;
         $('#chart').highcharts(this.config);
     }

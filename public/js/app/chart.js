@@ -23,12 +23,6 @@ App.chart = {
 	        }
 	    	return false;
 	    });
-	    
-	    /* Event fuer Tortendiagramm Button
-	    $('#chartswitch-select select').change(function() {
-	        App.chart.setChartType($(this).val());
-	        return false;
-	    });*/
 	},
 
 	listener : {
@@ -66,6 +60,26 @@ App.chart = {
 		this.current_chart = new_chart_type;
 		this.updateChartSwitchView();
 		this.render();
+	},
+
+	showDrilldownPopup : function(el, event) {
+		$('.popover').remove();
+        var e = $(event.target).popover({
+			title : '<strong>Diesen Datensatz aufteilen nach:</strong>',
+			html : true,
+			content : App.filter.getAvailableFilters(el.category, el.series.name),
+			container : 'body',
+			placement : 'right',
+			trigger : 'manual',
+			delay: { 
+				show : '500',
+				hide : '100'
+			}
+		}).popover('show');
+		//Popover hides after 5s
+		setTimeout(function() {
+			e.popover('hide')
+		}, 3000);
 	},
 
 	render : function() {
