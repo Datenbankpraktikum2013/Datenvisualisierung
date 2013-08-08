@@ -9,11 +9,11 @@
 
   
  	render : function(){
-    if(!Detector.webgl){
+    if(false){
       Detector.addGetWebGLMessage();
     } else {
 
-      var container = document.getElementById('container');
+      var container = document.getElementById('chart');
       var globe = new DAT.Globe(container);
       console.log(globe);
       var i, tweens = [];
@@ -32,7 +32,6 @@
               globe.addData(data[i][1], {format: 'magnitude', name: data[i][0], animated: true});
             }
             globe.createPoints();
-            settime(globe,0)();
             globe.animate();
           }
         }
