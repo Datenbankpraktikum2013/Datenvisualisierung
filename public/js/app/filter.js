@@ -71,7 +71,7 @@ App.filter = {
 
         //Wenn Studentenarten wie Absolvent oder Studenten
         //gewählt werden, dann mache Slide up, Slide down
-	    $('#filter-form input[name="studentenart"]').change(function() {
+	    $('#filter-form input[name="graduation_status"]').change(function() {
 	        if ($('#absolventenart').is(":checked") && !($('#studentenart').is(":checked"))){
 	            $('#absolvent-hidden').slideDown();
 	            $('#student-hidden').slideUp();
