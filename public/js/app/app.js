@@ -21,11 +21,12 @@ App.init = function() {
     // Initales abrufen der Immatrikulationsdaten
     App.model.fetch();
 
-    $('#slider').slider({
-         //.on('slide', function(ev){
-        
-       // }
-    });
+    //Listener für den Slider 
+    $('#slider').slider()
+         .on('slideStop', function(ev){
+            App.model.year = ev.value;
+          });
+    
 
 
 
