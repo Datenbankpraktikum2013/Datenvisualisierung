@@ -3,6 +3,7 @@
 <table>
   <thead>
     <tr>
+      <th>GraduationStatus</th>
       <th>Gender</th>
       <th>Nationality</th>
       <th>Alter (von - bis)</th>
@@ -19,6 +20,7 @@
   <tbody>
     <% @searches.each do |search| %>
       <tr>
+        <td><%= search.graduation_status %></td>
         <td><%= search.gender %></td>
         <td><%= search.nationality %></td>
         <td><%= search.minimum_age %> - <%= search.maximum_age %></td>

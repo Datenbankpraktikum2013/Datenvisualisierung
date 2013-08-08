@@ -20,6 +20,10 @@
     <%= f.select :search_series, GroupingController.fetch_all_groupable_elements.keys, {include_blank: true}, {} %>
   </div>
   <div class="field">
+    <%= f.label :graduation_status %><br>
+    <%= f.text_field :graduation_status %>
+  </div>
+  <div class="field">
     <%= f.label :gender %><br>
     <%= f.text_field :gender %>
   </div>
