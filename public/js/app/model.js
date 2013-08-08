@@ -47,11 +47,6 @@ App.model = {
 	 * der Datenbank
 	 */
 
-	/*
-		TODO: Post Objekt zusammenbauen 
-			  Post Objekt mit URL suchen
-	*/
-
 	prepareParameters : function(filter){
 		var parameters = {};
 		$.each(filter, function(index, value){
