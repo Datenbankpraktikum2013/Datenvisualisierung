@@ -107,6 +107,7 @@ App.model = {
 	
 		$.getJSON(url_gmaps, function(data) {
 			App.model.data_gmaps = data.data_gmaps;
+			console.log(App.model.data_gmaps);
 		}).fail(function() {
 			App.showAlert({
 				type: 'danger', 
