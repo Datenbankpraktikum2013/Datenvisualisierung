@@ -8,8 +8,6 @@ class Search < ActiveRecord::Base
 		filtered_classes << "Country" << "FederalState"
 		
 		filtered_result = join_classes(filtered_classes)
-
-		#filtered_result = filtered_result.joins("LEFT OUTER JOIN federal_states ON federal_states.id = locations.federal_state_id")
 		filtered_result = filter_search_results(filtered_attributes, filtered_result)
 
 		search_results = {}
@@ -33,10 +31,12 @@ class Search < ActiveRecord::Base
 		search_results = {}
 		
 		if search_series.blank?
-			search_results = filtered_result.group(search_category.to_sym).count
+			filtered_result = filtered_result.group(search_category.to_sym)
 		else
-			search_results = filtered_result.group(search_category.to_sym, search_series.to_sym).order('count_all DESC').count
+			filtered_result = filtered_result.group(search_category.to_sym, search_series.to_sym)
 		end
+
+		search_results = filtered_result.order('count_all DESC').count
 					
 		search_results
 	end
@@ -57,6 +57,10 @@ class Search < ActiveRecord::Base
 
 			filtered_attributes = []
 			filtered_classes = []
+
+
+			#hinzufügen von Student bzw Absolvent
+
 
 			all_attributes.each do |attribute|
 				if attribute == "year_of_birth"
@@ -86,6 +90,9 @@ class Search < ActiveRecord::Base
 					results = results.where("#{attribute} = ?", send(attribute)) unless self.send(attribute).blank?
 				end
 			end
+
+			### Filter nach Absolventen und/oder Studenten
+
 			results
 		end
 
