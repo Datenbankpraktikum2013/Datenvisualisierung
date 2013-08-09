@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130809072427) do
+ActiveRecord::Schema.define(version: 20130809092433) do
 
   create_table "countries", force: true do |t|
     t.string   "country_name"
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(version: 20130809072427) do
   end
 
   add_index "locations", ["data_warehouse_id"], name: "index_locations_on_data_warehouse_id"
+  add_index "locations", ["location_name"], name: "index_locations_on_location_name"
 
   create_table "searches", force: true do |t|
     t.string   "gender"
@@ -107,6 +108,7 @@ ActiveRecord::Schema.define(version: 20130809072427) do
     t.integer  "location_id"
   end
 
+  add_index "students", ["location_id"], name: "index_students_on_location_id"
   add_index "students", ["matriculation_number"], name: "index_students_on_matriculation_number"
 
   create_table "studies", force: true do |t|
