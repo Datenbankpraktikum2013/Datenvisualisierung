@@ -14,30 +14,24 @@
     } else {
 
       var container = document.getElementById('chart');
+      $('#chart').html('');
       var globe = new DAT.Globe(container);
       console.log(globe);
-      var i, tweens = [];
+      var tweens = [];
 
-      var xhr;
+
       TWEEN.start();
 
-      xhr = new XMLHttpRequest();
-      xhr.open('GET', '/js/globe/students.json', true);
-      xhr.onreadystatechange = function(e) {
-        if (xhr.readyState === 4) {
-          if (xhr.status === 200) {
-            var data = JSON.parse(xhr.responseText);
-            window.data = data;
-            for (i=0;i<data.length;i++) {
-              globe.addData(data[i][1], {format: 'magnitude', name: data[i][0], animated: true});
-            }
-            globe.createPoints();
-            globe.animate();
-          }
-        }
-      };
-      xhr.send(null);
-    }
- 	},    
+      
 
- }
+      for (var j = 0; j < App.model.data_globe.length; j++) {
+        globe.addData(App.model.data_globe.seriesA[0], 'magnitude', App.model.data_globe.seriesA[1]);
+      }
+      globe.createPoints();
+      globe.animate();
+        console.log('hier');
+    };
+  }
+}    
+
+ 

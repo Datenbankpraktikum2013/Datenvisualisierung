@@ -13,6 +13,7 @@ App.chart = {
 		radio('model.fetch').subscribe(this.listener.loading);
 		radio('model.hc.fetched').subscribe(this.listener.loadedHighCharts);
 		radio('model.gmaps.fetched').subscribe(this.listener.loadedGoogleMaps);
+		radio('model.globe.fetched').subscribe(this.listener.loadedGlobe);
 
 		$('button[name="'+this.current_chart+'"]').addClass('active');
 
@@ -43,6 +44,13 @@ App.chart = {
 			if (App.chart.current_chart == 'googlemaps') {
 				App.chart.render();
 			}
+		},
+
+		loadedGlobe : function() {
+			$('#chartswitch button[name="googleglobe"]').removeClass('disabled');
+			if (App.chart.current_chart == 'googleglobe') {
+				App.chart.render();
+			}				
 		}
 	},
 
@@ -84,6 +92,7 @@ App.chart = {
 
 	render : function() {
 		$('#chart').removeClass('loading');
+		$('#chart').attr('style','');
 		this[this.current_chart].render();
 	}
 
