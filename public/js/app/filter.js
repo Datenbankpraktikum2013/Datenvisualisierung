@@ -58,8 +58,7 @@ App.filter = {
         $('#filter-form select[name="nationality"]').change(function() {
 	       
 	        if ($(this).val() == "D") {
-	          console.log("test");
-	            $('#federal_state').slideDown(); 
+	        	$('#federal_state').slideDown(); 
 	        } else {
 	            if ($('#federal_state').css('display') != 'none') {
 	                $('#federal_state').slideUp();
@@ -69,14 +68,14 @@ App.filter = {
 	    });
 
 		//Wenn Nationalitäten ausgewählt wird, verstecke 
-        $('#filter-form select[name="Studienfach1"]').change(function() {
+        $('#filter-form select[name="discipline_name"]').change(function() {
 	       
 	        if ($(this).val() != "Kein") {
 	         
-	            $('#Studienfach2').slideDown(); 
+	            $('#discipline_name2').slideDown(); 
 	        } else {
-	            if ($('#Studienfach2').css('display') != 'none') {
-	                $('#Studienfach2').slideUp();
+	            if ($('#discipline_name2').css('display') != 'none') {
+	                $('#discipline_name2').slideUp();
 	            }
 	            
 	        }
