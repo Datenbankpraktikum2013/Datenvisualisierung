@@ -11,7 +11,7 @@ App.init = function() {
     App.filter.init();
     App.searches.init();
     App.chart.init();
-
+    
     // Listener für den Slider 
     $('#slider').slider()
          .on('slideStop', function(ev){
