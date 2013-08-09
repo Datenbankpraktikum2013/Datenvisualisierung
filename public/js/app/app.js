@@ -11,34 +11,8 @@ App.init = function() {
     App.filter.init();
     App.searches.init();
     App.chart.init();
-    
-    // Listener für den Slider 
-    $('#slider').slider()
-         .on('slideStop', function(ev){
-            App.filter.filter.year = ev.value;
-          });
-        
-    // Erstellen der Jahresskala
-    $('#slider-form').jqtimeline({
-        numYears: 18,
-        startYear: 1995
-    });
-
-    
-    $('#playButton').click(function() {
-        if ($(this).attr('data-toggled') == 'on') {
-            $(this).attr('data-toggled', 'off');
-            $(this).html('<i class="icon-pause"></i> Pause');
-            App.animator.play(1995);
-        } else {
-            $(this).attr('data-toggled', 'on');
-            $(this).html('<i class="icon-play"></i> Abspielen');
-        }
-    });
+    App.slider.init();    
    
-
-
-
     // Erstellen des Multiselects fuer die Fachbereichsauswahl
     $('#department').multiselect({
         buttonWidth : false,

@@ -2,32 +2,32 @@ var App = App || {};
 
 App.animator = {
 	
+	intervalID : null,
+
+	interval : 1500,
+
 	init : function() {
 
 	},
 
-	play : function(year) {
-		
-		if(App.filter.filter == undefined){
-			App.filter.filter = 1995;
+	play : function() {
+		if (this.intervalID == null) {
+			this.intervalID = setInterval(this.next_step, this.interval);
 		}
-		while ($('#playButton').attr('data-toggled') == 'off' && App.filter.filter.year < 2012.5){
-			App.filter.filter.year += 1;
-			$('#slider').slider('setValue',App.filter.filter.year);
-			//redraw;
-			setTimeout(App.animator.play, 5000);
-			console.log("test");
-		}	
-		if(App.filter.filter.year == 2013){
-			$('#slider').slider('setValue',1995);
-			$('#playButton').attr('data-toggled', 'on');
-			$('#playButton').html('<i class="icon-play"></i> Abspielen');
+	},
+
+	next_step : function() {
+		if (App.slider.getValue() < App.slider.getMaxValue()) {
+			App.slider.setValue(App.slider.getValue() + 0.5);
+			App.chart.render();
+		} else {
+			App.animator.stop();
 		}
-		if(App.filter.filter.year == 2012.5){
-			$('#slider').slider('setValue',1995.5);
-			$('#playButton').attr('data-toggled', 'on');
-			$('#playButton').html('<i class="icon-play"></i> Abspielen');
-		}
+	},
+
+	stop : function() {
+		clearInterval(this.intervalID);
+		this.intervalID = null;
 	}
 	
 };
