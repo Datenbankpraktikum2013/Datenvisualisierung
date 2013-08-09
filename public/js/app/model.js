@@ -25,8 +25,13 @@ App.model = {
 	/*
 	 * Enthaelt immer den aktuellen Datensatz fuer GoogleMaps
 	 */
-	"data_gmaps":[],
+	data_gmaps : [],
 
+	/*
+	 * Enthaelt immer den aktuellen Datensatz fuer GoogleGlobe
+	 */
+
+	data_globe : [],
 	/*
 	 * Bereitet die Filter aus dem Formular fuer das Erstellen des 
 	 * Suchobjektes auf.
@@ -79,6 +84,7 @@ App.model = {
 		
 		var url = 'searches/'+App.model.location+'.json?representation=highcharts';
 		var url_gmaps = 'searches/'+App.model.location+'.json?representation=maps';
+		var url_globe = 'searches/'+App.model.location+'.json?representation=globe';
 	
 		$.getJSON(url, function(data) {
 			App.model.data = data.data;
@@ -94,6 +100,19 @@ App.model = {
 		$.getJSON(url_gmaps, function(data) {
 			App.model.data_gmaps = data.data_gmaps;
 			radio('model.gmaps.fetched').broadcast();
+		}).fail(function() {
+			App.showAlert({
+				type: 'danger', 
+				heading: 'Verbindungsfehler!', 
+				message: 'Die Verbindung zum Server ist fehlgeschlagen!'
+			});
+		}).always(function() {
+			radio('model.fetched').broadcast();
+		});
+
+		$.getJSON(url_globe, function(data) {
+			App.model.data_globe = data.data;
+			radio('model.globe.fetched').broadcast();
 		}).fail(function() {
 			App.showAlert({
 				type: 'danger', 
