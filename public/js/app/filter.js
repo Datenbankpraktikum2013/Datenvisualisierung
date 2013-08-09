@@ -57,12 +57,12 @@ App.filter = {
 	    //Wenn Nationalitäten ausgewählt wird, verstecke 
         $('#filter-form select[name="nationality"]').change(function() {
 	       
-	        if ($(this).val() == "Deutschland") {
-	         
-	            $('#Bundesland').slideDown(); 
+	        if ($(this).val() == "D") {
+	          console.log("test");
+	            $('#federal_state').slideDown(); 
 	        } else {
-	            if ($('#Bundesland').css('display') != 'none') {
-	                $('#Bundesland').slideUp();
+	            if ($('#federal_state').css('display') != 'none') {
+	                $('#federal_state').slideUp();
 	            }
 	            
 	        }
