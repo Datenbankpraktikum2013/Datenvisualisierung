@@ -29,6 +29,7 @@ App.init = function() {
         if ($(this).attr('data-toggled') == 'on') {
             $(this).attr('data-toggled', 'off');
             $(this).html('<i class="icon-pause"></i> Pause');
+            App.animator.play(1995);
         } else {
             $(this).attr('data-toggled', 'on');
             $(this).html('<i class="icon-play"></i> Abspielen');
