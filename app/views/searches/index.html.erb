@@ -12,6 +12,12 @@
       <th>Lehreinheit</th>
       <th>Fachbereich</th>
       <th>Studienfächer</th>
+      <th>Aktuelles Fachsemester</th>
+      <th>Benötigte Fachsemester</th>
+      <th>Abschlussnote</th>
+      <th>Bundesland</th>
+      <th>Immatrikulations-Semester</th>
+      <th>Abgangs-Semester</th>
       <th></th>
       <th></th>
       <th></th>
@@ -30,6 +36,12 @@
         <td><%= search.teaching_unit_name %> </td>
         <td><%= search.department_number %></td>
         <td><%= search.discipline_name %></td>
+        <td><%= search.number_of_semester %></td>
+        <td><%= search.number_of_semesters %></td>
+        <td><%= search.grade %></td>
+        <td><%= search.federal_state_name %></td>
+        <td><%= search.semester_of_matriculation %></td>
+        <td><%= search.semester_of_deregistration %></td>
         <td><%= link_to 'Show', search %></td>
         <td><%= link_to 'Edit', edit_search_path(search) %></td>
         <td><%= link_to 'Destroy', search, method: :delete, data: { confirm: 'Are you sure?' } %></td>

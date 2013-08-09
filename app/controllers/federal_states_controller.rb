@@ -65,6 +65,10 @@ class FederalStatesController < ApplicationController
     ["federal_state_name","longitude","latitude","federal_state_iso_code"]
   end
 
+  def self.fetch_searchable_attributes
+    ["federal_state_name"]
+  end
+
   def self.fetch_joinable_classes
     []
   end
