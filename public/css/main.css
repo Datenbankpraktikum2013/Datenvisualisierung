@@ -7,7 +7,7 @@
 #chart {
 	height : 80vmin;
 	min-height: 80vmin;
-	max-height: 90vmin;
+	max-height: 80vmin;
 }
 
 #chart img {
@@ -31,7 +31,8 @@
 }
 
 #slider-form .slider-handle.round {
-	width: 10px;
+	margin-left: -4px;
+  	width: 10px;
 }
 
 #slider {
@@ -47,7 +48,10 @@
 	transform:rotate(10deg) translate(50px,50px);
 }
 
-
+.gt-timeline {
+	margin-left: -15px;
+	height: 50px;
+}
 
 
 #barscale {

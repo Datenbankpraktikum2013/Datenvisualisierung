@@ -10,6 +10,16 @@ App.filter = {
 	// Enthaelt ein Objekt in dem alle gesetzten Filter stehen.
 	filter : {},
 
+	mapping : {
+		gender : 'Geschlecht',
+		nationality : 'Heimatland',
+		kind_of_degree : 'Abschluss',
+		federal_state_name : 'Bundesland',
+		teaching_unit_name : 'Lehreinheit',
+		department_number : 'Fachbereich',
+		graduation_status : 'Studenten/Absolventen'
+	},
+
 	init : function() {
 		radio('model.fetch').subscribe(this.loadingListener);
 		radio('model.fetched').subscribe(this.loadedListener);
@@ -68,10 +78,22 @@ App.filter = {
 	        }
 	    });
 
+	    $(document).on('click', 'a.drilldown', function(e) {
+	    	var category = $(e.target).attr('data-category');
+	    	var series = $(e.target).attr('data-series');
+	    	var filter = $(e.target).attr('data-filter');
+	    	console.log(category + series + filter);
+	    	
+	    	App.filter.setFilterOption(App.filter.groupby, category);
+	    	App.filter.setFilterOption('search_category', filter);
+	    	//App.filter.setFilterOption('search_series', series);
+	    	e.preventDefault();
+	    	radio('filter.submit').broadcast();
+	    });
 
         //Wenn Studentenarten wie Absolvent oder Studenten
         //gewählt werden, dann mache Slide up, Slide down
-	    $('#filter-form input[name="studentenart"]').change(function() {
+	    $('#filter-form input[name="graduation_status"]').change(function() {
 	        if ($('#absolventenart').is(":checked") && !($('#studentenart').is(":checked"))){
 	            $('#absolvent-hidden').slideDown();
 	            $('#student-hidden').slideUp();
@@ -93,7 +115,7 @@ App.filter = {
 
 	// Liest die aktuellen Filter aus dem Formular und speichert sie.
 	getFilter : function() {
-		this.filter = $('#filter-form').formstate(':visible');
+		this.filter = $('#filter-form').formstate();
 		return this.filter;
     },
 
@@ -112,13 +134,12 @@ App.filter = {
 
     setFilterOption : function(input, value) {
     	this.filter[input] = value;
-    	/*if (this.filter[input] === undefined) {
+    	if (this.filter[input] === undefined) {
     		this.filter[input] = value;
     	} else if (this.filter[input] instanceof Array) {
-    		if (this.filter[input].indexOf(value) < 0) {
-    			this.filter[input].push(value);
-    		}
-    	}*/
+    		this.filter[input] = [];
+			this.filter[input].push(value);
+    	}
     	$('#filter-form :visible').formstate(this.filter);
     	if (input == "nationality") {
     		$('#filter-form select[name="nationality"]').change();
@@ -126,48 +147,22 @@ App.filter = {
     },
 
     //Clickon Event um Filterauswahl festzulegen
-    extendFilter : function() {
+    extendFilter : function(category, series_name) {
     	var filter = App.filter.getFilter();
     	var returnString = '<ul>';
 
-    	$.each(filter,function(index,value) {
-	    	if(filter.groupby == index){
-	    			
+    	$.each(this.mapping, function(index,value) {
+	    	if (filter[index] != '' && filter[index] != null) {
+				returnString += '<li><a class="drilldown" href="#"'
+									+ ' data-category="' + category 
+									+'" data-series="' + series_name 
+									+'" data-filter="'+ index +'">'
+									+ value +'</li>';
 	    	}
-	    	else{
-		       		if((value == 'Keine') | (value == 'Alle') | (value == 'Kein') | (value == '') | (value == null) | ( value == 'Fachbereiche ausw&auml;hlen')){
-		      			if(index == 'stackby' | index == 'groupby' | index == 'altervon' | index == 'alterbis'){
-
-		      			}
-		      			else returnString = returnString +'<li><a href="#" class="launch" onclick="alert(\'test\')"">'+index+'</a></li>';
-		      			
-		    		}
-		    		else{ 
-		    			if(value == 'Deutschland'){
-		    				returnString = returnString + '<li><a href="#" class="launch" onclick="alert(\'test\')"">Bundesland</a></li>';
-		    			}
-		    		}
-			}
-		});
+	    });
 		returnString = returnString+'</ul>';
 		return returnString;
 	},
-    /*
-    * @brief soll beim Onclick auf z.B. Deutschland
-    *		 Deutschland ins Formular eintrage.
-    */
-    onClickEventHandle : function(category) {
-    	var filter = App.filter.getFilter();
-    	
-    	$.each(filter,function(index,value){
-    		//alert(value);
-	    
-	    		value = category;
-	    		
-	    
-	    });
-    },
-
 
     // Setzt abhaengig des uebergebenen Daten die entsprechenden Filter
     // aus den DrillDownClicks.

@@ -71,16 +71,16 @@ App.chart.columnchart = {
         		point : {
                     events : {
             			click: function(event) {
-                            App.filter.setDrillDownFilter({
+                            /*App.filter.setDrillDownFilter({
                                     category: this.category,
                                     filter: this.name
 
-                            });
+                            });*/
                             $('.popover').remove();
                             var e = $(event.target).popover({
                               title : '<strong>Diesen Datensatz aufteilen nach:</strong>',
                               html : true,
-                              content : App.filter.extendFilter(),
+                              content : App.filter.extendFilter(this.category, this.series.name),
                               container : 'body',
                               placement : 'right',
                               trigger : 'manual',
@@ -94,9 +94,6 @@ App.chart.columnchart = {
                             {
                                 e.popover('hide')
                             },3000);
-
-                            App.filter.onClickEventHandle(this.category);
-                        
                         }
                     }
         		},
