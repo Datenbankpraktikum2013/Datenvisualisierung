@@ -75,6 +75,11 @@
   <%= @search.federal_state_name %>
 </p>
 
+<p>
+  <strong>Immatrikulations-Semester:</strong>
+  <%= @search.semester_of_matriculation %>
+</p>
+
 
 <% @search.results_for_highcharts.each do |k, v| %>
  	<%= k.to_s + ': ' + v.to_s %>
