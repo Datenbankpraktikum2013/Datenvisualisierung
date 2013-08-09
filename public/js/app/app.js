@@ -20,8 +20,8 @@ App.init = function() {
         
     // Erstellen der Jahresskala
     $('#slider-form').jqtimeline({
-        numYears: 44,
-        startYear: 1968
+        numYears: 18,
+        startYear: 1995
     });
 
     
