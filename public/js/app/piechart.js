@@ -1,7 +1,6 @@
 var App = App || {};
 
 App.chart.piechart = {
-	el : $('#chart'),
 
 	render : function() {
 		var dataSet1 = [];
@@ -90,14 +89,8 @@ App.chart.piechart = {
 	        	series: {
 	        		point: {
 	        			events: {
-	        				click : function(){
-	        					// Durch klicken werden links die Filter passend
-	        					// zu dem angeklickten Bereich gesetzt
-	        					App.filter.setDrillDownFilter({
-	        						category: this.categories,
-	        						filter: this.nameFilter
-
-	        					});
+	        				click : function(event){
+	        					App.chart.showDrilldownPopup(this, event);
 	        				}
 	        			}
 	        		}
