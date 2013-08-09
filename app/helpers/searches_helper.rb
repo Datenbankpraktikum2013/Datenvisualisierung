@@ -94,10 +94,6 @@ module SearchesHelper
 				end
 			end
 		end
-
-		puts cities_of_federal_state
-
-
 		json.set! :data_gmaps do
 			json.array! country_accumulations do |element|
 				country = Country.find_by_country_iso_code(element[0])
@@ -130,18 +126,24 @@ module SearchesHelper
 	end
 
 	def render_json_for_globe(json)
+
 		search_results = @search.results_for_maps
 
 		inputs = []
+		seriesA = []
 
 		search_results.each do |key, value|
 			country = Country.find_by_country_iso_code (key[0])
+			if country.country_iso_code == "DE"
+				city = Location.find_by_location_name key[2]
+				inputs << city.latitude.to_s + "," + city.longitude.to_s + "," + value.to_s
+			end
 			value  = value.to_f/1000
-			inputs << country.latitude.to_s + ', ' + country.longitude.to_s + ', ' + value.to_s + ', '
+			inputs << country.latitude.to_s + "," + country.longitude.to_s + "," + value.to_s
 		end
 
-		json.set! :data do
-			json.set! :seriesA, inputs
-		end
+		seriesA = seriesA[inputs]
+
+		json.set! :data , seriesA 
 	end
 end
