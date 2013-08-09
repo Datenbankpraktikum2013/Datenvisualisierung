@@ -25,8 +25,7 @@ App.filter = {
 		graduation_status : 'Studenten/Absolventen',
 		number_of_semesters : 'Zahl der benötigten Semester',
 		number_of_semester : 'Aktuell im Fachsemester',
-		discipline_name : '1. Studienfach',
-		discipline_name2 : '2. Studienfach'
+		//{ discipline_name : '1. Studienfach',	discipline_name2 : '2. Studienfach' }
 	},
 	
 	/*

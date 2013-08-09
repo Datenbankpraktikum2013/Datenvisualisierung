@@ -68,15 +68,22 @@
 
 		<div class="container">
 			<div class="row">
-				<div class="span3 well">
+				<div id="sidebar" class="span3 well">
 					<form name="form" id="filter-form" class="" action="" method="post">
 						<fieldset>
 							<legend>Filteroptionen</legend>
 							<div class="row-fluid">
-								<div class="span5">
-									<label>Status:</label>
+								<div class="span6">
+									<label class="checkbox">
+										<input name="gender" type="checkbox" value="M" checked="checked">
+										M&auml;nnlich 
+									</label>
+									<label class="checkbox">
+										<input name="gender" type="checkbox" value="W" checked="checked">
+										Weiblich
+									</label>
 								</div>
-								<div class="span7">
+								<div class="span6">
 									<label class="checkbox">
 										<input id="studentenart" name="graduation_status" type="checkbox" value="S" checked="checked">
 										Studenten 
@@ -87,34 +94,21 @@
 									</label>
 								</div>
 							</div>
+							
 							<div class="row-fluid">
-								<div class="span5">
-									<label>Geschlecht:</label>
-								</div>
-								<div class="span7">
-									<label class="checkbox">
-										<input name="gender" type="checkbox" value="M" checked="checked">
-										M&auml;nnlich 
-									</label>
-									<label class="checkbox">
-										<input name="gender" type="checkbox" value="W" checked="checked">
-										Weiblich
-									</label>
-								</div>
-							</div>
-							<div class="row-fluid">
-								<div class="span12">
+								<div class="span12"><div class="span2">
 									<label>Alter:</label>
-									<div class="row-fluid">
-										<div class="span6 input-prepend">
+								</div>
+									
+										<div class="span5 input-prepend">
 											<span class="add-on">Von</span>
 											<input class="input-mini" type="text" name="minimum_age">
 										</div>
-										<div class="span6 input-prepend text-right">
+										<div class="span4 input-prepend text-right">
 											<span class="add-on">Bis</span>
 											<input class="input-mini" type="text" name="maximum_age">
 										</div>
-									</div>
+									
 								</div>
 							</div>
 							<div class="row-fluid">
@@ -141,8 +135,10 @@
 							<div class="row-fluid">
 								<div class="span12">
 									<label>
+									<div class="span4">
 										Lehreinheit:
-										<select name="teaching_unit_name" class="span12">
+									</div>
+										<select name="teaching_unit_name" class="span8">
 											<option value="">Alle</option>
 											<option value="Angew. Systemwiss.">Angewandte Systemwissenschaften</option>
 											<option value="Anglistik">Anglistik</option>
@@ -190,8 +186,10 @@
 							<div class="row-fluid">
 								<div class="span12">
 									<label>
-										Heimatland:
-										<select name="nationality" class="span12">
+										<div class="span4">
+											Heimatland:
+										</div>
+										<select name="nationality" class="span8">
 											<option value="">Alle</option>
 											<option value="D">Deutschland</option>
 											<option value="Österreich">&Ouml;sterreich</option>
@@ -460,10 +458,11 @@
 								</div>
 							</div>						    
 							<div id="federal_state" class="row-fluid">
-								<div class="span12">
+								<div class="span4">
 								<label>
 									Bundesland:
-									<select name="federal_state" class="span12">
+								</div><div>
+									<select name="federal_state" class="span8">
 										<option  selected = "selected" value="All">Alle</option>		
 										<option>Bayern</option>
 										<option>Badenw&uuml;rtenberg</option>
@@ -489,8 +488,9 @@
 							<div class="row-fluid">
 								<div class="span12">
 								<label>
-									1. Studienfach:
-									<select name="Studienfach1" id="Studienfach1" class="span12">
+									<div class="span5">
+									1.Studienfach:</div><div>
+									<select name="Studienfach1" id="Studienfach1" class="span7">
 										<option>Kein</option>
 										<option value="Informatik">Informatik</option>
 										<option>Mathematik</option>
@@ -500,9 +500,11 @@
 							</div>
 							<div class="row-fluid">
 								<div class="span12" id="Studienfach2">
-								<label>
+								<label><div class="span5">
 									2. Studienfach:
-									<select name="Studienfach2" class="span12">
+								</div>
+								<div>
+									<select name="Studienfach2" class="span7">
 										<option value="">Kein</option>
 										<option value="Informatik">Informatik</option>
 										<option value="Mathematik">Mathematik</option>
@@ -578,9 +580,7 @@
 								</div>
 							</div>
 							<div class="row-fluid">
-								<div class="span12">
-									<label>Abschlussarten:</label>
-								</div>
+								
 							</div>
 							<div class="row-fluid">
 								<div class="span6">
@@ -606,9 +606,11 @@
 							</div>
 							<div class="row-fluid">
 								<div class="span12">
-									<label>
+									<label><div class="span4">
 										Gruppierung:
-										<select name="search_category" class="span12">
+										</div>
+										<div>
+										<select name="search_category" class="span8">
 											<option value="graduation_status">Status</option>
 											<option value="gender">Geschlecht</option>
 											<option  selected="selected" value="department_number">Fachbereich</option>
@@ -623,9 +625,11 @@
 							</div>
 							<div class="row-fluid">
 								<div class="span12">
-									<label>
+									<label><div class="span4">
 										Stacking:
-										<select name="search_series" class="span12">
+									</div>
+									<div>
+										<select name="search_series" class="span8">
 											<option value="graduation_status">Status</option>
 											<option selected value="gender">Geschlecht</option>
 											<option value="department_number">Fachbereich</option>

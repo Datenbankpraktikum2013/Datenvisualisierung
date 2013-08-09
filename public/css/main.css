@@ -5,9 +5,9 @@
    ========================================================================== */
 
 #chart {
-	height : 80vmin;
-	min-height: 80vmin;
-	max-height: 80vmin;
+	height : 65vmin;
+	min-height: 65vmin;
+	max-height: 65vmin;
 }
 
 #chart img {
@@ -74,6 +74,10 @@
 
 #absolvent-hidden {
 	display: none;
+}
+
+#sidebar {
+	padding-top: 0;
 }
 
 
