@@ -88,11 +88,10 @@ App.filter = {
 	    	var category = $(e.target).attr('data-category');
 	    	var series = $(e.target).attr('data-series');
 	    	var filter = $(e.target).attr('data-filter');
-	    	console.log(category + series + filter);
 	    	
-	    	App.filter.setFilterOption(App.filter.groupby, category);
+	    	App.filter.setFilterOption(App.filter.filter.search_series, series);
+	    	App.filter.setFilterOption(App.filter.filter.search_category, category);
 	    	App.filter.setFilterOption('search_category', filter);
-	    	//App.filter.setFilterOption('search_series', series);
 	    	e.preventDefault();
 	    	radio('filter.submit').broadcast();
 	    });
@@ -137,7 +136,7 @@ App.filter = {
      * Instanzvariablen und gibt diese auch zurueck.
      */
 	getFilter : function() {
-		this.filter = $('#filter-form').formstate();
+		this.filter = $('#filter-form :visible').formstate();
 		return this.filter;
     },
 
@@ -161,9 +160,11 @@ App.filter = {
     		this.filter[input] = [];
 			this.filter[input].push(value);
     	}
-    	$('#filter-form :visible').formstate(this.filter);
+    	$('#filter-form').formstate(this.filter);
     	if (input == "nationality") {
     		$('#filter-form select[name="nationality"]').change();
+    	} else if(input == 'department_number') {
+    		$('#department').multiselect('refresh');
     	}
     },
 
@@ -175,9 +176,27 @@ App.filter = {
     	var filter = App.filter.getFilter();
     	var returnString = '<ul>';
 
+    	console.log('Cat: ' + category);
+		console.log('series: ' + series_name);
+
     	$.each(this.mapping, function(index,value) {
-	    	if (filter[index] != '' && filter[index] != null) {
-				returnString += '<li><a class="drilldown" href="#"'
+    		var available = false;
+    		if (filter[index] instanceof Array) {
+    			if (filter[index].length == 0) {
+    				available = true;
+    			}
+    			if ((index == 'gender' || index == 'graduation_status') 
+    				&& filter[index].length == 2) {
+    				available = true;
+    			}
+    		} else if (filter[index] == '' || filter[index] == null || filter[index] == undefined) {
+    			available = true;
+    		}
+			if (filter['search_category'] == index || filter['search_series'] == index) {
+				available = false;
+	    	}
+	    	if (available) {
+	    		returnString += '<li><a class="drilldown" href="#"'
 									+ ' data-category="' + category 
 									+'" data-series="' + series_name 
 									+'" data-filter="'+ index +'">'

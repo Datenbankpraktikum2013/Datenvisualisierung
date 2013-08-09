@@ -37,6 +37,10 @@ App.model = {
 			if (value instanceof Array) {
 				if (value.length == 1) {
 					parameters[index] = value[0];
+				} else if (value.length > 1) {
+					if (index != 'gender') {
+						parameters[index] = value.join();
+					}
 				}
 			} else if (value != false) {
 				parameters[index] = value;

@@ -39,7 +39,7 @@ App.init = function() {
 
 
     // Erstellen des Multiselects fuer die Fachbereichsauswahl
-    $('.multiselect').multiselect({
+    $('#department').multiselect({
         buttonWidth : false,
         buttonContainer : '<div class="row-fluid btn-group" />',
         buttonText: function(options) {
