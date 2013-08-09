@@ -55,6 +55,11 @@
   <%= @search.discipline_name %>
 </p>
 
+<p>
+  <strong>Aktuelles Fachsemester:</strong>
+  <%= @search.number_of_semester %>
+</p>
+
 
 <% @search.results_for_highcharts.each do |k, v| %>
  	<%= k.to_s + ': ' + v.to_s %>
