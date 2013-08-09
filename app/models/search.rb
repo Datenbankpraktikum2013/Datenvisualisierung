@@ -78,6 +78,8 @@ class Search < ActiveRecord::Base
 		end
 
 		def filter_search_results (attributes, results)
+			multiple_selectable_attributes = ["department_number", "kind_of_degree", "nationality"]
+
 			attributes.each do |attribute|
 				if attribute == "discipline_name"
 					unless send(attribute).blank?
@@ -92,13 +94,16 @@ class Search < ActiveRecord::Base
 	 					disciplines_to_studies_relation = disciplines_to_studies_relation.count(:discipline_id)
 
 						array = [] 
-						disciplines_to_studies_relation.each do |k, v|
-							( array << k ) if v >= 2
+						disciplines_to_studies_relation.each { |k, v| ( array << k ) if v >= 2 }
+						results = results.where("studies.id in (?)", array)
 					end
 
-					results = results.where("studies.id in (?)", array)
-
+				elsif multiple_selectable_attributes.include? attribute
+					unless send(attribute).blank?
+						manifestations = send(attribute).split(", ")
+						results = results.where("#{attribute} in (?)", manifestations)
 					end
+
 				elsif attribute == "year_of_birth"
 					results = results.where("#{attribute} <= ?", Date.today.year - minimum_age) unless minimum_age.blank?
 					results = results.where("#{attribute} >= ?", Date.today.year - maximum_age) unless maximum_age.blank?
