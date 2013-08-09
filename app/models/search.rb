@@ -79,7 +79,6 @@ class Search < ActiveRecord::Base
 
 		def filter_search_results (attributes, results)
 			attributes.each do |attribute|
-<<<<<<< HEAD
 				if attribute == "discipline_name"
 					unless send(attribute).blank?
 					
@@ -101,13 +100,8 @@ class Search < ActiveRecord::Base
 
 					end
 				elsif attribute == "year_of_birth"
-					results = results.where("#{attribute} < ?", Date.today.year - minimum_age) unless minimum_age.blank?
-					results = results.where("#{attribute} > ?", Date.today.year - maximum_age) unless maximum_age.blank?
-=======
-				if attribute == "year_of_birth"
 					results = results.where("#{attribute} <= ?", Date.today.year - minimum_age) unless minimum_age.blank?
 					results = results.where("#{attribute} >= ?", Date.today.year - maximum_age) unless maximum_age.blank?
->>>>>>> b078844d1541a5fdc48d8844dc582baeaf1b9e20
 				else
 					results = results.where("#{attribute} = ?", send(attribute)) unless self.send(attribute).blank?
 				end
