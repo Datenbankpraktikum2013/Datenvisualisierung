@@ -1,4 +1,12 @@
 module Migrator
+
+	DEGREE_MAPPER = {
+		1=>"Bachelor",33=>"Bachelor",47=>"Bachelor",82=>"Bachelor",
+		94=>"Kein Abschluss",97=>"Kein Abschluss",8=>"Kein Abschluss",
+		30=>"Master",58=>"Master",64=>"Master",66=>"Master",88=>"Master",99=>"Master",
+		21=>"Lehramt",22=>"Lehramt",23=>"Lehramt",25=>"Lehramt",27=>"Lehramt",40=>"Lehramt",
+		2=>"Promotion",6=>"Promotion",
+		11=>"Diplom"}
 	def self.migrateStudies
 		print "\n+++++++++++++++++++++++\n"
 		print "+now migrating studies+\n"
@@ -12,7 +20,7 @@ module Migrator
 
 		print "done loading #{Discipline.all.length} disciplines\n"
 
-
+		print "calculating number of batches"
 		#To use floor here is okay, look at the next query and you'll see why.
 		allbatches = CLIENT.query(
 			"SELECT
@@ -24,8 +32,8 @@ module Migrator
 					#{QUERY_LAST_FIELD_INFO}
 				) as LI").first["batches"]
 
-		print "loading studies in batches of #{BATCHSIZE}\n"
-
+		print "loading studies in #{allbatches} batches of #{BATCHSIZE} study entries\n"
+		allbatches = 1
 		for batchnumber in 0..allbatches 
 			print "retrieving batch #{batchnumber+1} of #{allbatches+1}\n"
 			
@@ -33,14 +41,10 @@ module Migrator
 				"SELECT
 					STG_MATRIKELNR AS matriculation_number,
 					STG_STGNR AS study_number,
-					ABINT_DTXT AS kind_of_degree,
+					ABINT_ASTAT AS kind_of_degree,
 					CONCAT(STG_FACH,STG_LE) AS discipline_data_warehouse_id,
-					STG_IMMATSEM as semester_of_matriculation,
-					(
-						FLOOR((2*( STG_SEMESTER - STG_IMMATSEM))/10)
-					 	+ MOD((STG_SEMESTER-STG_IMMATSEM+1),10)
-					 	- 1
-					 ) AS number_of_semester
+					STG_IMMATSEM AS semester_of_matriculation,
+					STG_SEMESTER AS current_semester
 				FROM
 					#{QUERY_LAST_FIELD_INFO}
 				ORDER BY
@@ -74,6 +78,28 @@ module Migrator
 				bar.next
 				
 				matriculation_number = study.delete("matriculation_number")
+
+				current_semester = study.delete("current_semester").to_s
+				semester_of_matriculation = study["semester_of_matriculation"].to_s
+
+				semdif = current_semester[0..3].to_i - semester_of_matriculation[0..3].to_i
+				addition = current_semester[-1].to_i - semester_of_matriculation[-1].to_i
+				numsem = 2*semdif+addition
+				if(numsem < -1)
+					helper = semester_of_matriculation
+					semester_of_matriculation = current_semester
+					current_semester = semester_of_matriculation
+					numsem *= -1
+				elsif(numsem == -1)
+					semester_of_matriculation = current_semester
+					numsem = 0
+				end
+				study["number_of_semester"] = numsem
+				kind_of_degree = DEGREE_MAPPER[study["kind_of_degree"].to_i]
+				unless kind_of_degree == nil
+					study["kind_of_degree"] = kind_of_degree
+				end
+
 				studentDB = studentHash[matriculation_number][:student]
 				if(studentDB == nil)
 					studentDB = Student.find_by_matriculation_number(matriculation_number)
