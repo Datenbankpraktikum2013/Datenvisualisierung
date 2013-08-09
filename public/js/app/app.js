@@ -24,6 +24,20 @@ App.init = function() {
         startYear: 1968
     });
 
+    
+    $('#playButton').click(function() {
+        if ($(this).attr('data-toggled') == 'on') {
+            $(this).attr('data-toggled', 'off');
+            $(this).html('<i class="icon-pause"></i> Pause');
+        } else {
+            $(this).attr('data-toggled', 'on');
+            $(this).html('<i class="icon-play"></i> Abspielen');
+        }
+    });
+   
+
+
+
     // Erstellen des Multiselects fuer die Fachbereichsauswahl
     $('.multiselect').multiselect({
         buttonWidth : false,
