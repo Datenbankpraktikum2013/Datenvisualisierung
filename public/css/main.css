@@ -33,6 +33,7 @@
 #slider-form .slider-handle.round {
 	margin-left: -4px;
   	width: 10px;
+  	background-image: linear-gradient(to bottom, grey, black);
 }
 
 #slider {
@@ -51,6 +52,13 @@
 .gt-timeline {
 	margin-left: -15px;
 	height: 50px;
+}
+
+.gt-timeline div.even-month div.month, .gt-timeline div.odd-month div.month {
+	position: relative;
+	left: 0px;
+	top: -18px;
+	transform: rotate(-45deg);
 }
 
 
@@ -80,8 +88,9 @@
 	padding-top: 0;
 }
 
-
-
+#playButton {
+	width: 120px;
+}
 
 
 

@@ -117,16 +117,16 @@
 										Fachbereich(e):
 										<select data-role="multiselect" multiple="multiple" 
 											name="department_number" class="multiselect span12">
-											<option value="1">1 Sozialwissenschaften</option>
-											<option value="2">2 Kultur- und Geowissenschaften
+											<option value="01">1 Sozialwissenschaften</option>
+											<option value="02">2 Kultur- und Geowissenschaften
 											</option>
-											<option value="3">3 Erziehungs- und Kulturwissenschaften</option>
-											<option value="4">4 Physik</option>
-											<option value="5">5 Biologie und Chemie</option>
-											<option value="6">6 Mathematik und Informatik</option>
-											<option value="7">7 Sprach- und Literaturwissenschaften</option>
-											<option value="8">8 Humanwissenschaften</option>
-											<option value="9">9 Wirtschaftswissenschaften</option>
+											<option value="03">3 Erziehungs- und Kulturwissenschaften</option>
+											<option value="04">4 Physik</option>
+											<option value="05">5 Biologie und Chemie</option>
+											<option value="06">6 Mathematik und Informatik</option>
+											<option value="07">7 Sprach- und Literaturwissenschaften</option>
+											<option value="08">8 Humanwissenschaften</option>
+											<option value="09">9 Wirtschaftswissenschaften</option>
 											<option value="10">10 Rechtswissenschaften</option>
 										</select>
 									</label>
@@ -143,7 +143,7 @@
 											<option value="Angew. Systemwiss.">Angewandte Systemwissenschaften</option>
 											<option value="Anglistik">Anglistik</option>
 											<option value="Biologie">Biologie</option>
-											<option value="Chemie">Chemie<option>
+											<option value="Chemie">Chemie</option>
 											<option value="Computerlinguistik">Computerlinguistik</option>
 											<option value="Evang.Theologie">Evangelische Theologie</option>
 											<option value="Geographie">Geographie</option>
@@ -457,17 +457,17 @@
 									</label>
 								</div>
 							</div>						    
-							<div id="federal_state" class="row-fluid">
+							<div id="federal_state_name" class="row-fluid">
 								<div class="span4">
 								<label>
 									Bundesland:
 								</div><div>
-									<select name="federal_state" class="span8">
-										<option  selected = "selected" value="All">Alle</option>		
-										<option>Bayern</option>
-										<option>Badenw&uuml;rtenberg</option>
-										<option>Berlin</option>
-										<option>Brandenburg</option>
+									<select name="federal_state_name" class="span8">
+										<option  selected = "selected" value="">Alle</option>		
+										<option value="Bayern">Bayern</option>
+										<option value="Baden-Würtenberg">Baden-W&uuml;rtenberg</option>
+										<option value="Berlin">Berlin</option>
+										<option value="Brandenburg">Brandenburg</option>
 										<option>Bremen</option>
 										<option>Hamburg</option>
 										<option>Hessen</option>
@@ -479,7 +479,7 @@
 										<option>Sachsen</option>
 										<option>Sachsen-Anhalt</option>
 										<option>Schleswig-Holstein</option>
-										<option>Th&uuml;ringen</option>
+										<option value="Thüringen">Th&uuml;ringen</option>
 
 									</select>
 								</label>
@@ -490,8 +490,8 @@
 								<label>
 									<div class="span5">
 									1.Studienfach:</div><div>
-									<select name="Studienfach1" id="Studienfach1" class="span7">
-										<option>Kein</option>
+									<select name="discipline_name" id="discipline_name" class="span7">
+										<option value="">Kein</option>
 										<option value="Informatik">Informatik</option>
 										<option>Mathematik</option>
 									</select>
@@ -499,12 +499,12 @@
 						    	</div>
 							</div>
 							<div class="row-fluid">
-								<div class="span12" id="Studienfach2">
+								<div class="span12" id="discipline_name2">
 								<label><div class="span5">
 									2. Studienfach:
 								</div>
 								<div>
-									<select name="Studienfach2" class="span7">
+									<select name="discipline_name2" class="span7">
 										<option value="">Kein</option>
 										<option value="Informatik">Informatik</option>
 										<option value="Mathematik">Mathematik</option>
@@ -618,7 +618,7 @@
 											<option value="">Studienfach</option>
 											<option value="kind_of_degree">Abschlussart</option>
 											<option value="nationality">Heimatland</option>
-											<option value="federal_state">Bundesland</option>
+											<option value="federal_state_name">Bundesland</option>
 										</select>
 									</label>
 						    	</div>
@@ -637,7 +637,7 @@
 											<option value="">Studienfach</option>
 											<option value="kind_of_degree">Abschlussart</option>
 											<option value="nationality">Heimatland</option>
-											<option value="federal_state">Bundesland</option>
+											<option value="federal_state_name">Bundesland</option>
 										</select>
 									</label>
 						    	</div>
@@ -671,10 +671,11 @@
 			</div>
 			<div id="timescale" class="row">
 				<form class="span12" id="slider-form">
-					<input id="slider" type="hidden" class="span12" value="" data-slider-min="1968" data-slider-max="2012" data-slider-step="1" data-slider-value="1968" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="show">
+					<input id="slider" type="hidden" class="span12" value="" data-slider-min="1995" data-slider-max="2013" data-slider-step="0.5" data-slider-value="1995" data-slider-orientation="horizontal" data-slider-selection="none" data-slider-tooltip="hide">
 				</form>
-				<div id="sliderReset" align="center">
-				<button name="sliderReset" class="btn">Alle Jahre</button>
+				<div id="sliderReset" class="text-center">
+					<button name="sliderReset" class="btn">Alle Jahre</button>
+					<button id="playButton" data-toggled='on' class="btn"><i class="icon-play"></i> Abspielen</button>
 				</div>
 			</div>
 			<hr>

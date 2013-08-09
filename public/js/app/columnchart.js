@@ -33,10 +33,14 @@ App.chart.columnchart = {
             text: "Ihre Suche",
             style: {
                 fontWeight: 'bold'
-            }
+            },
         },
         xAxis: {
-            categories: App.model.data.categories
+            categories: App.model.data.categories,
+            labels : {
+                rotation : -45,
+                align : 'right'
+            }
         },
         yAxis: {
             title: {

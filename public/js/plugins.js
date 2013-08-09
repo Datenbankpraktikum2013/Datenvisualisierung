@@ -478,11 +478,12 @@ $('#el').spin('flower', 'red');
             '</div>'
         );
 
-        _this._gap = containerWidth / this._numLines;
+        _this._gap = containerWidth / (this._numLines*2);
         for(j=0;j<_this.options.numYears;j += this._year_gap){
-            $mainContainer.append(_this._getMonthMarkup(_this.options.startYear + j));
+            $mainContainer.append(_this._getMonthMarkup(true, _this.options.startYear + j));
+            $mainContainer.append(_this._getMonthMarkup(false, _this.options.startYear + j));
         }
-        $mainContainer.append(_this._getMonthMarkup(_this.options.startYear + _this.options.numYears));
+        $mainContainer.append(_this._getMonthMarkup(true, _this.options.startYear + _this.options.numYears));
         //Start adding events
         for(var k=0;k<_this.options.events.length;k++){
             var e = _this.options.events[k];
@@ -494,20 +495,14 @@ $('#el').spin('flower', 'red');
         _this.$el.prepend($mainContainer);
     };
 
-    jqTimeLine.prototype._getMonthMarkup = function(year){
+    jqTimeLine.prototype._getMonthMarkup = function(semester, year){
         var _this = this;
         var retStr = "";
-        /*if(year == 0){
-            retStr='<div class="horizontal-line leftend" style="left:'+_this._current_offset_x+'px">';
-            if (num%2 != 1) {
-                retStr += '<div class="year">'+year+'</div>';
-            }
-            retStr += '</div>';
-        }else*/ 
-        if(year%2 == 1){
-            retStr = '<div class="horizontal-line month-line odd-month" style="left:'+_this._current_offset_x+'px"></div>';
-        }else{
-            retStr = '<div class="horizontal-line month-line even-month" style="left:'+_this._current_offset_x+'px"><div class="month">'+year+'</div></div>';
+        if (semester) {
+            retStr = '<div class="horizontal-line month-line even-month" style="left:'+_this._current_offset_x+'px"><div class="month">WS'+year+'</div></div>';
+        } else {
+            retStr = '<div class="horizontal-line month-line odd-month" style="left:'+_this._current_offset_x+'px"><div class="month">SS</div></div>';
+            
         }
         _this._current_offset_x += _this._gap;
         return retStr;
