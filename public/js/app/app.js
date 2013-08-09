@@ -17,7 +17,7 @@ App.init = function() {
          .on('slideStop', function(ev){
             App.filter.filter.year = ev.value;
           });
-    
+        
     // Erstellen der Jahresskala
     $('#slider-form').jqtimeline({
         numYears: 44,

@@ -18,11 +18,11 @@
 .loading {
 	opacity: 0.4;
 }
-#Studienfach2 {
+#discipline_name2 {
 	display: none;
 }
 
-#federal_state {
+#federal_state_name {
 	display: none;
 }
 

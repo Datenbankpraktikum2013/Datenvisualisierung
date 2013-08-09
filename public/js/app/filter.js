@@ -22,7 +22,11 @@ App.filter = {
 		federal_state_name : 'Bundesland',
 		teaching_unit_name : 'Lehreinheit',
 		department_number : 'Fachbereich',
-		graduation_status : 'Studenten/Absolventen'
+		graduation_status : 'Studenten/Absolventen',
+		number_of_semesters : 'Zahl der benötigten Semester',
+		number_of_semester : 'Aktuell im Fachsemester',
+		discipline_name : '1. Studienfach',
+		discipline_name2 : '2. Studienfach'
 	},
 	
 	/*
@@ -58,25 +62,24 @@ App.filter = {
         $('#filter-form select[name="nationality"]').change(function() {
 	       
 	        if ($(this).val() == "D") {
-	          console.log("test");
-	            $('#federal_state').slideDown(); 
+	        	$('#federal_state_name').slideDown(); 
 	        } else {
-	            if ($('#federal_state').css('display') != 'none') {
-	                $('#federal_state').slideUp();
+	            if ($('#federal_state_name').css('display') != 'none') {
+	                $('#federal_state_name').slideUp();
 	            }
 	            
 	        }
 	    });
 
 		//Wenn Nationalitäten ausgewählt wird, verstecke 
-        $('#filter-form select[name="Studienfach1"]').change(function() {
+        $('#filter-form select[name="discipline_name"]').change(function() {
 	       
 	        if ($(this).val() != "Kein") {
 	         
-	            $('#Studienfach2').slideDown(); 
+	            $('#discipline_name2').slideDown(); 
 	        } else {
-	            if ($('#Studienfach2').css('display') != 'none') {
-	                $('#Studienfach2').slideUp();
+	            if ($('#discipline_name2').css('display') != 'none') {
+	                $('#discipline_name2').slideUp();
 	            }
 	            
 	        }
