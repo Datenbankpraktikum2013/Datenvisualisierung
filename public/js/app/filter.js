@@ -22,7 +22,11 @@ App.filter = {
 		federal_state_name : 'Bundesland',
 		teaching_unit_name : 'Lehreinheit',
 		department_number : 'Fachbereich',
-		graduation_status : 'Studenten/Absolventen'
+		graduation_status : 'Studenten/Absolventen',
+		number_of_semesters : 'Zahl der benötigten Semester',
+		number_of_semester : 'Aktuell im Fachsemester',
+		discipline_name : '1. Studienfach',
+		discipline_name2 : '2. Studienfach'
 	},
 	
 	/*
@@ -58,10 +62,10 @@ App.filter = {
         $('#filter-form select[name="nationality"]').change(function() {
 	       
 	        if ($(this).val() == "D") {
-	        	$('#federal_state').slideDown(); 
+	        	$('#federal_state_name').slideDown(); 
 	        } else {
-	            if ($('#federal_state').css('display') != 'none') {
-	                $('#federal_state').slideUp();
+	            if ($('#federal_state_name').css('display') != 'none') {
+	                $('#federal_state_name').slideUp();
 	            }
 	            
 	        }
