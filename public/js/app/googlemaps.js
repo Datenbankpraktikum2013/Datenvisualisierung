@@ -92,7 +92,8 @@
     markerClusterer = new MarkerClusterer(map, this.markers, {
       maxZoom: zoom,
       gridSize: size,
-      minimumClusterSize: 1
+      minimumClusterSize: 1,
+      maxZoom: null
     });
 
  	},    

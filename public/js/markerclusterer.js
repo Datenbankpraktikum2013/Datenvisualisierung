@@ -1535,7 +1535,10 @@ MarkerClusterer.prototype.extend = function (obj1, obj2) {
  */
 MarkerClusterer.CALCULATOR = function (markers, numStyles) {
   var index = 0;
-  var count = markers.length.toString();
+  var count = 0;
+  for (var j=0; j < markers.length; j++){
+    count += markers[j].count;
+  }
 
   var dv = count;
   while (dv !== 0) {
