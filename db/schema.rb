@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130809064223) do
+ActiveRecord::Schema.define(version: 20130809065250) do
 
   create_table "countries", force: true do |t|
     t.string   "country_name"
@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(version: 20130809064223) do
     t.string   "discipline_name"
     t.integer  "number_of_semester"
     t.integer  "number_of_semesters"
+    t.float    "grade"
   end
 
   create_table "students", force: true do |t|

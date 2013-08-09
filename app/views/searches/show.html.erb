@@ -64,6 +64,10 @@
   <strong>Benötigte Fachsemester:</strong>
   <%= @search.number_of_semesters %>
 </p>
+<p>
+  <strong>Abschlussnote:</strong>
+  <%= @search.grade %>
+</p>
 
 
 <% @search.results_for_highcharts.each do |k, v| %>

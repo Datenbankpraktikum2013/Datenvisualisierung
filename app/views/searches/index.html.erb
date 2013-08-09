@@ -14,6 +14,7 @@
       <th>Studienfächer</th>
       <th>Aktuelles Fachsemester</th>
       <th>Benötigte Fachsemester</th>
+      <th>Abschlussnote</th>
       <th></th>
       <th></th>
       <th></th>
@@ -34,6 +35,7 @@
         <td><%= search.discipline_name %></td>
         <td><%= search.number_of_semester %></td>
         <td><%= search.number_of_semesters %></td>
+        <td><%= search.grade %></td>
         <td><%= link_to 'Show', search %></td>
         <td><%= link_to 'Edit', edit_search_path(search) %></td>
         <td><%= link_to 'Destroy', search, method: :delete, data: { confirm: 'Are you sure?' } %></td>

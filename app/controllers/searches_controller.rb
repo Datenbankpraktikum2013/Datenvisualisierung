@@ -100,6 +100,6 @@ class SearchesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def search_params
-      params.require(:search).permit(:number_of_semester, :number_of_semesters, :discipline_name, :graduation_status, :gender, :nationality, :location_name, :minimum_age, :maximum_age, :search_category, :search_series, :department_number, :teaching_unit_name, :kind_of_degree)
+      params.require(:search).permit(:grade, :number_of_semester, :number_of_semesters, :discipline_name, :graduation_status, :gender, :nationality, :location_name, :minimum_age, :maximum_age, :search_category, :search_series, :department_number, :teaching_unit_name, :kind_of_degree)
     end
 end
