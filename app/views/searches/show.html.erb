@@ -60,6 +60,11 @@
   <%= @search.number_of_semester %>
 </p>
 
+<p>
+  <strong>Benötigte Fachsemester:</strong>
+  <%= @search.number_of_semesters %>
+</p>
+
 
 <% @search.results_for_highcharts.each do |k, v| %>
  	<%= k.to_s + ': ' + v.to_s %>
