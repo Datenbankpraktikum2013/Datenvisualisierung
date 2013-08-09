@@ -33,6 +33,7 @@
 #slider-form .slider-handle.round {
 	margin-left: -4px;
   	width: 10px;
+  	background-image: linear-gradient(to bottom, grey, black);
 }
 
 #slider {
