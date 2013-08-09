@@ -13,5 +13,4 @@ App.animator = {
 	stop : function() {
 
 	}
-
 };

@@ -457,17 +457,17 @@
 									</label>
 								</div>
 							</div>						    
-							<div id="federal_state" class="row-fluid">
+							<div id="federal_state_name" class="row-fluid">
 								<div class="span4">
 								<label>
 									Bundesland:
 								</div><div>
-									<select name="federal_state" class="span8">
-										<option  selected = "selected" value="All">Alle</option>		
-										<option>Bayern</option>
-										<option>Badenw&uuml;rtenberg</option>
-										<option>Berlin</option>
-										<option>Brandenburg</option>
+									<select name="federal_state_name" class="span8">
+										<option  selected = "selected" value="">Alle</option>		
+										<option value="Bayern">Bayern</option>
+										<option value="Baden-Würtenberg">Baden-W&uuml;rtenberg</option>
+										<option value="Berlin">Berlin</option>
+										<option value="Brandenburg">Brandenburg</option>
 										<option>Bremen</option>
 										<option>Hamburg</option>
 										<option>Hessen</option>
@@ -479,7 +479,7 @@
 										<option>Sachsen</option>
 										<option>Sachsen-Anhalt</option>
 										<option>Schleswig-Holstein</option>
-										<option>Th&uuml;ringen</option>
+										<option value="Thüringen">Th&uuml;ringen</option>
 
 									</select>
 								</label>
@@ -490,8 +490,8 @@
 								<label>
 									<div class="span5">
 									1.Studienfach:</div><div>
-									<select name="Studienfach1" id="Studienfach1" class="span7">
-										<option>Kein</option>
+									<select name="discipline_name" id="discipline_name" class="span7">
+										<option value="">Kein</option>
 										<option value="Informatik">Informatik</option>
 										<option>Mathematik</option>
 									</select>
@@ -499,12 +499,12 @@
 						    	</div>
 							</div>
 							<div class="row-fluid">
-								<div class="span12" id="Studienfach2">
+								<div class="span12" id="discipline_name2">
 								<label><div class="span5">
 									2. Studienfach:
 								</div>
 								<div>
-									<select name="Studienfach2" class="span7">
+									<select name="discipline_name2" class="span7">
 										<option value="">Kein</option>
 										<option value="Informatik">Informatik</option>
 										<option value="Mathematik">Mathematik</option>
@@ -618,7 +618,7 @@
 											<option value="">Studienfach</option>
 											<option value="kind_of_degree">Abschlussart</option>
 											<option value="nationality">Heimatland</option>
-											<option value="federal_state">Bundesland</option>
+											<option value="federal_state_name">Bundesland</option>
 										</select>
 									</label>
 						    	</div>
@@ -637,7 +637,7 @@
 											<option value="">Studienfach</option>
 											<option value="kind_of_degree">Abschlussart</option>
 											<option value="nationality">Heimatland</option>
-											<option value="federal_state">Bundesland</option>
+											<option value="federal_state_name">Bundesland</option>
 										</select>
 									</label>
 						    	</div>
