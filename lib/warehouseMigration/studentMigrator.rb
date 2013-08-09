@@ -20,7 +20,7 @@ module Migrator
 			"SELECT
 				floor(count(STG_MATRIKELNR)/#{BATCHSIZE}) as batches
 			FROM
-				(SELECT STG_MATRIKELNR
+				(SELECT DISTINCT STG_MATRIKELNR
 				FROM
 					#{QUERY_LAST_STUDENT_INFO}
 				) AS STUD").first["batches"]
@@ -37,10 +37,23 @@ module Migrator
 					STG_HZBORT AS 'HZBOrt'
 				FROM 
 					#{QUERY_LAST_STUDENT_INFO}
+				GROUP BY
+					STG_MATRIKELNR
+				ORDER BY
+					STG_MATRIKELNR ASC
 				LIMIT
 					#{batchnumber*BATCHSIZE},#{BATCHSIZE}
-				")
-			numAll = students.each.length
+				").each
+
+			numAll = students.length
+
+			minMat = students.first["matriculation_number"]
+			maxMat = students.last["matriculation_number"]
+			print "now preloading and building hash for students\n"
+			studentHash = {}
+			Student.where("matriculation_number between #{minMat} and #{maxMat}").each do |student|
+				studentHash[student["matriculation_number"]] = student
+			end
 			print "now iterating over the batch and creating missing students\n"
 			
 			studentsToSave = Array.new
@@ -53,7 +66,10 @@ module Migrator
 				#Delete HZBOrt from hash so that we can use it to create the student
 				hzbOrt = student.delete("HZBOrt")
 
-				studentDB = Student.find_by_matriculation_number(student["matriculation_number"])
+				studentDB = studentHash[student["matriculation_number"]]
+				if(studentDB == nil)
+					studentDB = Student.find_by_matriculation_number(student["matriculation_number"])
+				end
 				if(studentDB == nil)
 					studentDB = Student.new(student)
 					numCreated += 1
@@ -64,11 +80,8 @@ module Migrator
 					studentsToSave.insert(0,studentDB)
 				end
 			
-				#Get study fields for Student
-				#fieldIDs = CLIENT.query("SELECT DISTINCT STG_FACH FROM FKT_STUDIENGAENGE WHERE STG_MATRIKELNR = '#{studentDB.id}'")
-				#studentMap[studentDB] = fieldIDs
 			end
-			print "\ndone. Created #{numCreated} new "+"student".pluralize(numCreated)+"\n"
+			print "\ndone. Created #{numCreated} new #{"student".pluralize(numCreated)}\n"
 
 			if(numCreated > 0)
 				print "now saving them\n"

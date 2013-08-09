@@ -10,7 +10,8 @@ module Migrator
 		print "retrieving departments from datawarehouse\n"
 		departments = CLIENT.query(
 			"SELECT DISTINCT
-				STF_ASTAT_GRLTXT as 'department_name'
+				STF_FBID AS department_number,
+				STF_FBLTXT AS department_name
 			FROM DIM_STUDIENFAECHER")
 
 		numAll = departments.each.length
@@ -33,12 +34,13 @@ module Migrator
 				end
 			
 			else
-				departmentDB = Department.find_by_department_number(department["department_name"].from(0).to(1))
+				department["department_name"].strip!
+				departmentDB = Department.find_by_department_number(department["department_number"])
 				if(departmentDB == nil)
 
 					departmentDB = Department.new 
-					departmentDB.department_number = department["department_name"].from(0).to(1)
-					departmentDB.department_name = department["department_name"].from(3).to(-1)
+					departmentDB.department_number = department["department_number"]
+					departmentDB.department_name = department["department_name"]
 					departmentDB.save
 					numCreated += 1
 				end

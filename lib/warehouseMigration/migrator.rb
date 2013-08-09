@@ -13,26 +13,29 @@ module Migrator
 	CSV_PATH = "db/warehouseRealWorldMapping.csv"
 
 	#This query retrieves the last entry for each students study field.
+	#STG_STGNR,
+	#STG_FACH,
+	#STG_LE,
 	QUERY_LAST_FIELD_INFO = 
 		"FKT_STUDIENGAENGE
 		JOIN (
 			SELECT
-				STG_MATRIKELNR AS A,
-				STG_FACHNR AS B,
-				STG_STGNR AS C,
-				MAX(STG_SEMESTER) AS D
+				STG_MATRIKELNR AS MATNR,
+				STG_FACHNR AS FACH,
+				STG_STGNR AS STUDIENGANG,
+				MAX(STG_SEMESTER) AS LETZTEINTRAG
 			FROM
 				FKT_STUDIENGAENGE
 			GROUP BY
 				STG_MATRIKELNR,
 				STG_FACHNR,
 				STG_STGNR
-		)AS Stud
+		)AS BLA
 		ON
-			STG_MATRIKELNR = A AND
-			STG_FACHNR = B AND
-			STG_STGNR = C AND
-			STG_SEMESTER = D
+			STG_MATRIKELNR = MATNR AND
+			STG_FACHNR = FACH AND
+			STG_STGNR = STUDIENGANG AND
+			STG_SEMESTER = LETZTEINTRAG
 		JOIN
 			DIM_ABSCHLUESSE
 		ON
@@ -40,21 +43,55 @@ module Migrator
 
 	#This query retrieves the latest and therfore the most recent entry given for each student
 	QUERY_LAST_STUDENT_INFO = 
-		"FKT_STUDIENGAENGE
-		JOIN (
+		"(
 			SELECT
-				STG_MATRIKELNR AS X,
-				MAX(STG_SEMESTER) AS Y
+				STG_MATRIKELNR,
+				STG_SEMESTER,
+				STG_GESCHLECHT,
+				STG_HZBORT,
+				STG_GEBJAHR,
+				STG_STAATSANGH
 			FROM
 				FKT_STUDIENGAENGE
+			JOIN (
+				SELECT
+					STG_MATRIKELNR AS X,
+					MAX(STG_SEMESTER) AS Y
+				FROM
+					FKT_STUDIENGAENGE
+				GROUP BY
+					STG_MATRIKELNR
+				)AS BLA
+			ON 
+				STG_MATRIKELNR = X AND
+				STG_SEMESTER = Y
 			GROUP BY
 				STG_MATRIKELNR
-			)AS Stud
-		ON 
-			STG_MATRIKELNR = X AND
-			STG_SEMESTER = Y
-		GROUP BY
-			STG_MATRIKELNR"
+		UNION
+			SELECT
+				LAB_MTKNR AS STG_MATRIKELNR,
+				LAB_PSEM AS STG_SEMESTER,
+				LAB_GESCHLECHT AS STG_GESCHLECHT,
+				LAB_HZBORT AS STG_HZBORT,
+				YEAR(LAB_GEBDAT) AS STG_GEBJAHR,
+				LAB_STAATSANGH AS STG_STAATSANGH
+			FROM
+				FKT_LAB
+			JOIN (
+				SELECT
+					LAB_MTKNR AS X,
+					MAX(LAB_PSEM) AS Y
+				FROM
+					FKT_LAB
+				GROUP BY
+					LAB_MTKNR
+				)AS BLUBB
+			ON 
+				LAB_MTKNR = X AND
+				LAB_PSEM = Y
+			GROUP BY
+				STG_MATRIKELNR
+		)AS UNI"
 
 	
 	
@@ -116,10 +153,7 @@ module Migrator
 				
 			end
 			if(@nextCount == @datasize)
-				print "\n"
-				@printedSigns = @barLength
-				@nextCount += 1
-				@ended = true
+				self.end
 				return false
 			end
 			@nextCount += 1
