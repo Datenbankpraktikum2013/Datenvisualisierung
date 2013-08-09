@@ -62,7 +62,7 @@ class DegreesController < ApplicationController
   end
 
   def self.fetch_accessable_attributes
-    ["number_of_semesters", "grade"]
+    ["number_of_semesters", "grade", "semester_of_deregistration"]
   end
 
   def self.fetch_joinable_classes

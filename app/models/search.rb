@@ -102,6 +102,9 @@ class Search < ActiveRecord::Base
 				elsif attribute == "year_of_birth"
 					results = results.where("#{attribute} <= ?", Date.today.year - minimum_age) unless minimum_age.blank?
 					results = results.where("#{attribute} >= ?", Date.today.year - maximum_age) unless maximum_age.blank?
+
+				elsif attribute.start_with? "semester_of"
+					results = results.where("#{attribute} = ?1 OR #{attribute} = ?2", send(attribute), send(attribute))
 				else
 					results = results.where("#{attribute} = ?", send(attribute)) unless self.send(attribute).blank?
 				end
