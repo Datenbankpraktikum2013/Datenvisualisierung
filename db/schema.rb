@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130809092433) do
+ActiveRecord::Schema.define(version: 20130809113206) do
 
   create_table "countries", force: true do |t|
     t.string   "country_name"
@@ -61,6 +61,11 @@ ActiveRecord::Schema.define(version: 20130809092433) do
     t.float    "latitude"
   end
 
+  add_index "federal_states", ["federal_state_iso_code"], name: "index_federal_states_on_federal_state_iso_code"
+  add_index "federal_states", ["federal_state_name"], name: "index_federal_states_on_federal_state_name"
+  add_index "federal_states", ["id", "federal_state_iso_code"], name: "index_federal_states_on_id_and_federal_state_iso_code"
+  add_index "federal_states", ["id", "federal_state_name"], name: "index_federal_states_on_id_and_federal_state_name"
+
   create_table "locations", force: true do |t|
     t.string   "location_name"
     t.datetime "created_at"
@@ -72,7 +77,11 @@ ActiveRecord::Schema.define(version: 20130809092433) do
     t.float    "longitude"
   end
 
+  add_index "locations", ["country_id"], name: "index_locations_on_country_id"
   add_index "locations", ["data_warehouse_id"], name: "index_locations_on_data_warehouse_id"
+  add_index "locations", ["federal_state_id"], name: "index_locations_on_federal_state_id"
+  add_index "locations", ["id", "country_id"], name: "index_locations_on_id_and_country_id"
+  add_index "locations", ["id", "federal_state_id"], name: "index_locations_on_id_and_federal_state_id"
   add_index "locations", ["location_name"], name: "index_locations_on_location_name"
 
   create_table "searches", force: true do |t|
@@ -108,6 +117,7 @@ ActiveRecord::Schema.define(version: 20130809092433) do
     t.integer  "location_id"
   end
 
+  add_index "students", ["id", "location_id"], name: "index_students_on_id_and_location_id"
   add_index "students", ["location_id"], name: "index_students_on_location_id"
   add_index "students", ["matriculation_number"], name: "index_students_on_matriculation_number"
 
