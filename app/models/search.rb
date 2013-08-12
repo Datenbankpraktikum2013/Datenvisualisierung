@@ -36,8 +36,11 @@ class Search < ActiveRecord::Base
 			filtered_result = filtered_result.group(search_category.to_sym, search_series.to_sym)
 		end
 
+		#filtered_result = filtered_result.use_index('index_locations_on_id_and_federal_state_id')
+		#puts filtered_result.explain
+
 		search_results = filtered_result.order("count_id DESC").count(:id)
-					
+
 		search_results
 	end
 
@@ -108,8 +111,8 @@ class Search < ActiveRecord::Base
 					results = results.where("#{attribute} <= ?", Date.today.year - minimum_age) unless minimum_age.blank?
 					results = results.where("#{attribute} >= ?", Date.today.year - maximum_age) unless maximum_age.blank?
 
-				elsif attribute.start_with? "semester_of"
-					results = results.where("#{attribute} = ?1 OR #{attribute} = ?2", send(attribute), send(attribute))
+				#elsif attribute.start_with? "semester_of"
+				#	results = results.where("#{attribute} = ?1 OR #{attribute} = ?2", send(attribute), send(attribute))
 				else
 					results = results.where("#{attribute} = ?", send(attribute)) unless self.send(attribute).blank?
 				end
