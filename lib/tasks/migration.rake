@@ -1,6 +1,5 @@
 require File.expand_path('./lib/warehouseMigration/migrator.rb')
 
-
 namespace :migrate do
 	desc 'Rebuilds database and loads all data from warehouse'
 	task :whole_database =>[:rebuild,:all] do
@@ -41,31 +40,37 @@ namespace :migrate do
 
 	desc 'Migrates all locations. This also migrates countries and federal states.'
 	task :locations => :environment do
+		require File.expand_path("lib/warehouseMigration/locationMigrator.rb")
 		Migrator.migrateLocations
 	end
 	
 	desc 'Migrate all students'
 	task :students => :environment do
+		require File.expand_path("lib/warehouseMigration/studentMigrator.rb")
 		Migrator.migrateStudents
   	end
 
 	desc 'Migrate all departments'
 	task :departments => :environment do
+		require File.expand_path("lib/warehouseMigration/departmentMigrator.rb")
 		Migrator.migrateDepartments
   	end
 
   	desc 'Migrate all teaching units'
 	task :teaching_units => :environment do
+		require File.expand_path("lib/warehouseMigration/teachingUnitMigrator.rb")
 		Migrator.migrateTeachingUnits
   	end
   	
   	desc 'Migrate all disciplines'
 	task :disciplines => :environment do
+		require File.expand_path("lib/warehouseMigration/disciplineMigrator.rb")
 		Migrator.migrateDisciplines
   	end
 
   	desc 'Migrate all studies'
   	task :studies => :environment do
+		require File.expand_path("lib/warehouseMigration/studyMigrator.rb")
   		Migrator.migrateStudies
   	end
 end
