@@ -37,6 +37,7 @@ App.chart.columnchart = {
         },
         xAxis: {
             categories: App.model.data.categories,
+          //  checkLabels(),
             labels : {
                 rotation : -45,
                 align : 'right'

@@ -78,6 +78,10 @@ App.model = {
 		});
 	},
 
+	checkLabels : function(series){
+
+	},
+
 	/*
 	 * Laedt einen neuen Datensatz mit den aktuellen Filtern vom Server.
 	 */

@@ -61,5 +61,8 @@ App.slider = {
 
 	getMaxValue : function() {
 		return this.slider_options.max;
+	},
+	getMinValue :function() {
+		return this.slider_options.min;
 	}
 };

@@ -53,7 +53,7 @@ App.filter = {
 
 	    // Event für Alle Jahre Button
 	    $('button[name="sliderReset"]').click(function() {
-	    	$('#slider').slider().slider('setValue',1968);
+	    	$('#slider').slider().slider('setValue',1995);
 	        return false;
 	    });
 
