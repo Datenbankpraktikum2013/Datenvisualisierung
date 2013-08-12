@@ -4,7 +4,7 @@ App.animator = {
 	
 	intervalID : null,
 
-	interval : 1500,
+	interval : 2000,
 
 	init : function() {
 

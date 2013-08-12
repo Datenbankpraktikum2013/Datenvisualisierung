@@ -1,5 +1,5 @@
 /*
- *	Fasst alle Funktionalitaeten zusammen fuer die Anzeige der Google-Maps
+ *	Fasst alle Funktionalitaeten zusammen fuer die Anzeige des Geilen-Globes
  * gebraucht werden
  */
 
