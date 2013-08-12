@@ -41,7 +41,7 @@ App.model = {
 		$.each(filter, function(index, value){
 			if ( !( value === null || value === undefined || value === '')) {
 				if (value instanceof Array) {
-					if (index != 'gender') {
+					if ( (index != 'gender' || value.length != 2)) {
 						parameters[index] = value.join(', ');
 					}
 				} else {
@@ -58,6 +58,7 @@ App.model = {
 				parameters.semester_of_matriculation = Math.floor(year)*10 + 2
 			}
 		}
+		console.log(parameters);
 		return parameters;
 	},
 
