@@ -2,6 +2,19 @@ var App = App || {};
 
 App.slider = {
 
+	slider_options : {
+		min : 1994.5,
+		max : 2013,
+		step: 0.5,
+		value : 1994.5,
+		orientation : 'horizontal',
+		selection : 'none',
+		tooltip : 'hide',
+		handle : 'round'
+	},
+
+	value : 1994.5,
+
 	playButton : {
 		el : null,
 		toggle : function() {
@@ -17,25 +30,13 @@ App.slider = {
 		}
 	},
 
-	value : 1995,
-
-	slider_options : {
-		min : 1995,
-		max : 2013,
-		step: 0.5,
-		value : 1995,
-		orientation : 'horizontal',
-		selection : 'none',
-		tooltip : 'hide',
-		handle : 'round'
-	},
-
 	init : function() {
 		$('#slider').slider(this.slider_options);
 
 	    // Listener für den Slider 
 	    $('#slider').slider().on('slideStop', function(ev) {
             App.slider.setValue(ev.value);
+            radio('filter.submit').broadcast();
         });
 	        
 	    // Erstellen der Jahresskala
@@ -56,6 +57,9 @@ App.slider = {
 	},
 
 	getValue : function() {
+		if (this.value == 1994.5) {
+			return 'All';
+		}
 		return this.value;
 	},
 

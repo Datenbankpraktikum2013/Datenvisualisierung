@@ -50,13 +50,14 @@ App.model = {
 			} 
 		});
 
-		/*var year = App.slider.getValue();
-		if (year % 1 == 0.5) {
-			parameters.semester_of_matriculation = Math.floor(year)*10 + 1
-		} else {
-			parameters.semester_of_matriculation = Math.floor(year)*10 + 2
-		}*/
-		console.log(parameters);
+		var year = App.slider.getValue();
+		if (year !== 'All') {
+			if (year % 1 == 0.5) {
+				parameters.semester_of_matriculation = Math.floor(year)*10 + 1
+			} else {
+				parameters.semester_of_matriculation = Math.floor(year)*10 + 2
+			}
+		}
 		return parameters;
 	},
 
