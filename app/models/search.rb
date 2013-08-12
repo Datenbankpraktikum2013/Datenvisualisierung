@@ -26,6 +26,9 @@ class Search < ActiveRecord::Base
 		
 		filtered_result = join_classes(filtered_classes)
 
+		#puts "SQL: #{filtered_result.to_sql}"
+		#puts "EXPLAIN #{filtered_result.explain}"
+
 		filtered_result = filter_search_results(filtered_attributes, filtered_result)
 
 		search_results = {}
@@ -36,8 +39,19 @@ class Search < ActiveRecord::Base
 			filtered_result = filtered_result.group(search_category.to_sym, search_series.to_sym)
 		end
 
-		#filtered_result = filtered_result.use_index('index_locations_on_id_and_federal_state_id')
+		#filtered_result = filtered_result.from('students')
 		#puts filtered_result.explain
+
+		#puts filtered_result.arel
+
+		#sql_alternative = Student.select("students.id")
+		#sql_alternative = sql_alternative.joins('INNER JOIN studies IGNORE INDEX (index_studies_on_student_id) ON students.id = studies.student_id')
+		#sql_alternative = sql_alternative.joins(:studies)
+		#sql_alternative = sql_alternative.joins('LEFT OUTER JOIN countries ON countries.id = locations.country_id')
+		#sql_alternative = sql_alternative.group('kind_of_degree, gender')
+		#sql_alternative = sql_alternative.from('students IGNORE INDEX (index_students_on_id_and_location_id, index_students_on_location_id)')
+		
+		#puts sql_alternative.explain
 
 		search_results = filtered_result.order("count_id DESC").count(:id)
 
@@ -122,7 +136,7 @@ class Search < ActiveRecord::Base
 
 
 	def join_classes classes_to_join
-		filtered_result = Student.all
+		filtered_result = Student.select("students.id")
 		joined_classes = []
 
 		unless graduation_status.blank?

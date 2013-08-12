@@ -54,6 +54,7 @@ App.filter = {
 	    // Event für Alle Jahre Button
 	    $('button[name="sliderReset"]').click(function() {
 	    	$('#slider').slider().slider('setValue',1995);
+	    	App.slider.setValue(App.slider.getMinValue());
 	        return false;
 	    });
 
@@ -89,6 +90,7 @@ App.filter = {
 	    	var category = $(e.target).attr('data-category');
 	    	var series = $(e.target).attr('data-series');
 	    	var filter = $(e.target).attr('data-filter');
+	    	
 	    	
 	    	App.filter.setFilterOption(App.filter.filter.search_series, series);
 	    	App.filter.setFilterOption(App.filter.filter.search_category, category);
@@ -138,6 +140,8 @@ App.filter = {
      */
 	getFilter : function() {
 		this.filter = $('#filter-form :visible').formstate();
+		$.extend(this.filter, $('#filter-form select[name="department_number"]').formstate());
+		$.extend(this.filter, $('#filter-form select[name="kind_of_degree"]').formstate());
 		return this.filter;
     },
 

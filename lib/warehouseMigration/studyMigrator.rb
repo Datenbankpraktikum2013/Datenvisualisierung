@@ -33,7 +33,6 @@ module Migrator
 				) as LI").first["batches"]
 
 		print "loading studies in #{allbatches} batches of #{BATCHSIZE} study entries\n"
-		allbatches = 1
 		for batchnumber in 0..allbatches 
 			print "retrieving batch #{batchnumber+1} of #{allbatches+1}\n"
 			
@@ -99,11 +98,12 @@ module Migrator
 				unless kind_of_degree == nil
 					study["kind_of_degree"] = kind_of_degree
 				end
-
-				studentDB = studentHash[matriculation_number][:student]
-				if(studentDB == nil)
+				if(studentHash.has_key?(matriculation_number))
+					studentDB = studentHash[matriculation_number][:student]
+				else
 					studentDB = Student.find_by_matriculation_number(matriculation_number)
 					unless studentDB == nil
+						studentHash[matriculation_number] = {}
 						studentHash[matriculation_number][:student] = studentDB
 						studentHash[matriculation_number][:studies] = {}
 					end

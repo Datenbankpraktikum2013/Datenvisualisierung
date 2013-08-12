@@ -576,26 +576,22 @@
 								
 							</div>
 							<div class="row-fluid">
-								<div class="span6">
-									<label class="checkbox">
-										<input type="checkbox" value="ba" name="kind_of_degree">
-										Bachelor 
+								<div class="span12">
+									<label>
+										Abschlussarten: 
+										<select id="kind_of_degree" data-role="multiselect" multiple="multiple" 
+											name="kind_of_degree" class="span12">
+											<option value="Bachelor">Bachelor</option>
+											<option value="Master">Master
+											</option>
+											<option value="Lehramt">Lehramt</option>
+											<option value="Promotion">Promotion</option>
+											<option value="Magister">Magister</option>
+											<option value="Diplom">Diplom</option>
+											<option value="Kein Abschluss">Kein Abschluss</option>
+										</select>
 									</label>
-									<label class="checkbox">
-										<input type="checkbox" value="ma" name="kind_of_degree">
-										Master 
-									</label>
-								</div>
-								<div class="span6">
-									<label class="checkbox">
-										<input type="checkbox" value="diplom" name="kind_of_degree">
-										Diplom 
-									</label>
-									<label class="checkbox">
-										<input type="checkbox" value="magister" name="kind_of_degree">
-										Magister
-									</label>
-								</div>
+						    	</div>
 							</div>
 							<div class="row-fluid">
 								<div class="span12">
@@ -667,7 +663,7 @@
 					<input id="slider" type="hidden" class="span12">
 				</form>
 				<div id="sliderReset" class="text-center">
-					<button name="sliderReset" class="btn">Alle Jahre</button>
+					<button name="sliderReset" class="btn">Zur&uuml;cksetzen</button>
 					<button id="playButton" data-toggled='on' class="btn"><i class="icon-play"></i> Abspielen</button>
 				</div>
 			</div>

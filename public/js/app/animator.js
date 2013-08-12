@@ -4,7 +4,7 @@ App.animator = {
 	
 	intervalID : null,
 
-	interval : 1500,
+	interval : 2000,
 
 	init : function() {
 
@@ -23,14 +23,12 @@ App.animator = {
 		} else {
 			App.animator.stop();
 			if(App.slider.getValue() == App.slider.getMaxValue()){
-				$('#slider').slider().slider('setValue',App.slider.getMinValue());
-				App.slider.setValue(App.slider.getMinValue());
+				App.slider.setValue(App.slider.getMinValue() + 0.5);
 				App.slider.playButton.toggle();
 				this.intervalID = null;
 			}
 			if(App.slider.getValue() == App.slider.getMaxValue() - 0.5){
-				$('#slider').slider().slider('setValue',App.slider.getMinValue() + 0.5);
-				App.slider.setValue(App.slider.getMinValue() + 0.5);
+				App.slider.setValue(App.slider.getMinValue() + 1);
 				App.slider.playButton.toggle();
 				this.intervalID = null;
 			}

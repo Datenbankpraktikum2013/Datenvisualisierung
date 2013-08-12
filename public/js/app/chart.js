@@ -85,15 +85,20 @@ App.chart = {
 			}
 		}).popover('show');
 		//Popover hides after 5s
-		//setTimeout(function() {
-		//	e.popover('hide')
-		//}, 3000);
+		setTimeout(function() {
+			e.popover('hide')
+		}, 3000);
 	},
 
 	render : function() {
 		$('#chart').removeClass('loading');
 		$('#chart').attr('style','');
-		this[this.current_chart].render();
+		if (App.model.data.categories.length == 0 && App.model.data.series.length == 0) {
+			App.showAlert({type : 'info', heading : 'Fehler', message : 'Ihre Suche ergab keine Treffer. Bitte ueberarbeiten Sie ihre Filtereinstellungen'});
+			$('#chart').html('');
+		} else {
+			this[this.current_chart].render();
+		}
 	}
 
 };
