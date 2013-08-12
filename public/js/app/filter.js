@@ -70,14 +70,15 @@ App.filter = {
 	        }
 	    });
 
-		//Wenn Nationalitäten ausgewählt wird, verstecke 
+		//Wenn 1.Studienfach ausgewählt wird, verstecke 
         $('#filter-form select[name="discipline_name"]').change(function() {
 	       
-	        if ($(this).val() != "Kein") {
+	        if ($(this).val() != "") {
 	         
 	            $('#discipline_name2').slideDown(); 
 	        } else {
-	            if ($('#discipline_name2').css('display') != 'none') {
+	        	
+	            if ($('#discipline_name2s').css('display') != 'none') {
 	                $('#discipline_name2').slideUp();
 	            }
 	            
