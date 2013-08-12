@@ -29,8 +29,6 @@ class Search < ActiveRecord::Base
 		#puts "SQL: #{filtered_result.to_sql}"
 		#puts "EXPLAIN #{filtered_result.explain}"
 
-		filtered_result.load
-
 		filtered_result = filter_search_results(filtered_attributes, filtered_result)
 
 		search_results = {}
@@ -42,18 +40,18 @@ class Search < ActiveRecord::Base
 		end
 
 		#filtered_result = filtered_result.from('students')
-		puts filtered_result.explain
+		#puts filtered_result.explain
 
 		#puts filtered_result.arel
 
-		sql_alternative = Student.select("students.id")
+		#sql_alternative = Student.select("students.id")
 		#sql_alternative = sql_alternative.joins('INNER JOIN studies IGNORE INDEX (index_studies_on_student_id) ON students.id = studies.student_id')
-		sql_alternative = sql_alternative.joins(:studies)
+		#sql_alternative = sql_alternative.joins(:studies)
 		#sql_alternative = sql_alternative.joins('LEFT OUTER JOIN countries ON countries.id = locations.country_id')
-		sql_alternative = sql_alternative.group('kind_of_degree, gender')
+		#sql_alternative = sql_alternative.group('kind_of_degree, gender')
 		#sql_alternative = sql_alternative.from('students IGNORE INDEX (index_students_on_id_and_location_id, index_students_on_location_id)')
 		
-		puts sql_alternative.explain
+		#puts sql_alternative.explain
 
 		search_results = filtered_result.order("count_id DESC").count(:id)
 

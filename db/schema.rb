@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130812122326) do
+ActiveRecord::Schema.define(version: 20130812130858) do
 
   create_table "countries", force: true do |t|
     t.string   "country_name"
@@ -51,6 +51,8 @@ ActiveRecord::Schema.define(version: 20130812122326) do
     t.integer "discipline_id", null: false
     t.integer "study_id",      null: false
   end
+
+  add_index "disciplines_studies", ["discipline_id", "study_id"], name: "index_disciplines_studies_on_discipline_id_and_study_id"
 
   create_table "federal_states", force: true do |t|
     t.string   "federal_state_name"
