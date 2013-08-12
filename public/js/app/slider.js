@@ -19,9 +19,18 @@ App.slider = {
 		el : null,
 		toggle : function() {
 			if (this.el.attr('data-toggled') == 'on') {
-	            this.el.attr('data-toggled', 'off');
-	            this.el.html('<i class="icon-pause"></i> Pause');
-	            App.animator.play();
+				if (App.slider.getValue() === 'All') {
+					App.showAlert({
+						type:'block', 
+						message:'Bitte waehlen Sie ein Semester aus bei dem Sie starten wollen!',
+						remove_after : 5000,
+						prependTo : '#slider-form'
+					});
+				} else {
+		            this.el.attr('data-toggled', 'off');
+		            this.el.html('<i class="icon-pause"></i> Pause');
+		            App.animator.play();
+	        	}
 	        } else {
 	            this.el.attr('data-toggled', 'on');
 	            this.el.html('<i class="icon-play"></i> Abspielen');
