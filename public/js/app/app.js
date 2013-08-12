@@ -73,5 +73,7 @@ App.showAlert = function(alert_config) {
         }, alert_config.remove_after);
     }
     alert += alert_config.message + '</div>';
-    $(alert).hide().prependTo('#content').slideDown();
+    var prependTo = alert_config.prependTo || '#content';
+    
+    $(alert).hide().prependTo(prependTo).slideDown();
 }
