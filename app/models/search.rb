@@ -36,8 +36,16 @@ class Search < ActiveRecord::Base
 			filtered_result = filtered_result.group(search_category.to_sym, search_series.to_sym)
 		end
 
-		#filtered_result = filtered_result.use_index('index_locations_on_id_and_federal_state_id')
-		#puts filtered_result.explain
+		#filtered_result = filtered_result.from('students')
+		puts filtered_result.select("students.id").explain
+
+		#puts filtered_result.arel
+
+		#sql_alternative = Student.joins('INNER JOIN "locations" ON "locations"."id" = "students"."location_id"')
+		#sql_alternative = sql_alternative.joins('LEFT OUTER JOIN "federal_states" ON "federal_states"."id" = "locations"."federal_state_id"')
+		#sql_alternative = sql_alternative.group('federal_state_name')
+
+		#puts sql_alternative.explain
 
 		search_results = filtered_result.order("count_id DESC").count(:id)
 
