@@ -91,6 +91,7 @@ App.filter = {
 	    	var series = $(e.target).attr('data-series');
 	    	var filter = $(e.target).attr('data-filter');
 	    	
+	    	
 	    	App.filter.setFilterOption(App.filter.filter.search_series, series);
 	    	App.filter.setFilterOption(App.filter.filter.search_category, category);
 	    	App.filter.setFilterOption('search_category', filter);
