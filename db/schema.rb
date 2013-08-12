@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130812132256) do
+ActiveRecord::Schema.define(version: 20130812134713) do
 
   create_table "countries", force: true do |t|
     t.string   "country_name"
@@ -135,6 +135,7 @@ ActiveRecord::Schema.define(version: 20130812132256) do
     t.integer  "study_number"
   end
 
+  add_index "studies", ["degree_id"], name: "index_studies_on_degree_id"
   add_index "studies", ["student_id"], name: "index_studies_on_student_id"
 
   create_table "teaching_units", force: true do |t|
