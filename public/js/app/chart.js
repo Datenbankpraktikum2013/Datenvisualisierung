@@ -85,9 +85,9 @@ App.chart = {
 			}
 		}).popover('show');
 		//Popover hides after 5s
-		//setTimeout(function() {
-		//	e.popover('hide')
-		//}, 3000);
+		setTimeout(function() {
+			e.popover('hide')
+		}, 3000);
 	},
 
 	render : function() {
