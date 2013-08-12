@@ -37,14 +37,16 @@ class Search < ActiveRecord::Base
 		end
 
 		#filtered_result = filtered_result.from('students')
-		puts filtered_result.select("students.id").explain
+		#puts filtered_result.explain
 
 		#puts filtered_result.arel
 
-		#sql_alternative = Student.joins('INNER JOIN "locations" ON "locations"."id" = "students"."location_id"')
-		#sql_alternative = sql_alternative.joins('LEFT OUTER JOIN "federal_states" ON "federal_states"."id" = "locations"."federal_state_id"')
-		#sql_alternative = sql_alternative.group('federal_state_name')
-
+		#sql_alternative = Student.select("students.id")
+		#sql_alternative = sql_alternative.joins('INNER JOIN locations IGNORE INDEX (index_locations_on_id_and_country_id) ON locations.id = students.location_id')
+		#sql_alternative = sql_alternative.joins('LEFT OUTER JOIN countries ON countries.id = locations.country_id')
+		#sql_alternative = sql_alternative.group('country_name')
+		#sql_alternative = sql_alternative.from('students IGNORE INDEX (index_students_on_id_and_location_id, index_students_on_location_id)')
+		
 		#puts sql_alternative.explain
 
 		search_results = filtered_result.order("count_id DESC").count(:id)
@@ -130,7 +132,7 @@ class Search < ActiveRecord::Base
 
 
 	def join_classes classes_to_join
-		filtered_result = Student.all
+		filtered_result = Student.select("students.id")
 		joined_classes = []
 
 		unless graduation_status.blank?
