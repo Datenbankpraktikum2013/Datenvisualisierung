@@ -36,7 +36,7 @@ class Search < ActiveRecord::Base
 			filtered_result = filtered_result.group(search_category.to_sym, search_series.to_sym)
 		end
 
-		filtered_result = filtered_result.from('students')
+		#filtered_result = filtered_result.from('students')
 		puts filtered_result.select("students.id").explain
 
 		#puts filtered_result.arel
