@@ -60,7 +60,7 @@ App.chart.columnchart = {
                 style:{ 
                     fontWeight: 'bold',
                 },
-                text: 'Legende'
+                text: ''
             }
         },
         tooltip: {

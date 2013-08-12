@@ -26,6 +26,11 @@ class Search < ActiveRecord::Base
 		
 		filtered_result = join_classes(filtered_classes)
 
+		#puts "SQL: #{filtered_result.to_sql}"
+		#puts "EXPLAIN #{filtered_result.explain}"
+
+		filtered_result.load
+
 		filtered_result = filter_search_results(filtered_attributes, filtered_result)
 
 		search_results = {}

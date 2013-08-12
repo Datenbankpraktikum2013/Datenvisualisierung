@@ -41,7 +41,7 @@ App.model = {
 		$.each(filter, function(index, value){
 			if ( !( value === null || value === undefined || value === '')) {
 				if (value instanceof Array) {
-					if (index != 'gender') {
+					if ( (index != 'gender' || value.length != 2)) {
 						parameters[index] = value.join(', ');
 					}
 				} else {
@@ -50,12 +50,14 @@ App.model = {
 			} 
 		});
 
-		/*var year = App.slider.getValue();
-		if (year % 1 == 0.5) {
-			parameters.semester_of_matriculation = Math.floor(year)*10 + 1
-		} else {
-			parameters.semester_of_matriculation = Math.floor(year)*10 + 2
-		}*/
+		var year = App.slider.getValue();
+		if (year !== 'All') {
+			if (year % 1 == 0.5) {
+				parameters.semester_of_matriculation = Math.floor(year)*10 + 1
+			} else {
+				parameters.semester_of_matriculation = Math.floor(year)*10 + 2
+			}
+		}
 		console.log(parameters);
 		return parameters;
 	},
