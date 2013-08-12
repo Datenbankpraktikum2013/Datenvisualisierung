@@ -26,6 +26,11 @@ class Search < ActiveRecord::Base
 		
 		filtered_result = join_classes(filtered_classes)
 
+		puts "SQL: #{filtered_result.to_sql}"
+		puts "EXPLAIN #{filtered_result.explain}"
+
+		filtered_result.load
+
 		filtered_result = filter_search_results(filtered_attributes, filtered_result)
 
 		search_results = {}
@@ -36,8 +41,8 @@ class Search < ActiveRecord::Base
 			filtered_result = filtered_result.group(search_category.to_sym, search_series.to_sym)
 		end
 
-		#filtered_result = filtered_result.from('students')
-		puts filtered_result.select("students.id").explain
+		filtered_result = filtered_result.from('students')
+		#puts filtered_result.select("students.id").explain
 
 		#puts filtered_result.arel
 
@@ -130,7 +135,7 @@ class Search < ActiveRecord::Base
 
 
 	def join_classes classes_to_join
-		filtered_result = Student.all
+		filtered_result = Student.select("students.id")
 		joined_classes = []
 
 		unless graduation_status.blank?
