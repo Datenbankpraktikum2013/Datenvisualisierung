@@ -138,6 +138,7 @@ App.filter = {
      */
 	getFilter : function() {
 		this.filter = $('#filter-form :visible').formstate();
+		$.extend(this.filter, $('#filter-form select[name="department_number"]').formstate());
 		return this.filter;
     },
 

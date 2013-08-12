@@ -39,18 +39,24 @@ App.model = {
 	prepareParameters : function(filter){
 		var parameters = {};
 		$.each(filter, function(index, value){
-			if (value instanceof Array) {
-				if (value.length == 1) {
-					parameters[index] = value[0];
-				} else if (value.length > 1) {
+			if ( !( value === null || value === undefined || value === '')) {
+				if (value instanceof Array) {
 					if (index != 'gender') {
-						parameters[index] = value.join();
+						parameters[index] = value.join(', ');
 					}
+				} else {
+					parameters[index] = value;
 				}
-			} else if (value != false) {
-				parameters[index] = value;
 			} 
 		});
+
+		/*var year = App.slider.getValue();
+		if (year % 1 == 0.5) {
+			parameters.semester_of_matriculation = Math.floor(year)*10 + 1
+		} else {
+			parameters.semester_of_matriculation = Math.floor(year)*10 + 2
+		}*/
+		console.log(parameters);
 		return parameters;
 	},
 
