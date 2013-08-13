@@ -79,6 +79,10 @@ class DisciplinesController < ApplicationController
     all_successors
   end
 
+  def self.join_to_teaching_units
+    " JOIN teaching_units ON disciplines.teaching_unit_id = teaching_units.id"
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_discipline

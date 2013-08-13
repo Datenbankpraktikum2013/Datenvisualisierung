@@ -22,7 +22,7 @@ ActiveRecord::Schema.define(version: 20130813071122) do
     t.float    "latitude"
   end
 
-  add_index "countries", ["country_name"], name: "index_countries_on_country_name"
+  add_index "countries", ["country_name"], name: "index_countries_on_country_name", using: :btree
 
   create_table "degrees", force: true do |t|
     t.integer  "semester_of_deregistration"
@@ -47,15 +47,15 @@ ActiveRecord::Schema.define(version: 20130813071122) do
     t.string   "data_warehouse_id"
   end
 
-  add_index "disciplines", ["data_warehouse_id"], name: "index_disciplines_on_data_warehouse_id"
-  add_index "disciplines", ["teaching_unit_id"], name: "index_disciplines_on_teaching_unit_id"
+  add_index "disciplines", ["data_warehouse_id"], name: "index_disciplines_on_data_warehouse_id", using: :btree
+  add_index "disciplines", ["teaching_unit_id"], name: "index_disciplines_on_teaching_unit_id", using: :btree
 
   create_table "disciplines_studies", id: false, force: true do |t|
     t.integer "discipline_id", null: false
     t.integer "study_id",      null: false
   end
 
-  add_index "disciplines_studies", ["discipline_id", "study_id"], name: "index_disciplines_studies_on_discipline_id_and_study_id"
+  add_index "disciplines_studies", ["discipline_id", "study_id"], name: "index_disciplines_studies_on_discipline_id_and_study_id", using: :btree
 
   create_table "federal_states", force: true do |t|
     t.string   "federal_state_name"
@@ -66,10 +66,10 @@ ActiveRecord::Schema.define(version: 20130813071122) do
     t.float    "latitude"
   end
 
-  add_index "federal_states", ["federal_state_iso_code"], name: "index_federal_states_on_federal_state_iso_code"
-  add_index "federal_states", ["federal_state_name"], name: "index_federal_states_on_federal_state_name"
-  add_index "federal_states", ["id", "federal_state_iso_code"], name: "index_federal_states_on_id_and_federal_state_iso_code"
-  add_index "federal_states", ["id", "federal_state_name"], name: "index_federal_states_on_id_and_federal_state_name"
+  add_index "federal_states", ["federal_state_iso_code"], name: "index_federal_states_on_federal_state_iso_code", using: :btree
+  add_index "federal_states", ["federal_state_name"], name: "index_federal_states_on_federal_state_name", using: :btree
+  add_index "federal_states", ["id", "federal_state_iso_code"], name: "index_federal_states_on_id_and_federal_state_iso_code", using: :btree
+  add_index "federal_states", ["id", "federal_state_name"], name: "index_federal_states_on_id_and_federal_state_name", using: :btree
 
   create_table "locations", force: true do |t|
     t.string   "location_name"
@@ -82,12 +82,12 @@ ActiveRecord::Schema.define(version: 20130813071122) do
     t.float    "longitude"
   end
 
-  add_index "locations", ["country_id"], name: "index_locations_on_country_id"
-  add_index "locations", ["data_warehouse_id"], name: "index_locations_on_data_warehouse_id"
-  add_index "locations", ["federal_state_id"], name: "index_locations_on_federal_state_id"
-  add_index "locations", ["id", "country_id"], name: "index_locations_on_id_and_country_id"
-  add_index "locations", ["id", "federal_state_id"], name: "index_locations_on_id_and_federal_state_id"
-  add_index "locations", ["location_name"], name: "index_locations_on_location_name"
+  add_index "locations", ["country_id"], name: "index_locations_on_country_id", using: :btree
+  add_index "locations", ["data_warehouse_id"], name: "index_locations_on_data_warehouse_id", using: :btree
+  add_index "locations", ["federal_state_id"], name: "index_locations_on_federal_state_id", using: :btree
+  add_index "locations", ["id", "country_id"], name: "index_locations_on_id_and_country_id", using: :btree
+  add_index "locations", ["id", "federal_state_id"], name: "index_locations_on_id_and_federal_state_id", using: :btree
+  add_index "locations", ["location_name"], name: "index_locations_on_location_name", using: :btree
 
   create_table "searches", force: true do |t|
     t.string   "gender"
@@ -122,9 +122,9 @@ ActiveRecord::Schema.define(version: 20130813071122) do
     t.integer  "location_id"
   end
 
-  add_index "students", ["id", "location_id"], name: "index_students_on_id_and_location_id"
-  add_index "students", ["location_id"], name: "index_students_on_location_id"
-  add_index "students", ["matriculation_number"], name: "index_students_on_matriculation_number"
+  add_index "students", ["id", "location_id"], name: "index_students_on_id_and_location_id", using: :btree
+  add_index "students", ["location_id"], name: "index_students_on_location_id", using: :btree
+  add_index "students", ["matriculation_number"], name: "index_students_on_matriculation_number", using: :btree
 
   create_table "studies", force: true do |t|
     t.integer  "semester_of_matriculation"
@@ -137,8 +137,8 @@ ActiveRecord::Schema.define(version: 20130813071122) do
     t.integer  "study_number"
   end
 
-  add_index "studies", ["degree_id"], name: "index_studies_on_degree_id"
-  add_index "studies", ["student_id"], name: "index_studies_on_student_id"
+  add_index "studies", ["degree_id"], name: "index_studies_on_degree_id", using: :btree
+  add_index "studies", ["student_id"], name: "index_studies_on_student_id", using: :btree
 
   create_table "teaching_units", force: true do |t|
     t.string   "teaching_unit_name"
@@ -147,6 +147,6 @@ ActiveRecord::Schema.define(version: 20130813071122) do
     t.integer  "department_id"
   end
 
-  add_index "teaching_units", ["department_id"], name: "index_teaching_units_on_department_id"
+  add_index "teaching_units", ["department_id"], name: "index_teaching_units_on_department_id", using: :btree
 
 end
