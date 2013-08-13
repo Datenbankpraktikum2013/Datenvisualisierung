@@ -51,14 +51,19 @@ App.model = {
 		});
 
 		var year = App.slider.getValue();
+		var param_year = '';
 		if (year !== 'All') {
 			if (year % 1 == 0.5) {
-				parameters.semester_of_matriculation = Math.floor(year)*10 + 1
+				param_year = Math.floor(year)*10 + 1
 			} else {
-				parameters.semester_of_matriculation = Math.floor(year)*10 + 2
+				param_year = Math.floor(year)*10 + 2
 			}
+			if (filter.graduation_status.indexOf('S') > -1) {
+				parameters.semester_of_matriculation = param_year;
+			} else {
+				parameters.semester_of_desregistration = param_year;
+			}				
 		}
-		console.log(parameters);
 		return parameters;
 	},
 
@@ -111,9 +116,11 @@ App.model = {
 				heading: 'Verbindungsfehler!', 
 				message: 'Die Verbindung zum Server ist fehlgeschlagen!'
 			});
+		}).always(function() {
+			radio('model.fetched').broadcast();
 		});
 	
-		$.getJSON(url_gmaps, function(data) {
+		/*$.getJSON(url_gmaps, function(data) {
 			App.model.data_gmaps = data.data_gmaps;
 			radio('model.gmaps.fetched').broadcast();
 		}).fail(function() {
@@ -137,6 +144,6 @@ App.model = {
 			});
 		}).always(function() {
 			radio('model.fetched').broadcast();
-		});
+		});*/
 	}
 }; 
