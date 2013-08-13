@@ -165,7 +165,7 @@ App.model = {
 		});
 
 		$.getJSON(url_globe, function(data) {
-			App.model.data_globe = data.data;
+			App.model.data_globe = data.data_globe;
 			radio('model.globe.fetched').broadcast();
 		}).fail(function() {
 			App.showAlert({

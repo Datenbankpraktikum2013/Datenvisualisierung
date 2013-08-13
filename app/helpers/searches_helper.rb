@@ -130,6 +130,7 @@ module SearchesHelper
 		search_results = @search.results_for_maps
 
 		data_globe = []
+		inputs = []
 
 		search_results.each do |key, value|
 			country = Country.find_by_country_iso_code (key[0])
@@ -137,23 +138,23 @@ module SearchesHelper
 				city = Location.find_by_location_name key[2]
 				value  = value.to_f/1000
 				# inputs << city.latitude.to_s + "," + city.longitude.to_s + "," + value.to_s
-				inputs = []
+				# inputs = []
 				inputs << city.latitude
 				inputs << city.longitude
 				inputs << value
-				data_globe << inputs
+				#data_globe << inputs
 			end
 			value  = value.to_f/1000
 			# inputs << country.latitude.to_s + "," + country.longitude.to_s + "," + value.to_s
-			inputs = []
+			# inputs = []
 			inputs << country.latitude
 			inputs << country.longitude
 			inputs << value
-			data_globe << inputs
+			#data_globe << inputs
 		end
 
-		a = Array.new(1, Hash.new)
+		#a = Array.new(1, Hash.new)
 
-		json.set! :data , a[0]['seriesA'] = data_globe
+		json.set! "data_globe", inputs
 	end
 end
