@@ -41,7 +41,8 @@ App.model = {
 		$.each(filter, function(index, value){
 			if ( !( value === null || value === undefined || value === '')) {
 				if (value instanceof Array) {
-					if ( (index != 'gender' || value.length != 2)) {
+					if ( (index != 'gender' || value.length != 2) 
+						&& (index != 'graduation_status' || value.length != 2)) {
 						parameters[index] = value.join(', ');
 					}
 				} else {
@@ -49,7 +50,6 @@ App.model = {
 				}
 			} 
 		});
-
 		var year = App.slider.getValue();
 		var param_year = '';
 		if (year !== 'All') {
@@ -64,6 +64,7 @@ App.model = {
 				parameters.semester_of_desregistration = param_year;
 			}				
 		}
+		console.log(parameters);
 		return parameters;
 	},
 
@@ -120,7 +121,7 @@ App.model = {
 			radio('model.fetched').broadcast();
 		});
 	
-		/*$.getJSON(url_gmaps, function(data) {
+		$.getJSON(url_gmaps, function(data) {
 			App.model.data_gmaps = data.data_gmaps;
 			radio('model.gmaps.fetched').broadcast();
 		}).fail(function() {
@@ -144,6 +145,6 @@ App.model = {
 			});
 		}).always(function() {
 			radio('model.fetched').broadcast();
-		});*/
+		});
 	}
 }; 
