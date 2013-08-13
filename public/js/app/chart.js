@@ -9,6 +9,8 @@ App.chart = {
 
 	current_chart : 'columnchart',
 
+	render_type : 'new',
+
 	init : function() {
 		radio('model.fetch').subscribe(this.listener.loading);
 		radio('model.hc.fetched').subscribe(this.listener.loadedHighCharts);
@@ -29,12 +31,15 @@ App.chart = {
 	listener : {
 		loading : function() {
 			$('#chartswitch button').addClass('disabled');
-			$('#chart').addClass('loading').spin();
+			if (App.chart.render_type == 'new') {
+				$('#chart').addClass('loading').spin();
+			}
 		},
 
 		loadedHighCharts : function() {
 			$('#chartswitch button[name="columnchart"], #chartswitch button[name="piechart"]').removeClass('disabled');
-			if (App.chart.current_chart != 'googlemaps') {
+			
+			if (App.chart.current_chart == 'columnchart' || App.chart.current_chart == 'piechart') {
 				App.chart.render();
 			}
 		},
@@ -97,7 +102,11 @@ App.chart = {
 			App.showAlert({type : 'info', heading : 'Fehler', message : 'Ihre Suche ergab keine Treffer. Bitte ueberarbeiten Sie ihre Filtereinstellungen'});
 			$('#chart').html('');
 		} else {
-			this[this.current_chart].render();
+			if (this.render_type == 'new') {
+				this[this.current_chart].render();
+			} else if (this.render_type == 'update') {
+				this[this.current_chart].update();
+			}
 		}
 	}
 
