@@ -14,11 +14,11 @@ namespace :migrate do
 
 	desc 'Inserts Data from location.sql file into database'
 	task :sql => :environment do
+		puts "+++++++++++++++++++++++++++++++++++"
+		puts "+Migrating data from locations.sql+"
+		puts "+++++++++++++++++++++++++++++++++++"
 		filename = File.expand_path('./db/locations.sql')
 		File.open(filename, "r") do |io|
-			puts "+++++++++++++++++++++++++++++++++++"
-			puts "+Migrating data from locations.sql+"
-			puts "+++++++++++++++++++++++++++++++++++"
 			count = %x{wc -l #{filename}}.split.first.to_i
 			bar = Migrator::LoadingBar.new(count)
 			io.lines.each do |line|
@@ -26,16 +26,16 @@ namespace :migrate do
 				ActiveRecord::Base.connection.execute(line)
 			end
 			bar.end
-			puts "done."
 		end
+		puts "done."
 	end
 
 	desc 'Migrates the whole database.'
- 	task :all => [:locations, :students, :departments, :teaching_units, :disciplines, :studies] do
+ 	task :all => [:locations, :students, :departments, :teaching_units, :disciplines, :studies, :degrees] do
 	end
 
 	desc 'Migrates locations.sql and the rest'
-	task :all_with_sql => [:sql,:students, :departments, :teaching_units, :disciplines, :studies] do
+	task :all_with_sql => [:sql,:students, :departments, :teaching_units, :disciplines, :studies, :degrees] do
 	end
 
 	desc 'Migrates all locations. This also migrates countries and federal states.'
@@ -72,5 +72,11 @@ namespace :migrate do
   	task :studies => :environment do
 		require File.expand_path("lib/warehouseMigration/studyMigrator.rb")
   		Migrator.migrateStudies
+  	end
+
+  	desc 'Migrate all degrees'
+  	task :degrees => :environment do
+  		require File.expand_path("lib/warehouseMigration/degreeMigrator.rb")
+  		Migrator.migrateDegrees
   	end
 end
