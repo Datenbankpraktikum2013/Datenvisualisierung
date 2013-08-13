@@ -151,6 +151,8 @@ App.filter = {
     setFilter : function(filter) {
     	this.filter = filter;
     	$('#filter-form').formstate(this.filter);
+    	$('#department').multiselect('refresh');
+    	$('#kind_of_degree').multiselect('refresh');
     },
 
     /*
