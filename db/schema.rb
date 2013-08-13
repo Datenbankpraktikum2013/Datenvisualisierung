@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130812134713) do
+ActiveRecord::Schema.define(version: 20130813071122) do
 
   create_table "countries", force: true do |t|
     t.string   "country_name"
@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(version: 20130812134713) do
     t.float    "longitude"
     t.float    "latitude"
   end
+
+  add_index "countries", ["country_name"], name: "index_countries_on_country_name"
 
   create_table "degrees", force: true do |t|
     t.integer  "semester_of_deregistration"
