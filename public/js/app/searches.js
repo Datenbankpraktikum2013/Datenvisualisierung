@@ -12,8 +12,8 @@ App.searches = {
 	init : function() {
     
 	    $('#save-search-button').click(function() {
-	        var data = $('form#save-search-form').formstate(':visible');
-	        App.searches.add(data.bookmarkname, App.filter.getFilter());
+	        var data = $('form#save-search-form').formstate();
+	        App.searches.add(data.bookmarkname, $('#filter-form').formstate());
 	        App.searches.render();
 	        $('#save-search-modal').modal('hide');
 	    });
