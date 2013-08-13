@@ -5,9 +5,10 @@ class Search < ActiveRecord::Base
 
 		filtered_attributes = filter_attributes_and_classes[0]
 		filtered_classes = filter_attributes_and_classes[1]
-		filtered_classes << "Country" << "FederalState"
+		filtered_classes << "Country"
 		
 		filtered_result = join_classes(filtered_classes)
+		filtered_result = filtered_result.joins(LocationsController.outer_join_to_federal_states)
 		filtered_result = filter_search_results(filtered_attributes, filtered_result)
 
 		search_results = {}
