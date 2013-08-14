@@ -17,7 +17,7 @@ App.filter = {
      */
     mapping : {
 		gender : 'Geschlecht',
-		nationality : 'Heimatland',
+		country_iso_code : 'Heimatland',
 		kind_of_degree : 'Abschluss',
 		federal_state_name : 'Bundesland',
 		teaching_unit_name : 'Lehreinheit',
@@ -59,9 +59,9 @@ App.filter = {
 	    });
 
 	    //Wenn Nationalitäten ausgewählt wird, verstecke 
-        $('#filter-form select[name="nationality"]').change(function() {
+        $('#filter-form select[name="country_iso_code"]').change(function() {
 	       
-	        if ($(this).val() == "D") {
+	        if ($(this).val() == "DE") {
 	        	$('#federal_state_name').slideDown(); 
 	        } else {
 	            if ($('#federal_state_name').css('display') != 'none') {
@@ -79,7 +79,7 @@ App.filter = {
 	            $('#discipline_name2').slideDown(); 
 	        } else {
 	        	
-	            if ($('#discipline_name2s').css('display') != 'none') {
+	            if ($('#discipline_name2').css('display') != 'none') {
 	                $('#discipline_name2').slideUp();
 	            }
 	            
@@ -168,8 +168,8 @@ App.filter = {
 			this.filter[input].push(value);
     	}
     	$('#filter-form').formstate(this.filter);
-    	if (input == "nationality") {
-    		$('#filter-form select[name="nationality"]').change();
+    	if (input == "country_iso_code") {
+    		$('#filter-form select[name="country_iso_code"]').change();
     	} else if(input == 'department_number') {
     		$('#department').multiselect('refresh');
     	} else if(input == 'kind_of_degree') {
