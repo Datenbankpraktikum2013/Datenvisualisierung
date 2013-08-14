@@ -61,12 +61,16 @@ class LocationsController < ApplicationController
     end
   end
 
-  def self.fetch_accessable_attributes
+  def self.fetch_groupable_attributes
     ["location_name"]
   end
 
   def self.fetch_joinable_classes
     ["Country", "FederalState"]
+  end
+
+  def self.fetch_searchable_attributes
+    ["location_name"]
   end
 
   def self.fetch_all_joinable_classes

@@ -61,7 +61,11 @@ class TeachingUnitsController < ApplicationController
     end
   end
 
-  def self.fetch_accessable_attributes
+  def self.fetch_groupable_attributes
+    ["teaching_unit_name"]
+  end
+
+  def self.fetch_searchable_attributes
     ["teaching_unit_name"]
   end
 

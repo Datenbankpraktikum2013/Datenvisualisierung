@@ -61,7 +61,11 @@ class DisciplinesController < ApplicationController
     end
   end
 
-  def self.fetch_accessable_attributes
+  def self.fetch_groupable_attributes
+    ["discipline_name"]
+  end
+
+  def self.fetch_searchable_attributes
     ["discipline_name"]
   end
 

@@ -61,8 +61,8 @@ class CountriesController < ApplicationController
     end
   end
 
-  def self.fetch_accessable_attributes
-    ["country_name","longitude","latitude","country_iso_code"]
+  def self.fetch_groupable_attributes
+    ["country_iso_code"]
   end
 
   def self.fetch_searchable_attributes
