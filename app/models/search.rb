@@ -3,44 +3,47 @@ class Search < ActiveRecord::Base
 
 	def results_for_maps
 
-		filtered_attributes = filter_attributes_and_classes[0]
-		filtered_classes = filter_attributes_and_classes[1]
-		filtered_classes << "Country"
-		filtered_classes.delete("FederalState")
+		chosen_attributes_for_search = fetch_attributes_and_classes[0]
+		corresponding_classes_of_attributes = fetch_attributes_and_classes[1]
+		corresponding_classes_of_attributes << "Country"
+		corresponding_classes_of_attributes.delete("FederalState")
+
+		class_of_search_category = GroupingController.fetch_all_groupable_elements[search_category]
+		corresponding_classes_of_attributes << class_of_search_category
 		
-		filtered_result = join_classes(filtered_classes)
-		filtered_result = filtered_result.joins(LocationsController.outer_join_to_federal_states)
-		filtered_result = filter_search_results(filtered_attributes, filtered_result)
+		relation_with_all_necessary_joins = join_classes(corresponding_classes_of_attributes)
+		relation_with_all_necessary_joins = relation_with_all_necessary_joins.joins(LocationsController.outer_join_to_federal_states)
+		relation_including_where_clauses = add_where_clauses_to_relation(chosen_attributes_for_search, relation_with_all_necessary_joins)
 
-		search_results = {}
-		search_results = filtered_result.group(:country_iso_code, :federal_state_iso_code, :location_name).count
-
-		search_results
+		hash_with_counted_results = {}
+		hash_with_counted_results = relation_including_where_clauses.group(:country_iso_code, :federal_state_iso_code, :location_name).count
+		hash_with_counted_results
 	end
 
 
 	def results_for_highcharts
 
-		filtered_attributes = filter_attributes_and_classes[0]
-		filtered_classes = filter_attributes_and_classes[1]
+		chosen_attributes_for_search = fetch_attributes_and_classes[0]
+		corresponding_classes_of_attributes = fetch_attributes_and_classes[1]
 
-		filtered_classes << GroupingController.fetch_all_groupable_elements[search_series]
+		class_of_search_series = GroupingController.fetch_all_groupable_elements[search_series]
+		corresponding_classes_of_attributes << class_of_search_series
+		class_of_search_category = GroupingController.fetch_all_groupable_elements[search_category]
+		corresponding_classes_of_attributes << class_of_search_category
 		
-		filtered_result = join_classes(filtered_classes)
+		relation_with_all_necessary_joins = join_classes(corresponding_classes_of_attributes)
+		relation_including_where_clauses = add_where_clauses_to_relation(chosen_attributes_for_search, relation_with_all_necessary_joins)
 
-		filtered_result = filter_search_results(filtered_attributes, filtered_result)
-
-		search_results = {}
+		hash_with_counted_results = {}
 		
 		if search_series.blank?
-			filtered_result = filtered_result.group(search_category.to_sym)
+			complete_relation = relation_including_where_clauses.group(search_category.to_sym)
 		else
-			filtered_result = filtered_result.group(search_category.to_sym, search_series.to_sym)
+			complete_relation = relation_including_where_clauses.group(search_category.to_sym, search_series.to_sym)
 		end
 
-		search_results = filtered_result.order("count_id DESC").count(:id)
-
-		search_results
+		hash_with_counted_results = complete_relation.order("count_id DESC").count(:id)
+		hash_with_counted_results
 	end
 
 	private
@@ -52,8 +55,7 @@ class Search < ActiveRecord::Base
 		end
 
 
-		def filter_attributes_and_classes
-	
+		def fetch_attributes_and_classes
 			all_attributes = SearchesController.fetch_all_searchable_elements.keys
 
 			filtered_attributes = []
@@ -63,22 +65,22 @@ class Search < ActiveRecord::Base
 				if attribute == "year_of_birth"
 					unless minimum_age.blank? and maximum_age.blank?
 						filtered_attributes << attribute
-						filtered_classes << SearchesController.fetch_all_searchable_elements[attribute]
+						corresponding_class_of_attribute = SearchesController.fetch_all_searchable_elements[attribute]
+						filtered_classes << corresponding_class_of_attribute
 					end
 				else 
 					unless send(attribute).blank?
 						filtered_attributes << attribute
-						filtered_classes << SearchesController.fetch_all_searchable_elements[attribute]
+						corresponding_class_of_attribute = SearchesController.fetch_all_searchable_elements[attribute]
+						filtered_classes << corresponding_class_of_attribute
 					end
 				end
-			end
-
-			filtered_classes << GroupingController.fetch_all_groupable_elements[search_category]
+			end		
 
 			return filtered_attributes, filtered_classes
 		end
 
-		def filter_search_results (attributes, results)
+		def add_where_clauses_to_relation (attributes, results)
 			multiple_selectable_attributes = ["department_number", "kind_of_degree", "nationality"]
 
 			attributes.each do |attribute|
