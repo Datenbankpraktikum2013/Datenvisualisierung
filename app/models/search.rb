@@ -123,13 +123,15 @@ class Search < ActiveRecord::Base
 		filtered_result = Student.select("students.id")
 		joined_classes = []
 
+		#graduation_status = nil if graduation_status == "S, A"
+
 		unless graduation_status.blank?
 			filtered_result = filtered_result.joins(StudentsController.join_to_studies)
 			joined_classes << "Study"
 			if graduation_status == "A"
 				#outer join degree: Alle studies zu denen MINDESTENS EIN degree vorhanden ist
-				filtered_result = filtered_result.merge(Study.with_degrees)
-			else
+				filtered_result = filtered_result.joins(StudiesController.join_to_degrees)
+			elsif graduation_status == "S"
 				#outer join degree: Alle studies zu denen KEIN degree vorhanden ist
 				filtered_result = filtered_result.merge(Study.without_degrees)
 			end

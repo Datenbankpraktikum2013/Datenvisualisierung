@@ -61,7 +61,7 @@ App.model = {
 			if (filter.graduation_status.indexOf('S') > -1) {
 				parameters.semester_of_matriculation = param_year;
 			} else {
-				parameters.semester_of_desregistration = param_year;
+				parameters.semester_of_deregistration = param_year;
 			}				
 		}
 		console.log(parameters);
