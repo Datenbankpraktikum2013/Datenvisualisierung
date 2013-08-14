@@ -113,7 +113,7 @@ App.model = {
 			}
 			for(var k = 0; k < data.series.length; k++){
 				for(var j = 19; j < data.series[0].data.length; j++){
-					summe += data.series[k].fdata[j];
+					summe += data.series[k].data[j];
 				}
 				newSeries.series[k].data.push(summe);
 				summe = 0;
