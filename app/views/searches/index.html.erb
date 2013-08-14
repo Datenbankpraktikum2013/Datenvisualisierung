@@ -4,8 +4,8 @@
   <thead>
     <tr>
       <th>GraduationStatus</th>
-      <th>Gender</th>
-      <th>Nationality</th>
+      <th>Geschlecht</th>
+      <th>Nationalität</th>
       <th>Alter (von - bis)</th>
       <th>Location Name</th>
       <th>Abschlussart</th>
@@ -15,6 +15,7 @@
       <th>Aktuelles Fachsemester</th>
       <th>Benötigte Fachsemester</th>
       <th>Abschlussnote</th>
+      <th>Staat der HSZB</th>
       <th>Bundesland</th>
       <th>Immatrikulations-Semester</th>
       <th>Abgangs-Semester</th>
@@ -39,6 +40,7 @@
         <td><%= search.number_of_semester %></td>
         <td><%= search.number_of_semesters %></td>
         <td><%= search.grade %></td>
+        <td><%= search.country_iso_code %></td>
         <td><%= search.federal_state_name %></td>
         <td><%= search.semester_of_matriculation %></td>
         <td><%= search.semester_of_deregistration %></td>
