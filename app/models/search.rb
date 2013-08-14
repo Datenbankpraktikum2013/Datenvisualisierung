@@ -123,7 +123,7 @@ class Search < ActiveRecord::Base
 		joined_classes = []
 
 		unless graduation_status.blank?
-			filtered_result = filtered_result.merge(Student.with_studies)
+			filtered_result = filtered_result.joins(StudentsController.join_to_studies)
 			joined_classes << "Study"
 			if graduation_status == "A"
 				#outer join degree: Alle studies zu denen MINDESTENS EIN degree vorhanden ist
