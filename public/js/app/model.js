@@ -139,7 +139,7 @@ App.model = {
 		var url_globe = 'searches/'+App.model.location+'.json?representation=globe';
 	
 		$.getJSON(url, function(data) {
-			App.model.data = data.data;
+			App.model.data = App.model.limitateSeries(data.data);
 			radio('model.hc.fetched').broadcast();
 		}).fail(function() {
 			App.showAlert({
