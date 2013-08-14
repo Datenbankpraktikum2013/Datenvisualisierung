@@ -65,6 +65,10 @@ class CountriesController < ApplicationController
     ["country_name","longitude","latitude","country_iso_code"]
   end
 
+  def self.fetch_searchable_attributes
+    ["country_iso_code"]
+  end
+
   def self.fetch_joinable_classes
     []
   end
