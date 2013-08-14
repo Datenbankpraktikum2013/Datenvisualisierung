@@ -79,6 +79,18 @@ class LocationsController < ApplicationController
     all_successors
   end
 
+  def self.join_to_countries
+    " JOIN countries ON locations.country_id = countries.id"
+  end
+
+  def self.join_to_federal_states
+    " JOIN federal_states ON locations.federal_state_id = federal_states.id"
+  end
+
+  def self.outer_join_to_federal_states
+    " LEFT OUTER JOIN federal_states ON locations.federal_state_id = federal_states.id"
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_location

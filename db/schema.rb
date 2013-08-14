@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20130809113206) do
+ActiveRecord::Schema.define(version: 20130813071122) do
 
   create_table "countries", force: true do |t|
     t.string   "country_name"
@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(version: 20130809113206) do
     t.float    "longitude"
     t.float    "latitude"
   end
+
+  add_index "countries", ["country_name"], name: "index_countries_on_country_name"
 
   create_table "degrees", force: true do |t|
     t.integer  "semester_of_deregistration"
@@ -46,11 +48,15 @@ ActiveRecord::Schema.define(version: 20130809113206) do
   end
 
   add_index "disciplines", ["data_warehouse_id"], name: "index_disciplines_on_data_warehouse_id"
+  add_index "disciplines", ["teaching_unit_id"], name: "index_disciplines_on_teaching_unit_id"
+
 
   create_table "disciplines_studies", id: false, force: true do |t|
     t.integer "discipline_id", null: false
     t.integer "study_id",      null: false
   end
+
+  add_index "disciplines_studies", ["discipline_id", "study_id"], name: "index_disciplines_studies_on_discipline_id_and_study_id"
 
   create_table "federal_states", force: true do |t|
     t.string   "federal_state_name"
@@ -132,11 +138,16 @@ ActiveRecord::Schema.define(version: 20130809113206) do
     t.integer  "study_number"
   end
 
+  add_index "studies", ["degree_id"], name: "index_studies_on_degree_id"
+  add_index "studies", ["student_id"], name: "index_studies_on_student_id"
+
   create_table "teaching_units", force: true do |t|
     t.string   "teaching_unit_name"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "department_id"
   end
+
+  add_index "teaching_units", ["department_id"], name: "index_teaching_units_on_department_id"
 
 end

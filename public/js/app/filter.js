@@ -22,10 +22,7 @@ App.filter = {
 		federal_state_name : 'Bundesland',
 		teaching_unit_name : 'Lehreinheit',
 		department_number : 'Fachbereich',
-		graduation_status : 'Studenten/Absolventen',
-		number_of_semesters : 'Zahl der benötigten Semester',
-		number_of_semester : 'Aktuell im Fachsemester',
-		//{ discipline_name : '1. Studienfach',	discipline_name2 : '2. Studienfach' }
+		graduation_status : 'Studenten/Absolventen'
 	},
 	
 	/*
@@ -41,14 +38,17 @@ App.filter = {
 	    });
 
 		// Event fuer Aktualisieren Button
-	    $('button[name="store"]').click(function() {
+	    $('#filter-form button[name="store"]').click(function() {
 	        radio('filter.submit').broadcast();
 	        return false;
 	    });
 	    
 	    // Event fuer Reset Button
-	    $('button[name="restore"]').click(function() {
-	        return false;
+	    $('#filter-form button[name="restore"]').click(function() {
+	    	$('#filter-form')[0].reset();
+	    	App.filter.setFilterOption('department_number', '');
+	    	App.filter.setFilterOption('kind_of_degree', '');
+	    	return false;
 	    });
 
 	    // Event für Alle Jahre Button
@@ -141,6 +141,7 @@ App.filter = {
 	getFilter : function() {
 		this.filter = $('#filter-form :visible').formstate();
 		$.extend(this.filter, $('#filter-form select[name="department_number"]').formstate());
+		$.extend(this.filter, $('#filter-form select[name="kind_of_degree"]').formstate());
 		return this.filter;
     },
 
@@ -150,6 +151,8 @@ App.filter = {
     setFilter : function(filter) {
     	this.filter = filter;
     	$('#filter-form').formstate(this.filter);
+    	$('#department').multiselect('refresh');
+    	$('#kind_of_degree').multiselect('refresh');
     },
 
     /*
@@ -169,6 +172,8 @@ App.filter = {
     		$('#filter-form select[name="nationality"]').change();
     	} else if(input == 'department_number') {
     		$('#department').multiselect('refresh');
+    	} else if(input == 'kind_of_degree') {
+    		$('#kind_of_degree').multiselect('refresh');
     	}
     },
 

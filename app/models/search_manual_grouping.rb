@@ -5,11 +5,9 @@ class Search < ActiveRecord::Base
 
 		filtered_attributes = filter_attributes_and_classes[0]
 		filtered_classes = filter_attributes_and_classes[1]
-		filtered_classes << "Country"
-		filtered_classes.delete("FederalState")
+		filtered_classes << "Country" << "FederalState"
 		
 		filtered_result = join_classes(filtered_classes)
-		filtered_result = filtered_result.joins(LocationsController.outer_join_to_federal_states)
 		filtered_result = filter_search_results(filtered_attributes, filtered_result)
 
 		search_results = {}
@@ -20,7 +18,7 @@ class Search < ActiveRecord::Base
 
 
 	def results_for_highcharts
-
+		
 		filtered_attributes = filter_attributes_and_classes[0]
 		filtered_classes = filter_attributes_and_classes[1]
 
@@ -28,19 +26,38 @@ class Search < ActiveRecord::Base
 		
 		filtered_result = join_classes(filtered_classes)
 
+		#puts "SQL: #{filtered_result.to_sql}"
+		#puts "EXPLAIN #{filtered_result.explain}"
+
 		filtered_result = filter_search_results(filtered_attributes, filtered_result)
 
 		search_results = {}
 		
-		if search_series.blank?
-			filtered_result = filtered_result.group(search_category.to_sym)
-		else
-			filtered_result = filtered_result.group(search_category.to_sym, search_series.to_sym)
+		#if search_series.blank?
+		#	filtered_result = filtered_result.group(search_category.to_sym)
+		#else
+		#	filtered_result = filtered_result.group(search_category.to_sym, search_series.to_sym)
+		#end
+
+		#filtered_result = filtered_result.from('students')
+		puts filtered_result.explain
+
+
+		search_results = filtered_result#.order("count_id DESC")#.count(:id)
+
+		counts = {}
+		filtered_result.each do |row|
+			#puts "location: #{row.l_id}, federal_state: #{row.fs_id}"
+			if counts.has_key? [row.l_id, row.fs_id]
+				counts[[row.l_id, row.fs_id]] += 1
+			else
+				counts[[row.l_id, row.fs_id]] = 1
+			end
 		end
 
-		search_results = filtered_result.order("count_id DESC").count(:id)
+		counts.sort_by { |k, v| v }.reverse
 
-		search_results
+		#puts search_results.values
 	end
 
 	private
@@ -119,59 +136,64 @@ class Search < ActiveRecord::Base
 		end
 
 
-	def join_classes classes_to_join
-		filtered_result = Student.select("students.id")
-		joined_classes = []
+		def join_classes classes_to_join
+			filtered_result = Student.select("students.id")
 
-		#graduation_status = nil if graduation_status == "S, A"
+			joined_classes = []
 
-		unless graduation_status.blank?
-			filtered_result = filtered_result.joins(StudentsController.join_to_studies)
-			joined_classes << "Study"
-			if graduation_status == "A"
-				#outer join degree: Alle studies zu denen MINDESTENS EIN degree vorhanden ist
-				filtered_result = filtered_result.joins(StudiesController.join_to_degrees)
-			elsif graduation_status == "S"
-				#outer join degree: Alle studies zu denen KEIN degree vorhanden ist
-				filtered_result = filtered_result.merge(Study.without_degrees)
+			unless graduation_status.blank?
+				filtered_result = filtered_result.merge(Student.with_studies)
+				joined_classes << "Study"
+				if graduation_status == "A"
+					#outer join degree: Alle studies zu denen MINDESTENS EIN degree vorhanden ist
+					filtered_result = filtered_result.merge(Study.with_degrees)
+				else
+					#outer join degree: Alle studies zu denen KEIN degree vorhanden ist
+					filtered_result = filtered_result.merge(Study.without_degrees)
+				end
+				joined_classes << "Degree"
+				classes_to_join.delete("Study")
+				classes_to_join.delete("Degree")
 			end
-			joined_classes << "Degree"
-			classes_to_join.delete("Study")
-			classes_to_join.delete("Degree")
-		end
 
-		classes_to_join.delete("Student")
-		classes_to_join.uniq!
-		classes_to_join.compact!
 
-		classes_to_join.each do |class_name|
-			neighbor = ""
-			current_class = "Student"
-			current_controller_class = controllize_name(current_class)
-			until class_name == neighbor
-				neighbored_classes = current_controller_class.fetch_joinable_classes
-				neighbored_classes.each do |neighbor_class|
-					all_joinable_classes = controllize_name(neighbor_class).fetch_all_joinable_classes
-					if neighbor_class == class_name
-						method = "join_to_" + neighbor_class.tableize.pluralize
-						filtered_result = filtered_result.joins(current_controller_class.send(method))
-						joined_classes << neighbor_class
-					elsif all_joinable_classes.include? class_name
-						unless joined_classes.include? neighbor_class
-							method = "join_to_" + neighbor_class.tableize.pluralize
-							filtered_result = filtered_result.joins(current_controller_class.send(method))
+
+			classes_to_join.delete("Student")
+			classes_to_join.uniq!
+			classes_to_join.compact!
+
+			classes_to_join.each do |class_name|
+				neighbor = ""
+				current_class = "Student"
+				current_controller_class = controllize_name(current_class)
+				until class_name == neighbor
+					neighbored_classes = current_controller_class.fetch_joinable_classes
+					neighbored_classes.each do |neighbor_class|
+						all_joinable_classes = controllize_name(neighbor_class).fetch_all_joinable_classes
+						if neighbor_class == class_name
+							method = "with_" + neighbor_class.tableize.pluralize
+							filtered_result = filtered_result.merge(current_class.constantize.send(method))
 							joined_classes << neighbor_class
+						elsif all_joinable_classes.include? class_name
+							unless joined_classes.include? neighbor_class
+								method = "with_" + neighbor_class.tableize.pluralize
+								filtered_result = filtered_result.merge(current_class.constantize.send(method))
+								joined_classes << neighbor_class
+							end
+							current_class = neighbor_class
+							current_controller_class = controllize_name(current_class)
+						else
 						end
-						current_class = neighbor_class
-						current_controller_class = controllize_name(current_class)
-					else
+						neighbor = neighbor_class
+						break if class_name == neighbor
 					end
-					neighbor = neighbor_class
-					break if class_name == neighbor
 				end
 			end
+
+			filtered_result = filtered_result.select(["students.id as s_id", "countries.country_name as l_id", "federal_states.federal_state_name as fs_id"])
+			puts filtered_result.to_sql
+
+			filtered_result
 		end
-		filtered_result
-	end
 
 end

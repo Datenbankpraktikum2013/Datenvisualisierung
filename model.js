@@ -41,8 +41,7 @@ App.model = {
 		$.each(filter, function(index, value){
 			if ( !( value === null || value === undefined || value === '')) {
 				if (value instanceof Array) {
-					if ( (index != 'gender' || value.length != 2) 
-						&& (index != 'graduation_status' || value.length != 2)) {
+					if ( (index != 'gender' || value.length != 2)) {
 						parameters[index] = value.join(', ');
 					}
 				} else {
@@ -50,19 +49,14 @@ App.model = {
 				}
 			} 
 		});
+
 		var year = App.slider.getValue();
-		var param_year = '';
 		if (year !== 'All') {
 			if (year % 1 == 0.5) {
-				param_year = Math.floor(year)*10 + 1
+				parameters.semester_of_matriculation = Math.floor(year)*10 + 1
 			} else {
-				param_year = Math.floor(year)*10 + 2
+				parameters.semester_of_matriculation = Math.floor(year)*10 + 2
 			}
-			if (filter.graduation_status.indexOf('S') > -1) {
-				parameters.semester_of_matriculation = param_year;
-			} else {
-				parameters.semester_of_deregistration = param_year;
-			}				
 		}
 		console.log(parameters);
 		return parameters;
@@ -91,7 +85,8 @@ App.model = {
 			
 		});
 	},
-	//Limitiert die Serie auf max. 20 Einträge
+
+	//@todo hier weiter machen
 	limitateSeries : function(data){
 		
 		if(data.categories.length > 20){
@@ -140,15 +135,15 @@ App.model = {
 	
 		$.getJSON(url, function(data) {
 			App.model.data = App.model.limitateSeries(data.data);
+			//App.model.data = data.data;
 			radio('model.hc.fetched').broadcast();
+			//App.model.limitateSeries();
 		}).fail(function() {
 			App.showAlert({
 				type: 'danger', 
 				heading: 'Verbindungsfehler!', 
 				message: 'Die Verbindung zum Server ist fehlgeschlagen!'
 			});
-		}).always(function() {
-			radio('model.fetched').broadcast();
 		});
 	
 		$.getJSON(url_gmaps, function(data) {
@@ -165,7 +160,7 @@ App.model = {
 		});
 
 		$.getJSON(url_globe, function(data) {
-			App.model.data_globe = data.data_globe;
+			App.model.data_globe = data.data;
 			radio('model.globe.fetched').broadcast();
 		}).fail(function() {
 			App.showAlert({

@@ -104,6 +104,7 @@ module Migrator
 				else
 					studentDB = Student.find_by_matriculation_number(matriculation_number)
 					unless studentDB == nil
+						studentHash[matriculation_number] = {}
 						studentHash[matriculation_number][:student] = studentDB
 						studentHash[matriculation_number][:studies] = {}
 					end

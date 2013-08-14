@@ -169,6 +169,7 @@ module Migrator
 						study = entry.last
 						unless study == nil
 							study.degree = degree
+							study.save
 						end
 						degree.save
 					end

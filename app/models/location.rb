@@ -5,7 +5,4 @@ class Location < ActiveRecord::Base
 
 	has_many :students
 
-	scope :with_countries, -> { joins(:country) }
-	scope :with_federal_states, -> { joins(:federal_state) }
-
 end

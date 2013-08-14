@@ -20,18 +20,11 @@
       var tweens = [];
 
 
-      TWEEN.start();
-
-      
-
-      for (var j = 0; j < App.model.data_globe.length; j++) {
-        globe.addData(App.model.data_globe.seriesA[0], 'magnitude', App.model.data_globe.seriesA[1]);
-      }
-      globe.createPoints();
-      globe.animate();
-        console.log('hier');
-    };
+        TWEEN.start();
+            globe.addData(App.model.data_globe, {format: 'magnitude', animated: true});
+            globe.createPoints();
+            new TWEEN.Tween(globe).to({time: 0},500).easing(TWEEN.Easing.Cubic.EaseOut).start();
+           globe.animate();
+    }
   }
-}    
-
- 
+}
