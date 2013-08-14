@@ -61,8 +61,8 @@ class FederalStatesController < ApplicationController
     end
   end
 
-  def self.fetch_accessable_attributes
-    ["federal_state_name","longitude","latitude","federal_state_iso_code"]
+  def self.fetch_groupable_attributes
+    ["federal_state_name"]
   end
 
   def self.fetch_searchable_attributes

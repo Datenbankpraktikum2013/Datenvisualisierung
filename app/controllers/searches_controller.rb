@@ -67,25 +67,25 @@ class SearchesController < ApplicationController
   def self.fetch_all_searchable_elements
     all_searchable_elements = {}
 
-    StudentsController.fetch_accessable_attributes.each do |attribute|
+    StudentsController.fetch_searchable_attributes.each do |attribute|
       all_searchable_elements[attribute] = "Student"
     end
-    LocationsController.fetch_accessable_attributes.each do |attribute|
+    LocationsController.fetch_searchable_attributes.each do |attribute|
       all_searchable_elements[attribute] = "Location"
     end
-    StudiesController.fetch_accessable_attributes.each do |attribute|
+    StudiesController.fetch_searchable_attributes.each do |attribute|
       all_searchable_elements[attribute] = "Study"
     end
-    TeachingUnitsController.fetch_accessable_attributes.each do |attribute|
+    TeachingUnitsController.fetch_searchable_attributes.each do |attribute|
       all_searchable_elements[attribute] = "TeachingUnit"
     end
-    DisciplinesController.fetch_accessable_attributes.each do |attribute|
+    DisciplinesController.fetch_searchable_attributes.each do |attribute|
       all_searchable_elements[attribute] = "Discipline"
     end
-    DepartmentsController.fetch_accessable_attributes.each do |attribute|
+    DepartmentsController.fetch_searchable_attributes.each do |attribute|
       all_searchable_elements[attribute] = "Department"
     end
-    DegreesController.fetch_accessable_attributes.each do |attribute|
+    DegreesController.fetch_searchable_attributes.each do |attribute|
       all_searchable_elements[attribute] = "Degree"
     end
     FederalStatesController.fetch_searchable_attributes.each do |attribute|

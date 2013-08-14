@@ -61,7 +61,11 @@ class DepartmentsController < ApplicationController
     end
   end
 
-  def self.fetch_accessable_attributes
+  def self.fetch_groupable_attributes
+    ["department_number"]
+  end
+
+  def self.fetch_searchable_attributes
     ["department_number"]
   end
 

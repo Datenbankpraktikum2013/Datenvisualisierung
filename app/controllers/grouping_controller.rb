@@ -2,35 +2,35 @@ class GroupingController < ApplicationController
   def self.fetch_all_groupable_elements
   	all_groupable_elements = {}
 
-  	StudentsController.fetch_accessable_attributes.each do |attribute|
+  	StudentsController.fetch_groupable_attributes.each do |attribute|
   		all_groupable_elements[attribute] = "Student"
   	end
 
-  	LocationsController.fetch_accessable_attributes.each do |attribute|
+  	LocationsController.fetch_groupable_attributes.each do |attribute|
   		all_groupable_elements[attribute] = "Location"
   	end
 
-    CountriesController.fetch_accessable_attributes.each do |attribute|
+    CountriesController.fetch_groupable_attributes.each do |attribute|
       all_groupable_elements[attribute] = "Country"
     end
 
-    FederalStatesController.fetch_accessable_attributes.each do |attribute|
+    FederalStatesController.fetch_groupable_attributes.each do |attribute|
       all_groupable_elements[attribute] = "FederalState"
     end
 
-    StudiesController.fetch_accessable_attributes.each do |attribute|
+    StudiesController.fetch_groupable_attributes.each do |attribute|
       all_groupable_elements[attribute] = "Study"
     end
 
-    DisciplinesController.fetch_accessable_attributes.each do |attribute|
+    DisciplinesController.fetch_groupable_attributes.each do |attribute|
       all_groupable_elements[attribute] = "Discipline"
     end
 
-    TeachingUnitsController.fetch_accessable_attributes.each do |attribute|
+    TeachingUnitsController.fetch_groupable_attributes.each do |attribute|
       all_groupable_elements[attribute] = "TeachingUnit"
     end
 
-    DepartmentsController.fetch_accessable_attributes.each do |attribute|
+    DepartmentsController.fetch_groupable_attributes.each do |attribute|
       all_groupable_elements[attribute] = "Department"
     end
 

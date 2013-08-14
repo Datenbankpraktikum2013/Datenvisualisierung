@@ -61,7 +61,11 @@ class StudentsController < ApplicationController
     end
   end
 
-  def self.fetch_accessable_attributes
+  def self.fetch_groupable_attributes
+    ["gender", "nationality"]
+  end
+
+  def self.fetch_searchable_attributes
     ["gender", "nationality", "year_of_birth"]
   end
 
