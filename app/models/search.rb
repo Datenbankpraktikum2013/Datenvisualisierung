@@ -85,8 +85,7 @@ class Search < ActiveRecord::Base
 
 			attributes.each do |attribute|
 				if attribute == "discipline_name"
-					unless send(attribute).blank?
-					
+					unless send(attribute).blank?	
 	 					disciplines_to_studies_relation = Discipline.all
 
 	 					manifestations = send(attribute).split(", ")
@@ -100,19 +99,14 @@ class Search < ActiveRecord::Base
 						disciplines_to_studies_relation.each { |k, v| ( array << k ) if v >= 2 }
 						results = results.where("studies.id in (?)", array)
 					end
-
 				elsif multiple_selectable_attributes.include? attribute
 					unless send(attribute).blank?
 						manifestations = send(attribute).split(", ")
 						results = results.where("#{attribute} in (?)", manifestations)
 					end
-
 				elsif attribute == "year_of_birth"
 					results = results.where("#{attribute} <= ?", Date.today.year - minimum_age) unless minimum_age.blank?
 					results = results.where("#{attribute} >= ?", Date.today.year - maximum_age) unless maximum_age.blank?
-
-				#elsif attribute.start_with? "semester_of"
-				#	results = results.where("#{attribute} = ?1 OR #{attribute} = ?2", send(attribute), send(attribute))
 				else
 					results = results.where("#{attribute} = ?", send(attribute)) unless self.send(attribute).blank?
 				end
@@ -125,7 +119,9 @@ class Search < ActiveRecord::Base
 		filtered_result = Student.select("students.id")
 		joined_classes = []
 
-		#graduation_status = nil if graduation_status == "S, A"
+		if self.graduation_status == "S, A"
+		 	self.graduation_status = ""
+		end
 
 		unless graduation_status.blank?
 			filtered_result = filtered_result.joins(StudentsController.join_to_studies)
