@@ -96,7 +96,7 @@ class Search < ActiveRecord::Base
 	 					disciplines_to_studies_relation = disciplines_to_studies_relation.count(:discipline_id)
 
 						array = [] 
-						disciplines_to_studies_relation.each { |k, v| ( array << k ) if v >= 2 }
+						disciplines_to_studies_relation.each { |k, v| ( array << k ) if v >= manifestations.length }
 						results = results.where("studies.id in (?)", array)
 					end
 				elsif multiple_selectable_attributes.include? attribute
