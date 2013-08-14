@@ -1,3 +1,4 @@
+require File.expand_path('./lib/warehouseMigration/migrator.rb')
 module Migrator
 	#Dumb creation of all not yet existing locations with
 	#their countries and federal states if exitend

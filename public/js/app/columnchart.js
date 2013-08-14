@@ -12,8 +12,8 @@ App.chart.columnchart = {
             type: 'column',
             events: {
                 redraw: function(){  // Ladeanzeige muss noch gemacht werden, warten auf dynamische Daten 
-                    // this.showLoading();
-                    this.hideLoading();
+                    //this.showLoading();
+                   // this.hideLoading();
                 },
                 load: function(){
                     this.hideLoading();
@@ -70,8 +70,13 @@ App.chart.columnchart = {
             enabled: false
         },
         plotOptions : {
+            column : {
+                animation: {
+                    duration: 500
+                }                
+            },
         	series : {
-        		stacking : 'normal',
+                stacking : 'normal',
                 cursor : 'pointer',
         		point : {
                     events : {
@@ -93,6 +98,21 @@ App.chart.columnchart = {
         this.config.xAxis.categories = App.model.data.categories;
         this.config.series = App.model.data.series;
         $('#chart').highcharts(this.config);
+    },
+
+    update : function() {
+        var chart = $('#chart').highcharts();
+        for (var i=0; i < App.model.data.series.length; i++) {
+            for (var j=0; j < App.model.data.series[i].data.length; j++) {
+                if (chart.series[i].data[j]) {
+                    chart.series[i].data[j].update(App.model.data.series[i].data[j], false);
+                }
+            }
+        }
+        chart.redraw();
+        //$.each(App.model.data.series, function(index, value) {
+        //    chart.series[index].setData(value.data);
+        //});
     }
 
 };

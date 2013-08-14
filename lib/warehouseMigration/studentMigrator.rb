@@ -1,3 +1,4 @@
+require File.expand_path('./lib/warehouseMigration/migrator.rb')
 module Migrator
 	def self.migrateStudents
 		

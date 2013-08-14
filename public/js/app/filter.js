@@ -38,14 +38,17 @@ App.filter = {
 	    });
 
 		// Event fuer Aktualisieren Button
-	    $('button[name="store"]').click(function() {
+	    $('#filter-form button[name="store"]').click(function() {
 	        radio('filter.submit').broadcast();
 	        return false;
 	    });
 	    
 	    // Event fuer Reset Button
-	    $('button[name="restore"]').click(function() {
-	        return false;
+	    $('#filter-form button[name="restore"]').click(function() {
+	    	$('#filter-form')[0].reset();
+	    	App.filter.setFilterOption('department_number', '');
+	    	App.filter.setFilterOption('kind_of_degree', '');
+	    	return false;
 	    });
 
 	    // Event für Alle Jahre Button
@@ -169,6 +172,8 @@ App.filter = {
     		$('#filter-form select[name="nationality"]').change();
     	} else if(input == 'department_number') {
     		$('#department').multiselect('refresh');
+    	} else if(input == 'kind_of_degree') {
+    		$('#kind_of_degree').multiselect('refresh');
     	}
     },
 
