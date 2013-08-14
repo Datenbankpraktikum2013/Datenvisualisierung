@@ -81,7 +81,7 @@ class Search < ActiveRecord::Base
 		end
 
 		def add_where_clauses_to_relation (attributes, results)
-			multiple_selectable_attributes = ["department_number", "kind_of_degree", "nationality"]
+			multiple_selectable_attributes = ["department_number", "kind_of_degree", "nationality", "country_iso_code"]
 
 			attributes.each do |attribute|
 				if attribute == "discipline_name"
