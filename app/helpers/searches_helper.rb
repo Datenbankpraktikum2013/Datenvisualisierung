@@ -131,12 +131,28 @@ module SearchesHelper
 
 		data_globe = []
 		inputs = []
+		maxval = 0
+		maxval_city = 0
+		search_results.each do |key, value|
+			country = Country.find_by_country_iso_code (key[0])
+			if country.country_iso_code == "DE"
+				city = Location.find_by_location_name key[2]
+				if maxval_city < value
+					maxval_city = value
+				end
+			elsif
+				if maxval < value
+					maxval = value
+					maxval = maxval*100
+				end
+			end
+		end
 
 		search_results.each do |key, value|
 			country = Country.find_by_country_iso_code (key[0])
 			if country.country_iso_code == "DE"
 				city = Location.find_by_location_name key[2]
-				value  = value.to_f/1000
+				value  = value.to_f/maxval_city
 				# inputs << city.latitude.to_s + "," + city.longitude.to_s + "," + value.to_s
 				# inputs = []
 				inputs << city.latitude
@@ -144,7 +160,7 @@ module SearchesHelper
 				inputs << value
 				#data_globe << inputs
 			end
-			value  = value.to_f/1000
+			value  = value.to_f/maxval
 			# inputs << country.latitude.to_s + "," + country.longitude.to_s + "," + value.to_s
 			# inputs = []
 			inputs << country.latitude
