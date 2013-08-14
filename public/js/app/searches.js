@@ -18,6 +18,11 @@ App.searches = {
 	        $('#save-search-modal').modal('hide');
 	    });
 
+	    $(document).on('submit','form#save-search-form', function(e) {
+	    	e.preventDefault();
+	    	$('#save-search-button').click();	    	
+	    });
+
 	    $(document).on('click', '#search-list a', function(e) {
 	        var id = $(this).attr('data-bookmark-id');
 	        App.filter.setFilter(App.searches.saved_searches[id]);

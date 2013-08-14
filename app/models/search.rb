@@ -5,9 +5,11 @@ class Search < ActiveRecord::Base
 
 		filtered_attributes = filter_attributes_and_classes[0]
 		filtered_classes = filter_attributes_and_classes[1]
-		filtered_classes << "Country" << "FederalState"
+		filtered_classes << "Country"
+		filtered_classes.delete("FederalState")
 		
 		filtered_result = join_classes(filtered_classes)
+		filtered_result = filtered_result.joins(LocationsController.outer_join_to_federal_states)
 		filtered_result = filter_search_results(filtered_attributes, filtered_result)
 
 		search_results = {}
@@ -18,16 +20,13 @@ class Search < ActiveRecord::Base
 
 
 	def results_for_highcharts
-		
+
 		filtered_attributes = filter_attributes_and_classes[0]
 		filtered_classes = filter_attributes_and_classes[1]
 
 		filtered_classes << GroupingController.fetch_all_groupable_elements[search_series]
 		
 		filtered_result = join_classes(filtered_classes)
-
-		#puts "SQL: #{filtered_result.to_sql}"
-		#puts "EXPLAIN #{filtered_result.explain}"
 
 		filtered_result = filter_search_results(filtered_attributes, filtered_result)
 
@@ -38,7 +37,7 @@ class Search < ActiveRecord::Base
 		else
 			filtered_result = filtered_result.group(search_category.to_sym, search_series.to_sym)
 		end
-		puts "HIER"
+
 		search_results = filtered_result.order("count_id DESC").count(:id)
 
 		search_results
@@ -125,7 +124,7 @@ class Search < ActiveRecord::Base
 		joined_classes = []
 
 		unless graduation_status.blank?
-			filtered_result = filtered_result.merge(Student.with_studies)
+			filtered_result = filtered_result.joins(StudentsController.join_to_studies)
 			joined_classes << "Study"
 			if graduation_status == "A"
 				#outer join degree: Alle studies zu denen MINDESTENS EIN degree vorhanden ist
@@ -152,13 +151,13 @@ class Search < ActiveRecord::Base
 				neighbored_classes.each do |neighbor_class|
 					all_joinable_classes = controllize_name(neighbor_class).fetch_all_joinable_classes
 					if neighbor_class == class_name
-						method = "with_" + neighbor_class.tableize.pluralize
-						filtered_result = filtered_result.merge(current_class.constantize.send(method))
+						method = "join_to_" + neighbor_class.tableize.pluralize
+						filtered_result = filtered_result.joins(current_controller_class.send(method))
 						joined_classes << neighbor_class
 					elsif all_joinable_classes.include? class_name
 						unless joined_classes.include? neighbor_class
-							method = "with_" + neighbor_class.tableize.pluralize
-							filtered_result = filtered_result.merge(current_class.constantize.send(method))
+							method = "join_to_" + neighbor_class.tableize.pluralize
+							filtered_result = filtered_result.joins(current_controller_class.send(method))
 							joined_classes << neighbor_class
 						end
 						current_class = neighbor_class

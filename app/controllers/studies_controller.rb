@@ -80,6 +80,14 @@ class StudiesController < ApplicationController
     all_successors
   end
 
+  def self.join_to_degrees
+    " JOIN degrees ON studies.degree_id = degrees.id"
+  end
+
+  def self.join_to_disciplines
+    " JOIN disciplines_studies ON disciplines_studies.study_id = studies.id JOIN disciplines ON disciplines_studies.discipline_id = disciplines.id"
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_study

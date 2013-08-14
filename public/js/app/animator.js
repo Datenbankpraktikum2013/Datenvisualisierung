@@ -14,12 +14,13 @@ App.animator = {
 		if (this.intervalID == null) {
 			this.intervalID = setInterval(this.next_step, this.interval);
 		}
+		App.chart.render_type = "update";
 	},
 
 	next_step : function() {
 		if (App.slider.getValue() < App.slider.getMaxValue() - 0.5) {
 			App.slider.setValue(App.slider.getValue() + 1.0);
-			App.chart.render();
+			radio('filter.submit').broadcast();
 		} else {
 			App.animator.stop();
 			if(App.slider.getValue() == App.slider.getMaxValue()){
@@ -38,6 +39,7 @@ App.animator = {
 	stop : function() {
 		clearInterval(this.intervalID);
 		this.intervalID = null;
+		App.chart.render_type = "new";
 	}
 	
 };
