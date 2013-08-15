@@ -21,7 +21,7 @@ App.filter = {
 		kind_of_degree : 'Abschluss',
 		federal_state_name : 'Bundesland',
 		teaching_unit_name : 'Lehreinheit',
-		// department_number : 'Fachbereich',
+		department_number : 'Fachbereich',
 		// graduation_status : 'Studenten/Absolventen'
 	},
 	

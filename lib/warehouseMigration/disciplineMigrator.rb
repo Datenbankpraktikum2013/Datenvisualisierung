@@ -55,7 +55,8 @@ module Migrator
 		print "now iterating over them and creating missing ones\n"
 		bar = LoadingBar.new(numAll)
 		numCreated = 0
-		disciplines.each do |discipline|	
+		disciplines.each do |discipline|
+			bar.next	
 			discipline["discipline_name"].gsub!(/\.\.\./,'') 
 			discipline["discipline_name"].strip!
 

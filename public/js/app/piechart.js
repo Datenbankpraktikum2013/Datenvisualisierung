@@ -45,7 +45,10 @@ App.chart.piechart = {
 		            type: 'pie'
 		        },
 		        title: {
-	            	text: App.model.data.title
+	            	text: App.model.data.title,
+	            	style: {
+		                fontWeight: 'bold'
+		            }
 	        	},
 		        legend:{
 		        	enabled: true
@@ -144,7 +147,10 @@ App.chart.piechart = {
 		            type: 'pie'
 		        },
 		        title: {
-	            	text: App.model.data.title
+	            	text: App.model.data.title,
+	            	style: {
+		                fontWeight: 'bold'
+		            }
 	        	},
 		        legend:{
 		        	enabled: true
@@ -182,7 +188,7 @@ App.chart.piechart = {
 		        		point: {
 		        			events: {
 		        				click : function(event){
-		        					App.chart.showDrilldownPopup(this, event);
+		        					//App.chart.showDrilldownPopup(this, event);
 		        				}
 		        			}
 		        		}

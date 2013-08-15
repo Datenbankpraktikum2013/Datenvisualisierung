@@ -47,7 +47,7 @@ module Migrator
 
 				location["country_name"].strip!
 				if(nameMapper.has_key?(location["country_name"]))
-					location["country_name"] = nameMapper[location["country_name"]]
+					location["country_name"] = nameMapper[location["country_name"]].strip
 				end
 
 				
@@ -160,7 +160,7 @@ module Migrator
 		return country
 	end
 	def self.findCountryAttributes(country_name)
-		attributes = {country_name:"unklar",country_iso_code:"",longitude:0.0,latitude:0.0}
+		attributes = {country_name:"unklar",country_iso_code:"NB",longitude:0.0,latitude:0.0}
 		if(country_name == "?")
 			return nil
 		end

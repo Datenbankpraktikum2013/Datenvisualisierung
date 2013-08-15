@@ -91,22 +91,33 @@ App.chart.columnchart = {
         this.config.legend.enabled = (App.model.data.series.length != 1);
         this.config.xAxis.categories = App.model.data.categories;
         this.config.series = App.model.data.series;
+        this.config.title.text = App.model.data.title;
         $('#chart').highcharts(this.config);
     },
 
     update : function() {
         var chart = $('#chart').highcharts();
-        for (var i=0; i < App.model.data.series.length; i++) {
-            for (var j=0; j < App.model.data.series[i].data.length; j++) {
-                if (chart.series[i].data[j]) {
-                    chart.series[i].data[j].update(App.model.data.series[i].data[j], false);
+        var updated = false;
+        
+        for (var i=0; i < App.model.data.categories.length; i++) {
+            updated = false;
+            for (var j=0; j < chart.xAxis[0].categories.length; j++) {
+                if (App.model.data.categories[i] === chart.xAxis[0].categories[j]) {
+                    for (var k=0; k < chart.series.length; k++) {
+                        chart.series[k].data[j].update(App.model.data.series[k].data[i], false);
+                    }
+                    updated = true;
+                }
+            }
+            if ( ! updated) {
+                var cat = chart.xAxis[0].categories;
+                cat.push(App.model.data.categories[i]);
+                chart.xAxis[0].setCategories(cat, false);
+                for (var j=0; j < chart.series.length; j++) {
+                    chart.series[j].addPoint(App.model.data.series[j].data[i], false);
                 }
             }
         }
         chart.redraw();
-        //$.each(App.model.data.series, function(index, value) {
-        //    chart.series[index].setData(value.data);
-        //});
     }
-
 };
