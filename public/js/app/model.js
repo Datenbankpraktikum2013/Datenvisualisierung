@@ -38,6 +38,8 @@ App.model = {
 	 */
 	prepareParameters : function(filter){
 		var parameters = {};
+		var tmp = '';
+
 		$.each(filter, function(index, value){
 			if ( !( value === null || value === undefined || value === '')) {
 				if (value instanceof Array) {
@@ -45,9 +47,14 @@ App.model = {
 						&& (index != 'graduation_status' || value.length != 2)) {
 						parameters[index] = value.join(', ');
 					}
-				} else {
-					parameters[index] = value;
+
+				} else 
+
+				if (index == 'discipline_name2') {
+					parameters.discipline_name += ', ' + value;
 				}
+				else parameters[index] = value;
+				
 			} 
 		});
 		var year = App.slider.getValue();
