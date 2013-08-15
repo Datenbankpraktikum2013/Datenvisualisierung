@@ -26,6 +26,7 @@ App.searches = {
 	    $(document).on('click', '#search-list a', function(e) {
 	        var id = $(this).attr('data-bookmark-id');
 	        App.filter.setFilter(App.searches.saved_searches[id]);
+	        radio('filter.submit').broadcast();
 	        e.preventDefault();
 	    });
 	

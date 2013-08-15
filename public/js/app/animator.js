@@ -60,8 +60,8 @@ App.animator = {
 		this.timeoutID = null;
 		App.chart.render_type = "new";
 		radio('model.hc.fetched').unsubscribe(this.setDelay);		
-			radio('model.gmaps.fetched').unsubscribe(this.setDelay);		
-			radio('model.globe.fetched').unsubscribe(this.setDelay);		
+		radio('model.gmaps.fetched').unsubscribe(this.setDelay);		
+		radio('model.globe.fetched').unsubscribe(this.setDelay);		
 	}
 	
 };
