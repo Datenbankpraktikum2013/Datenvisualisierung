@@ -12,16 +12,28 @@ App.chart.piechart = {
     	//Aufsummieren der Kategorien um ein einfaches Piechart zu zeichnen
     	if(App.model.data.categories.length > 10){
 	    	var summe = 0;
-	    	var newSeries = {name : "Summe", data : []}
+	    	var newSeries = {data: {
+	    						categories:[],
+	    						series:[{
+	    							name : 'Summe',
+	    							data : []
+	    							}]
+	    						}
+	    					}
+	    	var array = [];
 	    	
 	    	for(var i = 0; i < App.model.data.categories.length; i++){
 	    		for(var j = 0; j < App.model.data.series.length; j++){
 	    			summe += App.model.data.series[j].data[i];
 	    		}
-	    		newSeries.data.push(summe);
-	    		
+	    		array.push(App.model.data.categories[i]);
+	    		array.push(summe);
+	    		newSeries.data.series[0].data.push(array);
+	    		array = [];
 	    		summe = 0;
+	    		newSeries.data.categories.push (App.model.data.categories[i]);
 	    	}
+	    	console.log(newSeries);
 
 
 
@@ -38,12 +50,13 @@ App.chart.piechart = {
 		        	enabled: true
 		        },
 		        xAxis: {
-		            categories: App.model.data.categories
+		            categories: newSeries.data.categories
 		        },
 		        yAxis: {
 		            title: {
 		                text: 'Anzahl'
-		            }
+		            },
+		            categories: newSeries.data.categories
 		        },
 		        legend : { 
 		            navigation: {
@@ -80,10 +93,7 @@ App.chart.piechart = {
 		        // einlesen der oben erstellen Datensätze zum zeichnen der
 		        // Torte
 		        
-		        series : [{
-		        	name: App.model.categories,
-		        	data: newSeries.data
-		        }]
+		        series : newSeries.data.series
 	    	});
 	    }
 	    else{
