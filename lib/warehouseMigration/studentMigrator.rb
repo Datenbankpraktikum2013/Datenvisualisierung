@@ -13,18 +13,17 @@ module Migrator
 		end
 		print "done loading #{locations.length} locations\n"
 
+		print "creating temporary table\n"
+		buildStudentTable
 
 		print "loading students in batches of #{BATCHSIZE}\n"
 
-		#To use floor here is okay, look at the next query and you'll see why.
+		#To use floor here is okay because limit starts with 0
 		allbatches = CLIENT.query(
 			"SELECT
 				floor(count(STG_MATRIKELNR)/#{BATCHSIZE}) as batches
 			FROM
-				(SELECT DISTINCT STG_MATRIKELNR
-				FROM
-					#{QUERY_LAST_STUDENT_INFO}
-				) AS STUD").first["batches"]
+				QUERY_LAST_STUDENT_INFO").first["batches"]
 		
 		for batchnumber in 0..allbatches
 			print "retrieving batch #{batchnumber+1} of #{allbatches+1}\n"
@@ -37,14 +36,9 @@ module Migrator
 					STG_STAATSANGH AS 'nationality',
 					STG_HZBORT AS 'HZBOrt'
 				FROM 
-					#{QUERY_LAST_STUDENT_INFO}
-				GROUP BY
-					STG_MATRIKELNR
-				ORDER BY
-					STG_MATRIKELNR ASC
+					QUERY_LAST_STUDENT_INFO
 				LIMIT
-					#{batchnumber*BATCHSIZE},#{BATCHSIZE}
-				").each
+					#{batchnumber*BATCHSIZE},#{BATCHSIZE}").each
 
 			numAll = students.length
 
@@ -71,6 +65,7 @@ module Migrator
 				if(studentDB == nil)
 					studentDB = Student.find_by_matriculation_number(student["matriculation_number"])
 				end
+				#Only create new student if necessary.
 				if(studentDB == nil)
 					studentDB = Student.new(student)
 					numCreated += 1
@@ -82,6 +77,7 @@ module Migrator
 				end
 			
 			end
+			bar.end
 			print "\ndone. Created #{numCreated} new #{"student".pluralize(numCreated)}\n"
 
 			if(numCreated > 0)
@@ -97,5 +93,7 @@ module Migrator
 				print "done\n"
 			end
 		end
+		print "dropping temporary table"
+		dropStudentTable
 	end
 end
