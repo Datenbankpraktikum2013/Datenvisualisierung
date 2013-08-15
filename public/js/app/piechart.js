@@ -71,6 +71,7 @@ App.chart.piechart = {
 		        		shadow: false,
 		        		center: ['50%','50%'],
 		        		showInLegend: true,
+		        		allowPointSelect: true
 
 		        	},
 		        	series: {
