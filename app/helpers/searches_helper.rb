@@ -47,6 +47,7 @@ module SearchesHelper
 		series_counter = 0
 
 		json.set! :data do
+			json.set! :title, "gezählte #{@search.get_title}"
 			json.set! :categories, category_names
 			json.set! :series do 
 				json.array! series_names do

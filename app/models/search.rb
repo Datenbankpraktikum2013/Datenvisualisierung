@@ -1,6 +1,5 @@
 class Search < ActiveRecord::Base
 
-
 	def results_for_maps
 
 		chosen_attributes_for_search = fetch_attributes_and_classes[0]
@@ -43,7 +42,12 @@ class Search < ActiveRecord::Base
 		end
 
 		hash_with_counted_results = complete_relation.order("count_id DESC").count(:id)
+		@title = @title + ": " + hash_with_counted_results.values.sum.to_s
 		hash_with_counted_results
+	end
+
+	def get_title
+		@title
 	end
 
 	private
@@ -168,6 +172,16 @@ class Search < ActiveRecord::Base
 					break if class_name == neighbor
 				end
 			end
+		end
+
+		@title = "Studienköpfe"
+		puts "#{joined_classes}"
+		if joined_classes.include?("Study") 
+			@title = "Studiengänge"
+		end
+
+		if joined_classes.include?("Discipline")
+			@title = "Studienfälle"
 		end
 		filtered_result
 	end
