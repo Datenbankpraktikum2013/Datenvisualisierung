@@ -12,7 +12,8 @@ App.model = {
 	init : function() {
 		radio('filter.submit').subscribe(this.submitListener);
 	},
-	
+	/** Hoert auf den Submit-Button um die Daten aus fuer das Model aus dem Formular
+		zu holen */
 	submitListener : function() {
 		App.model.fetch();
 	},
@@ -35,11 +36,12 @@ App.model = {
 	/*
 	 * Bereitet die Filter aus dem Formular fuer das Erstellen des 
 	 * Suchobjektes auf.
+	 * @param {Filter}
 	 */
 	prepareParameters : function(filter){
 		var parameters = {};
 		var tmp = '';
-
+		/* gehe jedes Objekt in der View durch und schreibe es in Parameters */
 		$.each(filter, function(index, value){
 			if ( !( value === null || value === undefined || value === '')) {
 				if (value instanceof Array) {
@@ -57,6 +59,7 @@ App.model = {
 				
 			} 
 		});
+		/* stecke das Jahr, dass aus dem Slider ausgelesen wird in prepare Parameters */
 		var year = App.slider.getValue();
 		var param_year = '';
 		if (year !== 'All') {
