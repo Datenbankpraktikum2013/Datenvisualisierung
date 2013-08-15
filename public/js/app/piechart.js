@@ -10,6 +10,7 @@ App.chart.piechart = {
     	var zaehler = [];
     	
     	//Aufsummieren der Kategorien um ein einfaches Piechart zu zeichnen
+    	
     	if(App.model.data.categories.length > 10){
 	    	var summe = 0;
 	    	var newSeries = {data: {

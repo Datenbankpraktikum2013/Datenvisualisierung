@@ -11,20 +11,15 @@ App.chart.columnchart = {
         chart: {
             type: 'column',
             events: {
-                redraw: function(){  // Ladeanzeige muss noch gemacht werden, warten auf dynamische Daten 
-                    //this.showLoading();
-                   // this.hideLoading();
-                },
+                redraw: function(){},
                 load: function(){
                     this.hideLoading();
-                    // this.showLoading();
+                   
                 },
                 addSeries: function(){
                     this.redraw();
                 },
-                click : function() {
-                    //$('.popover').remove();
-                }
+                click : function() {}
             },
             zoomType: 'xy',
             pinchType: 'xy'
@@ -37,7 +32,6 @@ App.chart.columnchart = {
         },
         xAxis: {
             categories: App.model.data.categories,
-          //  checkLabels(),
             labels : {
                 rotation : -45,
                 align : 'right'

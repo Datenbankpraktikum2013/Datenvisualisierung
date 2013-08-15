@@ -97,4 +97,8 @@ App.showAlert = function(alert_config) {
     var prependTo = alert_config.prependTo || '#content';
     
     $(alert).hide().prependTo(prependTo).slideDown();
-}
+
+};
+
+
+
