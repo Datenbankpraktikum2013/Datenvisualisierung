@@ -74,7 +74,6 @@ App.model = {
 				parameters.semester_of_deregistration = param_year;
 			}				
 		}
-		console.log(parameters);
 		return parameters;
 	},
 

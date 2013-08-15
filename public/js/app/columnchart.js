@@ -33,7 +33,7 @@ App.chart.columnchart = {
             text: "Ihre Suche",
             style: {
                 fontWeight: 'bold'
-            },
+            }
         },
         xAxis: {
             categories: App.model.data.categories,
@@ -105,6 +105,7 @@ App.chart.columnchart = {
         var chart = $('#chart').highcharts();
         var updated = false;
         
+        chart.setTitle({text : App.model.data.title});
         for (var i=0; i < App.model.data.categories.length; i++) {
             updated = false;
             for (var j=0; j < chart.xAxis[0].categories.length; j++) {

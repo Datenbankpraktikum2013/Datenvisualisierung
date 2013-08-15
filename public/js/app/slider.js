@@ -4,7 +4,7 @@ App.slider = {
 
 	slider_options : {
 		min : 1994.5,
-		max : 2013,
+		max : 2012.5,
 		step: 0.5,
 		value : 1994.5,
 		orientation : 'horizontal',
