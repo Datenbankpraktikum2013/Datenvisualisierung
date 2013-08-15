@@ -150,7 +150,7 @@ App.model = {
 		}).always(function() {
 			radio('model.fetched').broadcast();
 		});
-	
+		
 		$.getJSON(url_gmaps, function(data) {
 			App.model.data_gmaps = data.data_gmaps;
 			radio('model.gmaps.fetched').broadcast();
