@@ -97,7 +97,7 @@ App.chart.columnchart = {
         this.config.legend.enabled = (App.model.data.series.length != 1);
         this.config.xAxis.categories = App.model.data.categories;
         this.config.series = App.model.data.series;
-        this.config.title = App.mode.data.title;
+        this.config.title.text = App.model.data.title;
         $('#chart').highcharts(this.config);
     },
 
