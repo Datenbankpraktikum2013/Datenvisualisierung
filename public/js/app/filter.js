@@ -119,6 +119,48 @@ App.filter = {
 	            $('#student-hidden').slideUp();
 	        }
 	    });
+
+        // Erstellen des Multiselects fuer die Fachbereichsauswahl
+	    $('#department').multiselect({
+	        buttonWidth : false,
+	        buttonContainer : '<div class="row-fluid btn-group" />',
+	        buttonText: function(options) {
+	            if (options.length == 0) {
+	                return 'Fachbereiche auswählen <b class="caret"></b>';
+	            }
+	            else if (options.length > 1) {
+	                return options.length + ' ausgewählt <b class="caret"></b>';
+	            }
+	            else {
+	                var selected = '';
+	                options.each(function() {
+	                    selected += $(this).text() + ', ';
+	                });
+	                return selected.substr(0, selected.length -2) + ' <b class="caret"></b>';
+	            }
+	        }
+	    });
+
+	    //Erstelle Multiselect fuer die Abschlussartauswahl
+	    $('#kind_of_degree').multiselect({
+	        buttonWidth : false,
+	        buttonContainer : '<div class="row-fluid btn-group" />',
+	        buttonText: function(options) {
+	            if (options.length == 0) {
+	                return 'Abschlussart auswählen <b class="caret"></b>';
+	            }
+	            else if (options.length > 1) {
+	                return options.length + ' ausgewählt <b class="caret"></b>';
+	            }
+	            else {
+	                var selected = '';
+	                options.each(function() {
+	                    selected += $(this).text() + ', ';
+	                });
+	                return selected.substr(0, selected.length -2) + ' <b class="caret"></b>';
+	            }
+	        }
+	    });
 	},
 	
 	/*

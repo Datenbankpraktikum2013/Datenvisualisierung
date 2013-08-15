@@ -9,6 +9,8 @@ App.model = {
 	
 	location : 2,
 
+	loaded : 0,
+
 	init : function() {
 		radio('filter.submit').subscribe(this.submitListener);
 	},
@@ -16,6 +18,15 @@ App.model = {
 		zu holen */
 	submitListener : function() {
 		App.model.fetch();
+	},
+
+	checkLoadedAll : function() {
+		if (App.model.loaded == 2) {
+			App.model.loaded = 0;
+			radio('model.fetched').broadcast();
+		} else {
+			App.model.loaded++;
+		}
 	},
 
 	/*
@@ -156,9 +167,7 @@ App.model = {
 				heading: 'Verbindungsfehler!', 
 				message: 'Die Verbindung zum Server ist fehlgeschlagen!'
 			});
-		}).always(function() {
-			radio('model.fetched').broadcast();
-		});
+		}).always(this.checkLoadedAll);
 		
 		$.getJSON(url_gmaps, function(data) {
 			App.model.data_gmaps = data.data_gmaps;
@@ -169,9 +178,7 @@ App.model = {
 				heading: 'Verbindungsfehler!', 
 				message: 'Die Verbindung zum Server ist fehlgeschlagen!'
 			});
-		}).always(function() {
-			radio('model.fetched').broadcast();
-		});
+		}).always(this.checkLoadedAll);
 
 		$.getJSON(url_globe, function(data) {
 			App.model.data_globe = data.data_globe;
@@ -182,8 +189,6 @@ App.model = {
 				heading: 'Verbindungsfehler!', 
 				message: 'Die Verbindung zum Server ist fehlgeschlagen!'
 			});
-		}).always(function() {
-			radio('model.fetched').broadcast();
-		});
+		}).always(this.checkLoadedAll);
 	}
 }; 
