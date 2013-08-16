@@ -44,16 +44,13 @@ module SearchesHelper
 			data_of_every_series_hash[series] = data_array
 		end
 
-		series_counter = 0
-
 		json.set! :data do
 			json.set! :title, "gezählte #{@search.get_title}"
 			json.set! :categories, category_names
 			json.set! :series do 
-				json.array! series_names do
-					json.set! :name, series_names[series_counter]
-					json.set! :data, data_of_every_series_hash[series_names[series_counter]]
-					series_counter += 1
+				json.array! series_names do |series_name|
+					json.set! :name, series_name
+					json.set! :data, data_of_every_series_hash[series_name]
 				end
 			end
 		end
