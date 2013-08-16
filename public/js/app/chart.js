@@ -77,29 +77,33 @@ App.chart = {
 
 	showDrilldownPopup : function(el, event) {
 		$('.popover').remove();
-        var e = $(event.target).popover({
-			title : '<strong>Diesen Datensatz aufteilen nach:</strong>',
-			html : true,
-			content : App.filter.getAvailableFilters(el.category, el.series.name),
-			container : 'body',
-			placement : 'right',
-			trigger : 'manual',
-			delay: { 
-				show : '500',
-				hide : '100'
-			}
-		}).popover('show');
-		//Popover hides after 5s
-		setTimeout(function() {
-			e.popover('hide')
-		}, 3000);
+        var avaibleFilters = App.filter.getAvailableFilters(el.category, el.series.name);
+        if (avaibleFilters !== '') {
+	        var e = $(event.target).popover({
+				title : '<strong>Diesen Datensatz aufteilen nach:</strong>',
+				html : true,
+				content : avaibleFilters,
+				container : 'body',
+				placement : 'right',
+				trigger : 'manual',
+				delay: { 
+					show : '500',
+					hide : '100'
+				}
+			}).popover('show');
+			//Popover hides after 5s
+			setTimeout(function() {
+				e.popover('hide')
+			}, 3000);	
+        }        
 	},
 
 	render : function() {
 		$('#chart').removeClass('loading');
-		$('#chart').attr('style','');
+		$('.popover').remove();
+        $('#chart').attr('style','');
 		if (App.model.data.categories.length == 0 && App.model.data.series.length == 0) {
-			App.showAlert({type : 'info', heading : 'Fehler', message : 'Ihre Suche ergab keine Treffer. Bitte ueberarbeiten Sie ihre Filtereinstellungen'});
+			App.showAlert({type : 'info', heading : 'Achtung', message : 'Ihre Suche ergab keine Treffer. Bitte ueberarbeiten Sie ihre Filtereinstellungen'});
 			$('#chart').html('');
 		} else {
 			if (this.render_type == 'new') {

@@ -5,8 +5,6 @@ module Migrator
 		print "+now migrating degrees+\n"
 		print "+++++++++++++++++++++++\n\n"
 
-		print "preload all disciplines\n"
-
 		print "calculating number of batches\n"
 
 		#To use floor here is okay because limit starts with 0
@@ -42,7 +40,7 @@ module Migrator
 			) AS BLUBB").first["batches"]
 
 		print "loading degrees in #{allbatches} batches of #{BATCHSIZE} study entries\n"
-		allbatches = 1
+
 		for batchnumber in 0..allbatches 
 			print "retrieving batch #{batchnumber+1} of #{allbatches+1}\n"
 			
@@ -122,14 +120,14 @@ module Migrator
 				end
 
 				if(studentDB == nil)
-					next
-					#raise "Student #{matriculation_number} was not yet migrated. Please migrate students first.\n"
+					# next
+					raise "Student #{matriculation_number} was not yet migrated. Please migrate students first.\n"
 				end
 
 				studyDB = studentHash[matriculation_number][:studies][study_number]
 				if(studyDB == nil)
-					next
-					#raise "Study #{study_number} for student #{matriculation_number} was not yet migrated. Please migrate studies first."
+					# next
+					raise "Study #{study_number} for student #{matriculation_number} was not yet migrated. Please migrate studies first."
 				end
 
 				number_of_semesters = degree["number_of_semesters"]

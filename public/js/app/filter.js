@@ -119,6 +119,48 @@ App.filter = {
 	            $('#student-hidden').slideUp();
 	        }
 	    });
+
+        // Erstellen des Multiselects fuer die Fachbereichsauswahl
+	    $('#department').multiselect({
+	        buttonWidth : false,
+	        buttonContainer : '<div class="row-fluid btn-group" />',
+	        buttonText: function(options) {
+	            if (options.length == 0) {
+	                return 'Fachbereiche auswählen <b class="caret"></b>';
+	            }
+	            else if (options.length > 1) {
+	                return options.length + ' ausgewählt <b class="caret"></b>';
+	            }
+	            else {
+	                var selected = '';
+	                options.each(function() {
+	                    selected += $(this).text() + ', ';
+	                });
+	                return selected.substr(0, selected.length -2) + ' <b class="caret"></b>';
+	            }
+	        }
+	    });
+
+	    //Erstelle Multiselect fuer die Abschlussartauswahl
+	    $('#kind_of_degree').multiselect({
+	        buttonWidth : false,
+	        buttonContainer : '<div class="row-fluid btn-group" />',
+	        buttonText: function(options) {
+	            if (options.length == 0) {
+	                return 'Abschlussart auswählen <b class="caret"></b>';
+	            }
+	            else if (options.length > 1) {
+	                return options.length + ' ausgewählt <b class="caret"></b>';
+	            }
+	            else {
+	                var selected = '';
+	                options.each(function() {
+	                    selected += $(this).text() + ', ';
+	                });
+	                return selected.substr(0, selected.length -2) + ' <b class="caret"></b>';
+	            }
+	        }
+	    });
 	},
 	
 	/*
@@ -174,6 +216,9 @@ App.filter = {
     		$('#department').multiselect('refresh');
     	} else if(input == 'kind_of_degree') {
     		$('#kind_of_degree').multiselect('refresh');
+    	} else if(input == 'federal_state_name') {
+    		this.setFilterOption('country_iso_code', 'DE');
+    		$('#filter-form select[name="country_iso_code"]').change();
     	}
     },
 
@@ -184,9 +229,6 @@ App.filter = {
     getAvailableFilters : function(category, series_name) {
     	var filter = App.filter.getFilter();
     	var returnString = '<ul>';
-
-    	console.log('Cat: ' + category);
-		console.log('series: ' + series_name);
 
     	$.each(this.mapping, function(index,value) {
     		var available = false;
@@ -203,6 +245,11 @@ App.filter = {
     		}
 			if (filter['search_category'] == index || filter['search_series'] == index) {
 				available = false;
+	    	}
+	    	if (index == 'federal_state_name' 
+	    		&& filter['search_category'] == 'country_iso_code' 
+	    		&& category != 'DE') {
+	    		available = false;
 	    	}
 	    	if (available) {
 	    		returnString += '<li><a class="drilldown" href="#"'

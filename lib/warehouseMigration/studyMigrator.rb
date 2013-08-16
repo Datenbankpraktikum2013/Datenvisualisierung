@@ -21,17 +21,16 @@ module Migrator
 
 		print "done loading #{Discipline.all.length} disciplines\n"
 
-		print "calculating number of batches"
+		print "create temporary tables on server\n"
+		buildStudyTable
+
+		print "calculating number of batches\n"
 		#To use floor here is okay, look at the next query and you'll see why.
 		allbatches = CLIENT.query(
 			"SELECT
 				floor(count(STG_MATRIKELNR)/#{BATCHSIZE}) as batches
 			FROM
-				(SELECT 
-					STG_MATRIKELNR
-				FROM
-					#{QUERY_LAST_FIELD_INFO}
-				) as LI").first["batches"]
+				QUERY_LAST_FIELD_INFO").first["batches"]
 
 		print "loading studies in #{allbatches} batches of #{BATCHSIZE} study entries\n"
 		for batchnumber in 0..allbatches 
@@ -46,11 +45,9 @@ module Migrator
 					STG_IMMATSEM AS semester_of_matriculation,
 					STG_SEMESTER AS current_semester
 				FROM
-					#{QUERY_LAST_FIELD_INFO}
-				ORDER BY
-					matriculation_number ASC
+					QUERY_LAST_FIELD_INFO
 				LIMIT
-					#{batchnumber*BATCHSIZE},#{BATCHSIZE}").each
+					#{batchnumber*BATCHSIZE},#{BATCHSIZE};").each
 			numAll = studies.length
 
 			print "now preloading students\n"
@@ -132,15 +129,18 @@ module Migrator
 						studiesToSave << [studyDB,studentDB]
 					end
 				else
+					#Only add discipline if it is not already there.
 					unless(studyDB.disciplines.include?(disciplineDB))
 						studyDB.disciplines << disciplineDB
-						unless(studiesToSave.include?([study,nil]))
+						#Maybe we already added study to the toSave list because of an other discipline
+						unless(studiesToSave.include?([studyDB,nil]))
 							studiesToSave << [studyDB,nil]
 						end
 					end
 				end
 
 			end
+			bar.end
 			print "\ndone. Created #{numCreated} new "+"study".pluralize(numCreated)+"\n"
 
 			if(numCreated > 0)
@@ -161,5 +161,7 @@ module Migrator
 				print "done\n"
 			end
 		end
+		print "dropping temporary table\n"
+		dropStudyTable
 	end
 end

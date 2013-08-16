@@ -34,12 +34,7 @@ class Search < ActiveRecord::Base
 		relation_including_where_clauses = add_where_clauses_to_relation(chosen_attributes_for_search, relation_with_all_necessary_joins)
 
 		hash_with_counted_results = {}
-		
-		if search_series.blank?
-			complete_relation = relation_including_where_clauses.group(search_category.to_sym)
-		else
-			complete_relation = relation_including_where_clauses.group(search_category.to_sym, search_series.to_sym)
-		end
+		complete_relation = relation_including_where_clauses.group(search_category.to_sym, search_series.to_sym)
 
 		hash_with_counted_results = complete_relation.order("count_id DESC").count(:id)
 		@title = @title + ": " + hash_with_counted_results.values.sum.to_s

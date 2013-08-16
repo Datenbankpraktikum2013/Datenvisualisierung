@@ -11,20 +11,15 @@ App.chart.columnchart = {
         chart: {
             type: 'column',
             events: {
-                redraw: function(){  // Ladeanzeige muss noch gemacht werden, warten auf dynamische Daten 
-                    //this.showLoading();
-                   // this.hideLoading();
-                },
+                redraw: function(){},
                 load: function(){
                     this.hideLoading();
-                    // this.showLoading();
+                   
                 },
                 addSeries: function(){
                     this.redraw();
                 },
-                click : function() {
-                    //$('.popover').remove();
-                }
+                click : function() {}
             },
             zoomType: 'xy',
             pinchType: 'xy'
@@ -33,11 +28,10 @@ App.chart.columnchart = {
             text: "Ihre Suche",
             style: {
                 fontWeight: 'bold'
-            },
+            }
         },
         xAxis: {
             categories: App.model.data.categories,
-          //  checkLabels(),
             labels : {
                 rotation : -45,
                 align : 'right'
@@ -105,6 +99,7 @@ App.chart.columnchart = {
         var chart = $('#chart').highcharts();
         var updated = false;
         
+        chart.setTitle({text : App.model.data.title});
         for (var i=0; i < App.model.data.categories.length; i++) {
             updated = false;
             for (var j=0; j < chart.xAxis[0].categories.length; j++) {

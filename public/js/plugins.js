@@ -438,7 +438,7 @@ $('#el').spin('flower', 'red');
         this._counter = 0 ; // Use to generate id for events without ids
         this.$mainContainer;
         this._year_gap = 1;
-        this._numLines = (this.options.numYears+0.5) / this._year_gap;
+        this._numLines = (this.options.numYears) / this._year_gap;
         this.init();
     }
 
@@ -474,7 +474,7 @@ $('#el').spin('flower', 'red');
         var containerWidth = totalWidth;// + 30;
         var $mainContainer = this.$mainContainer = $(
             '<div class="gt-timeline" style="width:'+containerWidth+'px">' + 
-                '<div class="main_line" style="width:'+(totalWidth+2)+'px"></div>' + 
+                '<div class="main_line" style="width:'+(totalWidth+1)+'px"></div>' + 
             '</div>'
         );
 
@@ -484,7 +484,7 @@ $('#el').spin('flower', 'red');
             $mainContainer.append(_this._getMonthMarkup(true, _this.options.startYear + j));
             $mainContainer.append(_this._getMonthMarkup(false, _this.options.startYear + j));
         }
-        $mainContainer.append(_this._getMonthMarkup(true, _this.options.startYear + _this.options.numYears));
+        //$mainContainer.append(_this._getMonthMarkup(true, _this.options.startYear + _this.options.numYears));
         //Start adding events
         for(var k=0;k<_this.options.events.length;k++){
             var e = _this.options.events[k];
