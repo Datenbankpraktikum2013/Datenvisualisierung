@@ -67,7 +67,7 @@ App.model = {
 					parameters.discipline_name += ', ' + value;
 				}
 				else parameters[index] = value;
-				
+
 			} 
 		});
 		/* stecke das Jahr, dass aus dem Slider ausgelesen wird in prepare Parameters */
@@ -80,7 +80,16 @@ App.model = {
 				param_year = Math.floor(year)*10 + 2
 			}
 			if (filter.graduation_status.indexOf('S') > -1) {
-				parameters.semester_of_matriculation = param_year;
+				if (filter.search_category == 'semester_of_matriculation') {
+					var years = [];
+					for (var i=19950; i < 20130; i += 10) {
+						years.push(i+1);
+						years.push(i+2);
+					}
+					parameters.semester_of_matriculation = years.join(', ');
+				} else {
+					parameters.semester_of_matriculation = param_year;
+				} 
 			} else {
 				parameters.semester_of_deregistration = param_year;
 			}				
@@ -145,6 +154,33 @@ App.model = {
 		 return data;
 		}
 	},
+	//bearbeitet die Jahre 
+	modifyYearSeries : function(data){
+		var  newSeries = {
+			series : [], 
+			categories : []
+		}
+		for (var i=0; i < data.series.length; i++) {
+			newSeries.series.push({name:data.series[i].name, data: []});
+		}
+		var offset = 1;
+		for(var i = 0; i < data.categories.length; i++){ //19981 //19982 //19991 //19992
+			if(data.categories[i+1] - data.categories[i] == 9 ){
+				newSeries.categories.push(data.categories[i]+' '+ data.categories[i+1]);
+				for (var j=0; j < data.series.length; j++) {
+					newSeries.series[j].data.push(data.series[j].data[i] + data.series[j].data[i+1]);
+				}
+				i++;
+			} else {
+				newSeries.categories.push(data.categories[i]);	
+				for (var j=0; j < data.series.length; j++) {
+					newSeries.series[j].data.push(data.series[j].data[i]);
+				}
+			}
+		}
+		console.log(newSeries);
+		return newSeries;
+	},
 
 	/*
 	 * Laedt einen neuen Datensatz mit den aktuellen Filtern vom Server.
@@ -159,7 +195,12 @@ App.model = {
 		var url_globe = 'searches/'+App.model.location+'.json?representation=globe';
 	
 		$.getJSON(url, function(data) {
-			App.model.data = App.model.limitateSeries(data.data);
+			if(App.filter.getFilter().search_category == 'semester_of_matriculation'){
+				App.model.data = App.model.modifyYearSeries(data.data);
+			}
+			else{
+				App.model.data = App.model.limitateSeries(data.data);
+			}
 			radio('model.hc.fetched').broadcast();
 		}).fail(function() {
 			App.showAlert({
