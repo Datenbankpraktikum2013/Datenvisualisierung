@@ -18,7 +18,7 @@ class Search < ActiveRecord::Base
 	end
 
 
-	def results_for_highcharts
+	def results_for_highcharts animation = false
 
 		chosen_attributes_for_search = fetch_attributes_and_classes[0]
 		corresponding_classes_of_attributes = fetch_attributes_and_classes[1]
@@ -41,11 +41,22 @@ class Search < ActiveRecord::Base
 		end
 		
 		@title = @title + ": " + hash_with_counted_results.values.sum.to_s
+
+		if(animation == "true")
+			relation_for_maximum = relation_including_where_clauses.group(search_category.to_sym, :semester_of_matriculation)
+			hash_for_maximum = relation_for_maximum.count(:id)
+			@scale_maximum_for_animation = hash_for_maximum.values.max
+		end
+
 		hash_with_counted_results
 	end
 
 	def get_title
 		@title
+	end
+
+	def get_scale_maximum_for_animation
+		@scale_maximum_for_animation
 	end
 
 	private
