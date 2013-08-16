@@ -131,10 +131,10 @@ class Search < ActiveRecord::Base
 			filtered_result = filtered_result.joins(StudentsController.join_to_studies)
 			joined_classes << "Study"
 			if graduation_status == "A"
-				#outer join degree: Alle studies zu denen MINDESTENS EIN degree vorhanden ist
+				#join degree: alle studies, zu denen ein degree vorhanden ist
 				filtered_result = filtered_result.joins(StudiesController.join_to_degrees)
 			elsif graduation_status == "S"
-				#outer join degree: Alle studies zu denen KEIN degree vorhanden ist
+				#alle studies, zu denen KEIN degree vorhanden ist
 				filtered_result = filtered_result.merge(Study.without_degrees)
 			end
 			joined_classes << "Degree"
@@ -187,3 +187,4 @@ class Search < ActiveRecord::Base
 	end
 
 end
+
