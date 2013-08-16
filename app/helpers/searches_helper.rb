@@ -1,7 +1,7 @@
 module SearchesHelper
 
-	def render_json_for_highcharts(json)
-		search_results = @search.results_for_highcharts
+	def render_json_for_highcharts(json, animation)
+		search_results = @search.results_for_highcharts animation
 
 		category_names = []
 		series_names = []
@@ -46,6 +46,9 @@ module SearchesHelper
 
 		json.set! :data do
 			json.set! :title, "gezählte #{@search.get_title}"
+			unless @search.get_scale_maximum_for_animation.nil?
+				json.set! :scale_maximum, @search.get_scale_maximum_for_animation
+			end
 			json.set! :categories, category_names
 			json.set! :series do 
 				json.array! series_names do |series_name|
