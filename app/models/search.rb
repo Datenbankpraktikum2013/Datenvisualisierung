@@ -34,7 +34,12 @@ class Search < ActiveRecord::Base
 		hash_with_counted_results = {}
 		complete_relation = relation_including_where_clauses.group(search_category.to_sym, search_series.to_sym)
 
-		hash_with_counted_results = complete_relation.order("count_id DESC").count(:id)
+		if search_category == "semester_of_deregistration" or search_category == "semester_of_matriculation"
+			hash_with_counted_results = complete_relation.count(:id)
+		else
+			hash_with_counted_results = complete_relation.order("count_id DESC").count(:id)
+		end
+		
 		@title = @title + ": " + hash_with_counted_results.values.sum.to_s
 		hash_with_counted_results
 	end

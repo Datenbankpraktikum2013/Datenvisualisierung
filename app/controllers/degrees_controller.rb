@@ -62,7 +62,7 @@ class DegreesController < ApplicationController
   end
 
   def self.fetch_groupable_attributes
-    []
+    ["semester_of_deregistration"]
   end
   
   def self.fetch_searchable_attributes

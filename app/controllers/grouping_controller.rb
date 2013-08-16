@@ -22,6 +22,10 @@ class GroupingController < ApplicationController
       all_groupable_elements[attribute] = "Study"
     end
 
+    DegreesController.fetch_groupable_attributes.each do |attribute|
+      all_groupable_elements[attribute] = "Degree"
+    end
+
     DisciplinesController.fetch_groupable_attributes.each do |attribute|
       all_groupable_elements[attribute] = "Discipline"
     end
