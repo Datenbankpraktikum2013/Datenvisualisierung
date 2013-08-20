@@ -82,41 +82,47 @@ module SearchesHelper
 			end
 		end
 
-		cities_of_federal_state = {}
+		cities_hash = {}
 		search_results.each do |k,v|
 			if k[0] == "DE"
-				federal_state_accumulations.keys.each do |federal_state|
-					if k[1] == federal_state
-						if cities_of_federal_state[federal_state].nil?
-							cities_of_federal_state[federal_state] = []
-						end
-						cities_of_federal_state[federal_state] << [k[2], v]
-					end
-				end
+				location_name = k[2]
+				cities_hash[location_name] = v
 			end
 		end
+
+		countries_relation = Country.select("*")
+		federal_states_relation = FederalState.select("*")
+		locations_relation = Location.select("locations.*")
+
 		json.set! :data_gmaps do
-			json.array! country_accumulations do |element|
-				country = Country.find_by_country_iso_code(element[0])
-				json.set! :country_iso_code, country.country_iso_code
+			country_array = countries_relation.load.to_a
+			country_array = country_array.delete_if { |country| country_accumulations[country.country_iso_code].nil? }
+			json.array! country_array do |country|
+				country_iso_code = country.country_iso_code
+				json.set! :country_iso_code, country_iso_code
 				json.set! :longitude, country.longitude
 				json.set! :latitude, country.latitude
-				json.set! :number, element[1]
-				if country.country_iso_code == "DE"
+				json.set! :number, country_accumulations[country_iso_code]
+				if country_iso_code == "DE"
 					json.set! :federal_states do
-						json.array! federal_state_accumulations do |federal_state_element|
-							federal_state = FederalState.find_by_federal_state_iso_code(federal_state_element[0])
-							json.set! :federal_state_iso_code, federal_state.federal_state_iso_code
+						federal_state_array = federal_states_relation.load.to_a
+						federal_state_array = federal_state_array.delete_if { |fs| federal_state_accumulations[fs.federal_state_iso_code].nil? }
+						json.array! federal_state_array do |federal_state|
+							federal_state_iso_code = federal_state.federal_state_iso_code
+							json.set! :federal_state_iso_code, federal_state_iso_code
 							json.set! :longitude, federal_state.longitude
 							json.set! :latitude, federal_state.latitude
-							json.set! :number, federal_state_element[1]
+							json.set! :number, federal_state_accumulations[federal_state_iso_code]
 							json.set! :cities do
-								json.array! cities_of_federal_state[federal_state.federal_state_iso_code] do |city_element|
-									city = Location.find_by_location_name(city_element[0])
-									json.set! :location_name, city.location_name
+								location_array = locations_relation.joins(:federal_state).where("federal_state_iso_code = ? ", federal_state_iso_code).load.to_a
+								location_array.uniq! { |location| location.location_name }
+								location_array = location_array.delete_if { |loc| cities_hash[loc.location_name].nil? }
+								json.array! location_array do |city|
+									location_name = city.location_name
+									json.set! :location_name, location_name
 									json.set! :longitude, city.longitude
 									json.set! :latitude, city.latitude
-									json.set! :number, city_element[1]
+									json.set! :number, cities_hash[location_name]
 								end
 							end
 						end
@@ -134,6 +140,8 @@ module SearchesHelper
 		inputs = []
 		maxval = 0
 		maxval_city = 1
+
+
 		search_results.each do |key, value|
 			country = Country.find_by_country_iso_code (key[0])
 			if country.country_iso_code == "DE"
@@ -171,13 +179,13 @@ module SearchesHelper
 				#data_globe << inputs
 			end
 			
-				value  = value.to_f/maxval
-				# inputs << country.latitude.to_s + "," + country.longitude.to_s + "," + value.to_s
-				# inputs = []
-				inputs << country.latitude
-				inputs << country.longitude
-				inputs << value
-				#data_globe << inputs
+			value  = value.to_f/maxval
+			# inputs << country.latitude.to_s + "," + country.longitude.to_s + "," + value.to_s
+			# inputs = []
+			inputs << country.latitude
+			inputs << country.longitude
+			inputs << value
+			#data_globe << inputs
 			
 		end
 
