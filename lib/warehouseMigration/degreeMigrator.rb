@@ -23,7 +23,7 @@ module Migrator
 						LAB_MTKNR AS MATNR,
 						LAB_STGNR AS STGNR,
 						MAX(LAB_PSEM) AS PSEM,
-						MAX(LAB_LABNR) AS LABNR
+						MAX(LAB_PVERSUCH) AS PVERSUCH
 					FROM
 						FKT_LAB
 					WHERE
@@ -36,7 +36,7 @@ module Migrator
 					LAB_MTKNR = MATNR AND
 					LAB_STGNR = STGNR AND
 					LAB_PSEM = PSEM AND
-					LAB_LABNR = LABNR
+					LAB_PVERSUCH = PVERSUCH
 			) AS BLUBB").first["batches"]
 
 		print "loading degrees in #{allbatches} batches of #{BATCHSIZE} study entries\n"
@@ -49,7 +49,8 @@ module Migrator
 					LAB_MTKNR AS matriculation_number,
 					LAB_STGNR AS study_number,
 					LAB_PNOTE AS grade,
-					LAB_STGSEM AS number_of_semesters
+					LAB_STGSEM AS number_of_semesters,
+					LAB_PSEM AS semester_of_deregistration
 				FROM 
 					FKT_LAB
 				JOIN (
@@ -57,11 +58,11 @@ module Migrator
 						LAB_MTKNR AS MATNR,
 						LAB_STGNR AS STGNR,
 						MAX(LAB_PSEM) AS PSEM,
-						MAX(LAB_LABNR) AS LABNR
+						MAX(LAB_PVERSUCH) AS PVERSUCH
 					FROM
 						FKT_LAB
 					WHERE
-						LAB_PSTATUS IN (\"BE\",\"PA\")
+						LAB_PSTATUS IN (\"BE\",\"PA\",\"EN\",\"DF\")
 					GROUP BY
 						MATNR,
 						STGNR
@@ -70,7 +71,7 @@ module Migrator
 					LAB_MTKNR = MATNR AND
 					LAB_STGNR = STGNR AND
 					LAB_PSEM = PSEM AND
-					LAB_LABNR = LABNR
+					LAB_PVERSUCH = PVERSUCH
 				GROUP BY
 					LAB_MTKNR,
 					LAB_STGNR
@@ -97,7 +98,7 @@ module Migrator
 			#Create all the degrees if necessary
 			degrees.each do |degree|
 				bar.next
-				
+
 				matriculation_number = degree.delete("matriculation_number")
 				study_number = degree.delete("study_number").to_i
 				studentDB = nil
@@ -130,18 +131,27 @@ module Migrator
 					raise "Study #{study_number} for student #{matriculation_number} was not yet migrated. Please migrate studies first."
 				end
 
+				# Aus E-Mail von Frau Dalinghaus:
+				# > Ja, die Benotungen größer 5 haben auch eine Bedeutung und zwar Folgende:
+				# > WENN (note = 9) DANN ('endg. nicht best.(9->5,3)')
+				# > SONST WENN (note = 8) DANN ('best. mit unbek. Note (8->3,0)')
+				# > SONST WENN (note = 7) DANN ('vollbefriedigend (7->3,5)')
+				# > Leider gibt es aber auch mal fehlerhafte Einträge wie z.B. 6 oder 6.3.
+
+				# Diese werden dann als 5,3 gewertet
+				grade = degree["grade"]
+				degree["grade"] = case
+						when grade < 6
+							grade
+						when grade == 7
+							3.5
+						when grade == 8
+							3.0
+						else
+							5.3
+					end
+
 				number_of_semesters = degree["number_of_semesters"]
-				semDereg = studyDB.semester_of_matriculation
-				semDereg += (number_of_semesters / 2) * 10
-				semDereg += number_of_semesters % 2
-				addition = semDereg % 10
-				if(addition == 0)
-					addition = -8
-				elsif(addition == 3)
-					addition = 8
-				end
-				semDereg += addition
-				degree["semester_of_deregistration"] = semDereg
 
 				if(studyDB.degree == nil)
 					degreeDB = Degree.new(degree)
@@ -149,7 +159,7 @@ module Migrator
 					degreesToSave << [degreeDB,studyDB]
 
 				#update if current entry is newer
-				elsif(studyDB.degree.semester_of_deregistration<semDereg)
+				elsif(studyDB.degree.semester_of_deregistration < degree["semester_of_deregistration"])
 					studyDB.degree.assign_attributes(degree)
 					degreesToSave << [studyDB.degree,nil]
 				end
@@ -167,6 +177,7 @@ module Migrator
 						study = entry.last
 						unless study == nil
 							study.degree = degree
+							study.number_of_semester = degree.number_of_semesters
 							study.save
 						end
 						degree.save

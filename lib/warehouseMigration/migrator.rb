@@ -6,6 +6,16 @@ module Migrator
 
 	CSV_PATH = "db/warehouseRealWorldMapping.csv"
 
+	DEGREE_MAPPER = {
+		1=>"Bachelor",33=>"Bachelor",47=>"Bachelor",82=>"Bachelor",
+		94=>"Zertifikat",
+		97=>"Kein Abschluss",
+		8=>"Referendarexamen",
+		30=>"Master",58=>"Master",64=>"Master",66=>"Master",88=>"Master",99=>"Master",
+		21=>"Lehramt",22=>"Lehramt",23=>"Lehramt",25=>"Lehramt",27=>"Lehramt",40=>"Lehramt",
+		2=>"Promotion",6=>"Promotion",
+		11=>"Diplom"}
+
 	def self.buildStudentTable
 		CLIENT.query("CREATE TEMPORARY TABLE QUERY_LAST_STG_INFO ENGINE=MYISAM
 			SELECT *

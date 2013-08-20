@@ -6,8 +6,9 @@ namespace :migrate do
 	end
 
 	desc 'Rebuilds database and loads data from locations.sql and warehouse'
-	task :whole_database_with_sql =>[:rebuild,:all_with_sql] do
+	task :whole_database_with_sql =>[:rebuild,:sql,:all] do
 	end
+	
 	desc 'Rebuilds databse'
 	task :rebuild =>["db:drop","db:create","db:migrate"] do
 	end
@@ -32,10 +33,6 @@ namespace :migrate do
 
 	desc 'Migrates the whole database.'
  	task :all => [:locations, :students, :departments, :teaching_units, :disciplines, :studies, :degrees] do
-	end
-
-	desc 'Migrates locations.sql and the rest'
-	task :all_with_sql => [:sql,:students, :departments, :teaching_units, :disciplines, :studies, :degrees] do
 	end
 
 	desc 'Migrates all locations. This also migrates countries and federal states.'
