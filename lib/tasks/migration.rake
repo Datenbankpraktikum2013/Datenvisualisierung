@@ -1,17 +1,15 @@
 require File.expand_path('./lib/warehouseMigration/migrator.rb')
 
 namespace :migrate do
+
 	desc 'Rebuilds database and loads all data from warehouse'
-	task :whole_database =>[:rebuild,:all] do
-	end
+	task :to_empty_db =>[:nothing_but_rebuild_db,:all]
 
 	desc 'Rebuilds database and loads data from locations.sql and warehouse'
-	task :whole_database_with_sql =>[:rebuild,:sql,:all] do
-	end
+	task :with_sql_to_empty_db =>[:nothing_but_rebuild_db,:all_with_sql]
 	
 	desc 'Rebuilds databse'
-	task :rebuild =>["db:drop","db:create","db:migrate"] do
-	end
+	task :nothing_but_rebuild_db =>["db:drop","db:create","db:migrate"]
 
 	desc 'Inserts Data from location.sql file into database'
 	task :sql => :environment do
@@ -32,8 +30,10 @@ namespace :migrate do
 	end
 
 	desc 'Migrates the whole database.'
- 	task :all => [:locations, :students, :departments, :teaching_units, :disciplines, :studies, :degrees] do
-	end
+ 	task :all => [:locations, :students, :departments, :teaching_units, :disciplines, :studies, :degrees]
+
+	desc 'Migrates all data from warehouse but preloads sql'
+	task :with_sql => [:sql,:all]
 
 	desc 'Migrates all locations. This also migrates countries and federal states.'
 	task :locations => :environment do
@@ -77,3 +77,6 @@ namespace :migrate do
   		Migrator.migrateDegrees
   	end
 end
+
+desc 'Migrates all data from warehouse'
+task :migrate => ["migrate:all"]
