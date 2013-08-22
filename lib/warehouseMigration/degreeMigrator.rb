@@ -14,8 +14,7 @@ module Migrator
 			FROM(
 				SELECT DISTINCT
 					LAB_MTKNR,
-					LAB_STGNR,
-					LAB_PNOTE
+					LAB_STGNR
 				FROM 
 					FKT_LAB
 				JOIN (
