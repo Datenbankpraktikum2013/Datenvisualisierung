@@ -1,9 +1,0 @@
-development:
-  adapter: mysql2
-  encoding: utf8
-  host: dbs.informatik.uos.de
-  database: cgp13
-  pool: 5
-  username: cgp13
-  password: U4UwDfSpDrCDP3G5
- 

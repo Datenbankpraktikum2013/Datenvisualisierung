@@ -23,3 +23,6 @@
 
 /.project
 /config/database.yml
+
+# Ignore temporal files
+*~
