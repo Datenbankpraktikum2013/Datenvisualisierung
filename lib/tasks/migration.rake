@@ -6,10 +6,10 @@ namespace :migrate do
 	task :to_empty_db =>[:nothing_but_rebuild_db,:all]
 
 	desc 'Rebuilds database and loads data from locations.sql and warehouse'
-	task :with_sql_to_empty_db =>[:nothing_but_rebuild_db,:all_with_sql]
+	task :with_sql_to_empty_db =>[:nothing_but_rebuild_db,:with_sql]
 	
 	desc 'Rebuilds databse'
-	task :nothing_but_rebuild_db =>["db:drop","db:create","db:migrate"]
+	task :nothing_but_rebuild_db =>["db:reset"]
 
 	desc 'Inserts Data from location.sql file into database'
 	task :sql => :environment do

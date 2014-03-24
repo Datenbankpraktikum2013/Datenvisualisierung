@@ -1,5 +1,3 @@
-require File.expand_path("lib/warehouseMigration/credentials.rb")
-
 module Migrator
 
 	BATCHSIZE = 10000
@@ -15,6 +13,12 @@ module Migrator
 		21=>"Lehramt",22=>"Lehramt",23=>"Lehramt",25=>"Lehramt",27=>"Lehramt",40=>"Lehramt",
 		2=>"Promotion",6=>"Promotion",
 		11=>"Diplom"}
+
+	CLIENT = Mysql2::Client.new(
+		:host => Rails.configuration.database_configuration["warehouse"]["host"],
+		:username => Rails.configuration.database_configuration["warehouse"]["username"],
+		:password => Rails.configuration.database_configuration["warehouse"]["password"],
+		:database => Rails.configuration.database_configuration["warehouse"]["database"])
 
 	def self.buildStudentTable
 		CLIENT.query("CREATE TEMPORARY TABLE QUERY_LAST_STG_INFO ENGINE=MYISAM
