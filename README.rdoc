@@ -1,28 +1,62 @@
-== README
+== Installation
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+=== Requirements
+[Ruby version]
+  2
 
-Things you may want to cover:
+[System dependencies]
 
-* Ruby version
+  * libmysqlclient-dev (for mysql2 gem)
+  
+    install with <tt>sudo apt-get install libmysqlclient-dev</tt>
+  	  
+  * rvm (to get ready to use ruby)
+  
+    install with <tt>\curl -sSL https://get.rvm.io | bash -s stable</tt>
 
-* System dependencies
+=== Steps
+These installation steps describe installation on linux from scratch.
+If you already have ruby 2, rubygems and bundler installed you can ignore the rvm and the login stuff.
 
-* Configuration
+1. If not yet done, log in to bash in order to use rvm:
+    bash --login
+    
+2. Install ruby 2:
+    rvm install ruby 2
 
-* Database creation
+3. Use ruby 2:
+    rvm use 2
 
-* Database initialization
+4. Clone this repository if not already done
 
-* How to run the test suite
+5. Go to repository's root (the folder where this readme file is)
 
-* Services (job queues, cache servers, search engines, etc.)
+6. Install required gems (if using rvm do not use sudo!)
+    bundle install
 
-* Deployment instructions
+7. Set up database information as described in Configuration:Databases
 
-* ...
+8. Start migration:
+    rake migrate:with_sql_to_empty_db
+  
+=== Configuration
+==== Databases
+In order to be able to establish a connection to the production database and to the warehouse database you have to put
+the connection information into the file <tt>config/database.yml</tt>.
 
+We have prepared a template file, just copy <tt>config/database.yml.template</tt> to <tt>config/database.yml</tt>
+and edit the missing information where indicated.
 
-Please feel free to use a different markup language if you do not plan to 
-<tt>rake doc:app</tt>.
+==== Migration Cycle
+If you want to migrate regularly you can create a cron-job that executes the file <tt>migrate.sh</tt>
+
+== Starting the application
+1.  If not yet done, log in to bash in order to use rvm:
+      bash --login
+2.  Use ruby 2:
+      rvm use 2
+3.  a.  Start server:
+          rails s
+    
+    b.  Start on public server:
+          rails s -e production
