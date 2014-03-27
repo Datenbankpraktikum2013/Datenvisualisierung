@@ -67,7 +67,9 @@ App.chart.columnchart = {
             column : {
                 animation: {
                     duration: 500
-                }                
+                },
+                borderWidth: 0,
+
             },
         	series : {
                 stacking : 'normal',
@@ -97,28 +99,90 @@ App.chart.columnchart = {
 
     update : function() {
         var chart = $('#chart').highcharts();
-        var updated = false;
+        var newData = App.model.data;
         
-        chart.setTitle({text : App.model.data.title});
-        for (var i=0; i < App.model.data.categories.length; i++) {
-            updated = false;
-            for (var j=0; j < chart.xAxis[0].categories.length; j++) {
-                if (App.model.data.categories[i] === chart.xAxis[0].categories[j]) {
-                    for (var k=0; k < chart.series.length; k++) {
-                        chart.series[k].data[j].update(App.model.data.series[k].data[i], false);
-                    }
-                    updated = true;
-                }
-            }
-            if ( ! updated) {
-                var cat = chart.xAxis[0].categories;
-                cat.push(App.model.data.categories[i]);
-                chart.xAxis[0].setCategories(cat, false);
-                for (var j=0; j < chart.series.length; j++) {
-                    chart.series[j].addPoint(App.model.data.series[j].data[i], false);
-                }
+        //add all categories from new data to allCategories
+        var allCategories = newData.categories.slice(0,newData.length);
+
+        //add also all categories currently available and not already contained
+        for (var i = 0; i < chart.xAxis[0].categories.length; i++) {
+            if(allCategories.indexOf(chart.xAxis[0].categories[i]) == -1){
+                allCategories.push(chart.xAxis[0].categories[i]);
             }
         }
+
+        //now sort the categories to get better output
+        allCategories = allCategories.sort();
+
+        //update xAxis with allCategories
+        chart.xAxis[0].setCategories(allCategories,false);
+
+        var newSeries = newData.series;
+
+        //create a hash that can access all old series by name
+        //also create a list of all old series that will contain
+        //the series that were not yet updated
+        var oldSeriesH = {};
+        var seriesReminder = [];
+        for (var i = 0; i < chart.series.length; i++) {
+            oldSeriesH[chart.series[i].name] = chart.series[i];
+            seriesReminder.push(chart.series[i].name);
+        }
+
+        //now go through all new series and update their corresponding old
+        //series or create a new one
+        for (var newSeriesI = 0; newSeriesI < newSeries.length; newSeriesI++) {
+
+            //first add possibly missing 0 values for categories that have no
+            //entry in the series. Also put the other values into their correct position.
+            var newData = [];
+            for (var categoryI = 0; categoryI < allCategories.length; categoryI++) {
+                var categoryS = allCategories[categoryI];
+                var newIndex = App.model.data.categories.indexOf(categoryS);
+
+                var newValue = 0;
+
+                //only overwrite newValue if we have a value for this category
+                if(newIndex != -1){
+                    //newIndex is the category's index in the new dataset
+                    newValue = newSeries[newSeriesI].data[newIndex];
+                }
+                //categoryI is the desired new position of the category
+                newData[categoryI] = newValue;
+            };
+            //now overwrite data with fixed array
+            newSeries[newSeriesI].data = newData;
+
+            //if not in oldSeriesH, its new, create it
+            if(oldSeriesH[newSeries[newSeriesI].name] == undefined){
+                chart.addSeries(newSeries[newSeriesI],false);
+            }
+            //else it was already there, update it
+            else{
+                oldSeriesH[newSeries[newSeriesI].name].setData(newData,false);
+
+                //indicate that it was updated, by removing it from seriesReminder
+                seriesReminder.splice(seriesReminder.indexOf(newSeries[newSeriesI].name),1);
+            }
+        }
+
+        //update model's data object
+        newData.categories = allCategories;
+
+        //update left series, if necessary
+        if(seriesReminder.length > 0){
+            //generate an array consisting of enough zeros
+            var zeros = [];
+            for(var k=0;k<allCategories.length;k++){
+                zeros[k] = 0;
+            }
+
+            //which of the old ones where not updated? Set their values to 0
+            for (var i = 0; i < seriesReminder.length; i++) {
+                oldSeriesH[seriesReminder[i]].setData(zeros,false);
+            }
+        }
+
         chart.redraw();
     }
 };
