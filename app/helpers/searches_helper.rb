@@ -5,7 +5,6 @@ module SearchesHelper
 
 		category_names = []
 		series_names = []
-		data_of_every_series_hash = {}
 
 		stacking = true
 		
@@ -19,7 +18,10 @@ module SearchesHelper
 			end
 		end 
 		category_names.uniq!
+		category_names.sort!
+
 		series_names.uniq!
+		series_names.sort!
 
 		series_names << "" unless stacking
 
