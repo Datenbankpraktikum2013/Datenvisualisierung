@@ -26,7 +26,7 @@ module Migrator
 					FROM
 						FKT_LAB
 					WHERE
-						LAB_PSTATUS IN (\"BE\",\"PA\")
+						LAB_PSTATUS IN (\"BE\",\"PA\",\"EN\",\"DF\")
 					GROUP BY
 						MATNR,
 						STGNR
@@ -140,15 +140,43 @@ module Migrator
 				# Diese werden dann als 5,3 gewertet
 				grade = degree["grade"]
 				degree["grade"] = case
-						when grade < 6
-							grade
-						when grade == 7
-							3.5
-						when grade == 8
-							3.0
+					#behalte 0 bei (summa cum laude)
+					when grade == 0
+						0
+
+					#wenn zwischen 0 und 1, runde auf 1 auf (vermutlich ein Fehleintrag)
+					when grade <= 1
+						1
+						
+					#um die Notenverteilung diskret zu halten, werden alle noten
+					#auf die dezimalstellen 0, 3 bzw. 7 abgerundet.
+					when grade < 6
+						
+						#extrahiere dezimalwert
+						dec = grade % 1
+
+						#addiere angepassten dezimalwert auf abgerundete Note
+						grade.floor + case
+						when dec < 0.3
+							0
+						when dec < 0.7
+							0.3
 						else
-							5.3
-					end
+							0.7
+						end
+
+					# 7 entspricht vollbefriedigend -> 3.5
+					when grade == 7
+						3.5
+
+					# 8 entspricht bestanden mit unbekannter note -> 3
+					when grade == 8
+						3.0
+
+					# alles andere ist ein Fehler, weil aber groesser als 6 -> nicht bestanden
+					else
+						5.3
+				end
 
 				number_of_semesters = degree["number_of_semesters"]
 

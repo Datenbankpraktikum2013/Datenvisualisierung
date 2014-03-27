@@ -19,8 +19,7 @@ class Search < ActiveRecord::Base
 
 	def results_for_highcharts
 		
-		filtered_attributes = filter_attributes_and_classes[0]
-		filtered_classes = filter_attributes_and_classes[1]
+		filtered_attributes, filtered_classes = filter_attributes_and_classe
 
 		filtered_classes << GroupingController.fetch_all_groupable_elements[search_series]
 		
@@ -137,6 +136,9 @@ class Search < ActiveRecord::Base
 
 
 		def join_classes classes_to_join
+			classes_to_join.uniq!
+			classes_to_join.compact!
+
 			filtered_result = Student.select("students.id")
 
 			joined_classes = []
@@ -157,10 +159,7 @@ class Search < ActiveRecord::Base
 			end
 
 
-
 			classes_to_join.delete("Student")
-			classes_to_join.uniq!
-			classes_to_join.compact!
 
 			classes_to_join.each do |class_name|
 				neighbor = ""
