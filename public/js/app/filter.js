@@ -16,6 +16,7 @@ App.filter = {
      * Mapping von Formularfeldnamen zu Anzeigetext.
      */
     mapping : {
+    	//none : 'Keine Auswahl',
 		gender : 'Geschlecht',
 		country_iso_code : 'Heimatland',
 		kind_of_degree : 'Abschluss',
@@ -86,6 +87,7 @@ App.filter = {
 	        }
 	    });
 
+
 	    $(document).on('click', 'a.drilldown', function(e) {
 	    	var category = $(e.target).attr('data-category');
 	    	var series = $(e.target).attr('data-series');
@@ -99,26 +101,39 @@ App.filter = {
 	    	radio('filter.submit').broadcast();
 	    });
 
-        //Wenn Studentenarten wie Absolvent oder Studenten
-        //gewählt werden, dann mache Slide up, Slide down
-	    $('#filter-form input[name="graduation_status"]').change(function() {
-	        if ($('#absolventenart').is(":checked") && !($('#studentenart').is(":checked"))){
-	            $('#absolvent-hidden').slideDown();
-	            $('#student-hidden').slideUp();
-	        }
-	        if (!$('#absolventenart').is(":checked") && !($('#studentenart').is(":checked"))){
-	             $('#student-hidden').slideUp();
-	             $('#absolvent-hidden').slideUp();
-	        }
-	        if ((!$('#absolventenart').is(":checked")) && $('#studentenart').is(":checked")){
-	            $('#student-hidden').slideDown();
-	            $('#absolvent-hidden').slideUp();
-	        }
-	        if ($('#absolventenart').is(":checked") && $('#studentenart').is(":checked")){
-	            $('#absolvent-hidden').slideUp();
-	            $('#student-hidden').slideUp();
-	        }
-	    });
+	    //Wenn Studentenarten wie Absolvent oder Studenten
+	    //gewählt werden, dann mache Slide up, Slide down
+		$('#filter-form input[name="graduation_status"]').change(function() {
+		    if($('#studentenart').is(":checked")){
+		            document.getElementsByName('search_category')[0].children[8].setAttribute("disabled","");
+		    }
+		    else{
+		            document.getElementsByName('search_category')[0].children[8].removeAttribute("disabled");
+		    }
+
+		    if ($('#absolventenart').is(":checked")){
+		            if($('#studentenart').is(":checked")){
+		            $('#absolvent-hidden').slideUp();
+		            $('#student-hidden').slideUp();
+		        }
+		        else{ //student abgewaehlt
+		            $('#absolvent-hidden').slideDown();
+		            $('#student-hidden').slideUp();
+		        }
+		    }
+		    else{ //absolvent abgewaehlt
+		            if($('#studentenart').is(":checked")){
+		                    $('#student-hidden').slideDown();
+		            $('#absolvent-hidden').slideUp();
+		            }
+		            else{ //student abgewaehlt
+		                    $('#student-hidden').slideUp();
+		            $('#absolvent-hidden').slideUp();
+		            //TODO aktualisieren ausgrauen, keine Gruppe gewaehlt!
+		            //oder fehlermeldung implementieren!
+		            }
+		    }
+		});
 
         // Erstellen des Multiselects fuer die Fachbereichsauswahl
 	    $('#department').multiselect({
