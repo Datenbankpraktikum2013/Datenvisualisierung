@@ -2,8 +2,7 @@ class Search < ActiveRecord::Base
 
 	def results_for_maps
 
-		chosen_attributes_for_search = fetch_attributes_and_classes[0]
-		corresponding_classes_of_attributes = fetch_attributes_and_classes[1]
+		chosen_attributes_for_search, corresponding_classes_of_attributes = fetch_attributes_and_classes
 		corresponding_classes_of_attributes << "Country"
 		
 		corresponding_classes_of_attributes.delete("FederalState")
@@ -20,8 +19,7 @@ class Search < ActiveRecord::Base
 
 	def results_for_highcharts animation = false
 
-		chosen_attributes_for_search = fetch_attributes_and_classes[0]
-		corresponding_classes_of_attributes = fetch_attributes_and_classes[1]
+		chosen_attributes_for_search, corresponding_classes_of_attributes = fetch_attributes_and_classes
 
 		class_of_search_series = GroupingController.fetch_all_groupable_elements[search_series]
 		corresponding_classes_of_attributes << class_of_search_series

@@ -3,8 +3,7 @@ class Search < ActiveRecord::Base
 
 	def results_for_maps
 
-		filtered_attributes = filter_attributes_and_classes[0]
-		filtered_classes = filter_attributes_and_classes[1]
+		filtered_attributes, filtered_classes = filter_attributes_and_classes
 		filtered_classes << "Country" << "FederalState"
 		
 		filtered_result = join_classes(filtered_classes)
