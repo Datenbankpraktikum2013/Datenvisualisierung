@@ -259,9 +259,10 @@ App.chart.columnchart = {
         chart.xAxis[0].setCategories(allCategories,false);
 
         //see if we need to update yAxis' maxvalue
-        var oldMax = chart.yAxis[0].max;
-        var fivePerc = oldMax*0.05;
-        if(newData.scale_maximum > oldMax-fivePerc){
+        //we update as soon as the new maxvalue is above 98% of the old one
+        if(newData.scale_maximum > chart.yAxis[0].max*0.98){
+            //we set the new maxvalue 10% higher as the actual new maxValue
+            //so we get some buffer zone
             chart.yAxis[0].setExtremes(null, newData.scale_maximum*1.1, false);
         }
         chart.redraw();
