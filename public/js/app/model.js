@@ -163,36 +163,8 @@ App.model = {
                 data.categories[catIndex] = catSizes[catIndex].name;
             }
             data.categories[19] = "Sonstige";
-
-			
-			var newSeries = {
-				series : [],
-				categories : []
-			}
-			var summe = 0;
-			
-			newSeries.categories = data.categories.slice(0,18);
-			newSeries.categories.push('Sonstige');
-
-			for(var e = 0; e < data.series.length; e++){
-				newSeries.series[e] = {
-					name : data.series[e].name,
-					data : data.series[e].data.slice(0,18)
-				};		
-			}
-			for(var k = 0; k < data.series.length; k++){
-				for(var j = 18; j < data.series[0].data.length; j++){
-					summe += data.series[k].data[j];
-				}
-				newSeries.series[k].data.push(summe);
-				summe = 0;
-			}
-
-			return newSeries;
 		}
-		else{
-		 return data;
-		}
+		return data;
 	},
 	//bearbeitet die Jahre 
 	modifyYearSeries : function(data){
@@ -230,7 +202,8 @@ App.model = {
 		
 		this.post(App.filter.getFilter());
 		
-		var url = 'searches/'+App.model.location+'.json?representation=highcharts';
+		var url = 'searches/'+App.model.location+'.json?representation=highcharts&animation=';
+		url += (App.chart.render_type === "update");
 		var url_gmaps = 'searches/'+App.model.location+'.json?representation=maps';
 		var url_globe = 'searches/'+App.model.location+'.json?representation=globe';
 	

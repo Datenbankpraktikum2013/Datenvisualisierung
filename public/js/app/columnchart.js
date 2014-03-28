@@ -258,6 +258,12 @@ App.chart.columnchart = {
         newData.categories = allCategories;
         chart.xAxis[0].setCategories(allCategories,false);
 
+        //see if we need to update yAxis' maxvalue
+        var oldMax = chart.yAxis[0].max;
+        var fivePerc = oldMax*0.05;
+        if(newData.scale_maximum > oldMax-fivePerc){
+            chart.yAxis[0].setExtremes(null, newData.scale_maximum*1.1, false);
+        }
         chart.redraw();
     }
 };
