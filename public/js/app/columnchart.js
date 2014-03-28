@@ -104,7 +104,7 @@ App.chart.columnchart = {
         //add all categories from new data to allCategories
         var allCategories = newData.categories.slice(0,newData.length);
 
-        //add also all categories currently available and not already contained
+        //add also all categories currently available but not already contained
         for (var i = 0; i < chart.xAxis[0].categories.length; i++) {
             if(allCategories.indexOf(chart.xAxis[0].categories[i]) == -1){
                 allCategories.push(chart.xAxis[0].categories[i]);
@@ -112,11 +112,9 @@ App.chart.columnchart = {
         }
 
         //now sort the categories to get better output
-        allCategories = allCategories.sort();
+        allCategories.sort();
 
-        //update xAxis with allCategories
-        chart.xAxis[0].setCategories(allCategories,false);
-
+        //create variable containing the new series (for convenience only)
         var newSeries = newData.series;
 
         //create a hash that can access all old series by name
@@ -138,7 +136,7 @@ App.chart.columnchart = {
             var seriesData = [];
             for (var categoryI = 0; categoryI < allCategories.length; categoryI++) {
                 var categoryS = allCategories[categoryI];
-                var newIndex = App.model.data.categories.indexOf(categoryS);
+                var newIndex = newData.categories.indexOf(categoryS);
 
                 var newValue = 0;
 
@@ -168,8 +166,6 @@ App.chart.columnchart = {
             }
         }
 
-        //update model's data object
-        newData.categories = allCategories;
 
         //update left series, if necessary
         if(seriesReminder.length > 0){
@@ -191,14 +187,14 @@ App.chart.columnchart = {
         //only series order may differ.
 
         //look if we have to shorten the stuff
-        if(newData.categories.length > 20){
+        if(allCategories.length > 20){
 
             //get size of each category
             var catSizes = [];
-            for(var categoryI = 0; categoryI < newData.categories.length; categoryI++){
+            for(var categoryI = 0; categoryI < allCategories.length; categoryI++){
                 var catInfo = {
                     "indexApp": categoryI,
-                    "name"    : newData.categories[categoryI],
+                    "name"    : allCategories[categoryI],
                     "sum"     : 0
                 }
                 for(var seriesI = 0; seriesI < newSeries.length; seriesI++){
@@ -210,7 +206,7 @@ App.chart.columnchart = {
             catSizes.sort(function(a, b){return b.sum - a.sum;});
 
             //look if there is already "Sonstige" in the data
-            if( newData.categories.indexOf("Sonstige") != -1){
+            if( allCategories.indexOf("Sonstige") != -1){
                 var sonstIndex = -1;
                 var sonstInfo = undefined;
 
@@ -251,14 +247,17 @@ App.chart.columnchart = {
             }
 
             //update categories analogue to series
-            var newCategories = [];
+            allCategories = [];
             for(var catIndex = 0; catIndex < 19; catIndex++){
-                newCategories[catIndex] = catSizes[catIndex].name;
+                allCategories[catIndex] = catSizes[catIndex].name;
             }
-            newCategories[19] = "Sonstige";
-            newData.categories = newCategories;
-            chart.xAxis[0].setCategories(newCategories,false);
+            allCategories[19] = "Sonstige";   
         }
+
+        //update model's and chart's categories
+        newData.categories = allCategories;
+        chart.xAxis[0].setCategories(allCategories,false);
+
         chart.redraw();
     }
 };

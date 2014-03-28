@@ -124,6 +124,46 @@ App.model = {
 	limitateSeries : function(data){
 		
 		if(data.categories.length > 20){
+
+			//get size of each category
+            var catSizes = [];
+            for(var categoryI = 0; categoryI < data.categories.length; categoryI++){
+                var catInfo = {
+                    "indexOld": categoryI,
+                    "name"    : data.categories[categoryI],
+                    "sum"     : 0
+                }
+                for(var seriesI = 0; seriesI < data.series.length; seriesI++){
+                    catInfo.sum += data.series[seriesI].data[categoryI];
+                }
+                catSizes.push(catInfo);
+            }
+            //sort those sizes descending
+            catSizes.sort(function(a, b){return b.sum - a.sum;});
+
+            //for each series
+            for(var seriesI = 0; seriesI < data.series.length; seriesI++){
+                var seriesData = [];
+                //resort all seriesData by placing them according to catSizes
+                for(var catIndex = 0; catIndex < 19; catIndex++){
+                    seriesData[catIndex] = data.series[seriesI].data[catSizes[catIndex].indexOld];   
+                }
+                seriesData[19] = 0;
+                //sum up all categories after index 18 and put the sum into index 19
+                for(var catIndex = 19; catIndex < catSizes.length; catIndex++){
+                    seriesData[19] += data.series[seriesI].data[catSizes[catIndex].indexOld];
+                }
+                //update series
+                data.series[seriesI].data = seriesData;
+            }
+
+            //update categories analogue to series
+            data.categories = [];
+            for(var catIndex = 0; catIndex < 19; catIndex++){
+                data.categories[catIndex] = catSizes[catIndex].name;
+            }
+            data.categories[19] = "Sonstige";
+
 			
 			var newSeries = {
 				series : [],
