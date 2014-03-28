@@ -135,7 +135,7 @@ App.chart.columnchart = {
 
             //first add possibly missing 0 values for categories that have no
             //entry in the series. Also put the other values into their correct position.
-            var newData = [];
+            var seriesData = [];
             for (var categoryI = 0; categoryI < allCategories.length; categoryI++) {
                 var categoryS = allCategories[categoryI];
                 var newIndex = App.model.data.categories.indexOf(categoryS);
@@ -148,18 +148,20 @@ App.chart.columnchart = {
                     newValue = newSeries[newSeriesI].data[newIndex];
                 }
                 //categoryI is the desired new position of the category
-                newData[categoryI] = newValue;
+                seriesData[categoryI] = newValue;
             };
             //now overwrite data with fixed array
-            newSeries[newSeriesI].data = newData;
+            newSeries[newSeriesI].data = seriesData;
 
             //if not in oldSeriesH, its new, create it
             if(oldSeriesH[newSeries[newSeriesI].name] == undefined){
-                chart.addSeries(newSeries[newSeriesI],false);
+                
+                //create new series and append it to hash for later use
+                oldSeriesH[newSeries[newSeriesI].name] = chart.addSeries(newSeries[newSeriesI],false);
             }
             //else it was already there, update it
             else{
-                oldSeriesH[newSeries[newSeriesI].name].setData(newData,false);
+                oldSeriesH[newSeries[newSeriesI].name].setData(seriesData,false);
 
                 //indicate that it was updated, by removing it from seriesReminder
                 seriesReminder.splice(seriesReminder.indexOf(newSeries[newSeriesI].name),1);
@@ -180,9 +182,83 @@ App.chart.columnchart = {
             //which of the old ones where not updated? Set their values to 0
             for (var i = 0; i < seriesReminder.length; i++) {
                 oldSeriesH[seriesReminder[i]].setData(zeros,false);
+
+                //add them to app data, to keep it up to date
+                newSeries.push({"name":seriesReminder[i],"data":zeros});
             }
         }
+        //at this point, contents of appdata and chartdata should be equivalent!
+        //only series order may differ.
 
+        //look if we have to shorten the stuff
+        if(newData.categories.length > 20){
+
+            //get size of each category
+            var catSizes = [];
+            for(var categoryI = 0; categoryI < newData.categories.length; categoryI++){
+                var catInfo = {
+                    "indexApp": categoryI,
+                    "name"    : newData.categories[categoryI],
+                    "sum"     : 0
+                }
+                for(var seriesI = 0; seriesI < newSeries.length; seriesI++){
+                    catInfo.sum += newSeries[seriesI].data[categoryI];
+                }
+                catSizes.push(catInfo);
+            }
+            //sort those sizes descending
+            catSizes.sort(function(a, b){return b.sum - a.sum;});
+
+            //look if there is already "Sonstige" in the data
+            if( newData.categories.indexOf("Sonstige") != -1){
+                var sonstIndex = -1;
+                var sonstInfo = undefined;
+
+                //if so, look where it is (if it comes after 18, we don't care)
+                for(var i = 0; i < 19; i++){
+                    if(catSizes[i].name === "Sonstige"){
+                        sonstIndex = i;
+                        sonstInfo = catSizes[i];
+                    }
+                }
+                //if it was not among the first 19 entries, we don't care, as it will be put into the sum anyway
+                if(sonstIndex != -1){
+                    //otherwise let the others between move one to the left so that the order stays the same
+                    for(var i = sonstIndex; i < 19; i++){
+                        catSizes[i] = catSizes[i+1];
+                    }
+                    //put "Sonstige" to index 19
+                    catSizes[19] = sonstInfo;
+                }
+            }
+            //for each series
+            for(var seriesI = 0; seriesI < newSeries.length; seriesI++){
+                var seriesData = [];
+                //resort all seriesData by placing them according to catSizes
+                for(var catIndex = 0; catIndex < 19; catIndex++){
+                    seriesData[catIndex] = newSeries[seriesI].data[catSizes[catIndex].indexApp];
+                    
+                }
+                seriesData[19] = 0;
+                //sum up all categories after index 18 and put the sum into index 19
+                for(var catIndex = 19; catIndex < catSizes.length; catIndex++){
+                    seriesData[19] += newSeries[seriesI].data[catSizes[catIndex].indexApp];
+                }
+                //update model series
+                newSeries[seriesI].data = seriesData;
+                //update chart series
+                oldSeriesH[newSeries[seriesI].name].setData(seriesData,false);
+            }
+
+            //update categories analogue to series
+            var newCategories = [];
+            for(var catIndex = 0; catIndex < 19; catIndex++){
+                newCategories[catIndex] = catSizes[catIndex].name;
+            }
+            newCategories[19] = "Sonstige";
+            newData.categories = newCategories;
+            chart.xAxis[0].setCategories(newCategories,false);
+        }
         chart.redraw();
     }
 };
