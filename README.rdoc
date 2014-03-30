@@ -2,7 +2,7 @@
 
 === Requirements
 [Ruby version]
-  2
+  2.1.1
 
 [System dependencies]
 
@@ -15,17 +15,17 @@
     install with <tt>\curl -sSL https://get.rvm.io | bash -s stable</tt>
 
 === Steps
-These installation steps describe installation on linux from scratch.
-If you already have ruby 2, rubygems and bundler installed you can ignore the rvm and the login stuff.
+These installation steps describe installation on linux (ubuntu) from scratch.
+If you already have right ruby, rubygems and bundler installed you can ignore the rvm and the login stuff.
 
 1. If not yet done, log in to bash in order to use rvm:
     bash --login
     
-2. Install ruby 2:
-    rvm install ruby 2
+2. Install ruby 2.1.1:
+    rvm install ruby 2.1.1
 
-3. Use ruby 2:
-    rvm use 2
+3. Use ruby 2.1.1:
+    rvm use 2.1.1
 
 4. Clone this repository if not already done
 
@@ -53,8 +53,8 @@ If you want to migrate regularly you can create a cron-job that executes the fil
 == Starting the application
 1.  If not yet done, log in to bash in order to use rvm:
       bash --login
-2.  Use ruby 2:
-      rvm use 2
+2.  Use ruby 2.1.1:
+      rvm use 2.1.1
 3.  a.  Start server:
           rails s
     
