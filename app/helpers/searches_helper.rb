@@ -51,10 +51,10 @@ module SearchesHelper
 			unless @search.get_scale_maximum_for_animation.nil?
 				json.set! :scale_maximum, @search.get_scale_maximum_for_animation
 			end
-			json.set! :categories, category_names
+			json.set! :categories, (category_names.map {|name| name.to_s})
 			json.set! :series do 
 				json.array! series_names do |series_name|
-					json.set! :name, series_name
+					json.set! :name, series_name.to_s
 					json.set! :data, data_of_every_series_hash[series_name]
 				end
 			end
