@@ -254,10 +254,6 @@ App.chart.columnchart = {
             allCategories[19] = "Sonstige";   
         }
 
-        //update model's and chart's categories
-        newData.categories = allCategories;
-        chart.xAxis[0].setCategories(allCategories,false);
-
         //see if we need to update yAxis' maxvalue
         //we update as soon as the new maxvalue is above 98% of the old one
         if(newData.scale_maximum > chart.yAxis[0].max*0.98){
@@ -265,6 +261,11 @@ App.chart.columnchart = {
             //so we get some buffer zone
             chart.yAxis[0].setExtremes(null, newData.scale_maximum*1.1, false);
         }
+
+        //update model's and chart's categories
+        newData.categories = allCategories;
+        chart.xAxis[0].setCategories(allCategories,false);
+
         chart.redraw();
     }
 };
